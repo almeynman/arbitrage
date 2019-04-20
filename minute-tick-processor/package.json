@@ -1,13 +1,14 @@
 {
   "name": "minute-tick-processor",
   "version": "1.0.0",
+  "main": "src/index",
   "engines": {
     "node": ">=10"
   },
   "scripts": {
     "lint": "eslint '**/*.js'",
     "pretest": "npm run lint",
-    "test": "ava -T 30s *.test.js",
+    "test": "ava -T 30s test/*.test.js",
     "simulate": "gcloud pubsub topics publish minute-tick --message minute-tick",
     "deploy": "gcloud functions deploy subscribe --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1"
   },
