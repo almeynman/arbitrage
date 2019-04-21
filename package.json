@@ -16,7 +16,7 @@
     "test": "lerna run test --stream",
     "update-version": "lerna publish --skip-npm --force-publish '*'",
     "check-packages": "yarn clean && yarn compile && yarn test && yarn lint",
-    "publish-packages": "TODO",
+    "publish-packages": "lerna publish",
     "lerna-wizard": "npx lerna-wizard",
     "upgrade-deps": "yarn upgrade-interactive --latest"
   },
