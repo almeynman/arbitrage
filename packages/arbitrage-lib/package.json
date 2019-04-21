@@ -1,0 +1,12 @@
+{
+  "name": "arbitrage-lib",
+  "version": "1.0.18",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "ava -T 30s test/*.test.js"
+  },
+  "dependencies": {
+    "ava": "^1.4.1",
+    "safe-buffer": "^5.1.2"
+  }
+}

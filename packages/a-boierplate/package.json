@@ -1,0 +1,11 @@
+{
+  "name": "a-boierplate",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "ava -T 30s test/*.test.js"
+  },
+  "dependencies": {
+    "ava": "^1.4.1"
+  }
+}

@@ -2,7 +2,7 @@
 
 const test = require('ava')
 const Buffer = require('safe-buffer').Buffer
-const { serialize } = require('./')
+const { serialize } = require('../src')
 
 test('serializes payload', t => {
   const data = { message: 'message' }

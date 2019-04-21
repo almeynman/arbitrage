@@ -1,0 +1,23 @@
+{
+  "version": "1.0.4",
+  "name": "minute-tick-processor",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "test": "ava -T 30s test/*.test.js",
+    "simulate": "gcloud pubsub topics publish minute-tick --message minute-tick",
+    "publish": "gcloud functions deploy subscribe --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1"
+  },
+  "dependencies": {
+    "@google-cloud/pubsub": "^0.28.1",
+    "arbitrage-lib": "https://github.com/almeynman/arbitrage/tree/master/packages/arbitrage-lib"
+  },
+  "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "^3.2.0",
+    "ava": "^1.4.1",
+    "proxyquire": "^2.1.0",
+    "sinon": "^7.3.2"
+  }
+}

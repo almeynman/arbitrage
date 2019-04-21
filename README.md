@@ -7,6 +7,16 @@ Install nvm and run
 nvm use
 ```
 
+Install yarn
+```
+brew install yarn
+```
+
+Enable Yarn Workspaces
+```
+yarn config set workspaces-experimental true
+```
+
 Install google cloud sdk
 ```
 brew cask install google-cloud-sdk

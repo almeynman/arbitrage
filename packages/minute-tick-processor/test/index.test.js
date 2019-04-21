@@ -5,7 +5,7 @@ const proxyquire = require('proxyquire').noCallThru()
 const sinon = require('sinon')
 const tools = require('@google-cloud/nodejs-repo-tools')
 const { serialize } = require('arbitrage-lib')
-const exchanges = require('./exchanges')
+const exchanges = require('../src/exchanges')
 
 function getSample() {
   const topicMock = {
@@ -17,7 +17,7 @@ function getSample() {
   const PubSubMock = sinon.stub().returns(pubsubMock)
 
   return {
-    program: proxyquire('./', {
+    program: proxyquire('../src', {
       '@google-cloud/pubsub': { PubSub: PubSubMock },
     }),
     mocks: {
