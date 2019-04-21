@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   extends: ['eslint:recommended', 'plugin:node/recommended', 'prettier'],
   plugins: ['node', 'prettier'],
   rules: {
