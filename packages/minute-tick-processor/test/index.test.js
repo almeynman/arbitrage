@@ -9,7 +9,7 @@ const exchanges = require('../src/exchanges')
 
 function getSample() {
   const topicMock = {
-    publish: sinon.stub().returns(Promise.resolve()),
+    publish: sinon.stub().returns(Promise.resolve())
   }
   const pubsubMock = {
     topic: sinon.stub().returns(topicMock),

@@ -7,7 +7,7 @@ module.exports.serialize = data =>
     JSON.stringify({
       data,
     }),
-    'base64',
+    'base64'
   )
 
 module.exports.deserialize = data => JSON.parse(Buffer.from(data, 'base64').toString())
