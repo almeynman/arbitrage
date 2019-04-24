@@ -9,13 +9,14 @@
     "yarn": ">=1.15"
   },
   "scripts": {
-    "boot": "lerna bootstrap",
+    "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
+    "boot": "lerna exec yarn",
     "lint": "eslint --format=codeframe '**/*.js'",
     "pretest": "yarn lint",
     "test": "lerna run test --stream",
     "update-version": "lerna publish --skip-git --skip-npm --force-publish '*'",
     "check-packages": "yarn clean && yarn compile && yarn test && yarn lint",
-    "publish-packages": "lerna publish",
+    "deploy": "yarn update-version && lerna run deploy",
     "lerna-wizard": "npx lerna-wizard",
     "upgrade-deps": "yarn upgrade-interactive --latest"
   },
