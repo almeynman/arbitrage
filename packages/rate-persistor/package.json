@@ -1,6 +1,6 @@
 {
   "name": "rate-persistor",
-  "version": "0.0.6",
+  "version": "0.0.4",
   "main": "src/index.js",
   "engines": {
     "node": ">=10"
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.28.1",
-    "arbitrage-lib": "file:../arbitrage-lib"
+    "arbitrage-lib": "git+ssh://github.com/almeynman/arbitrage.git#arbitrage-lib-v0.0.6-gitpkg"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "^3.2.0",
