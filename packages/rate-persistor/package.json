@@ -1,5 +1,5 @@
 {
-  "name": "minute-tick-processor",
+  "name": "rate-persistor",
   "version": "0.0.3",
   "main": "src/index.js",
   "engines": {
@@ -8,7 +8,9 @@
   "scripts": {
     "test": "ava -T 30s test/*.test.js",
     "simulate": "gcloud pubsub topics publish minute-tick --message minute-tick",
-    "deploy": "gcloud functions deploy subscribe --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1"
+    "deploy-minute-tick-processor": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
+    "deploy-rate-getter": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
+    "deploy": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1"
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.28.1",

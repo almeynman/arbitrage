@@ -2,13 +2,13 @@
 
 const { PubSub } = require('@google-cloud/pubsub')
 const { serialize } = require('arbitrage-lib')
-const exchanges = require('./exchanges')
+const exchanges = require('arbitrage-lib/src/exchanges')
 
-const FETCH_EXCHANGE_RATES_TOPIC = 'fetch-exchange-rates'
+const FETCH_EXCHANGE_RATES_TOPIC = 'fetch-rates-for-exchange'
 
 const pubsub = new PubSub()
 
-exports.subscribe = () => {
+exports.minuteTickProcessor = () => {
   const topic = pubsub.topic(FETCH_EXCHANGE_RATES_TOPIC)
   return Promise.all(
     exchanges.map(exchange => {

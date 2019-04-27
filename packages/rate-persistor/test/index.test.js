@@ -5,7 +5,7 @@ const proxyquire = require('proxyquire').noCallThru()
 const sinon = require('sinon')
 const tools = require('@google-cloud/nodejs-repo-tools')
 const { serialize } = require('arbitrage-lib')
-const exchanges = require('../src/exchanges')
+const exchanges = require('arbitrage-lib/src/exchanges')
 
 function getSample() {
   const topicMock = {
