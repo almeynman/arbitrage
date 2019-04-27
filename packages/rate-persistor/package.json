@@ -9,12 +9,11 @@
     "test": "ava -T 30s test/*.test.js",
     "simulate": "gcloud pubsub topics publish minute-tick --message minute-tick",
     "deploy-minute-tick-processor": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
-    "deploy-rate-getter": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
-    "deploy": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1"
+    "deploy": "npm run deploy-minute-tick-processor"
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.28.1",
-    "arbitrage-lib": "git+ssh://github.com/almeynman/arbitrage.git#arbitrage-lib-v0.0.6-gitpkg"
+    "arbitrage-lib": "git+ssh://github.com/almeynman/arbitrage.git#arbitrage-lib-v0.0.7-gitpkg"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "^3.2.0",
