@@ -9,16 +9,14 @@
     "npm": ">=6.9.0"
   },
   "scripts": {
-    "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "boot": "lerna exec npm install",
+    "clean": "lerna clean && rm -rf ./node_modules/",
+    "postinstall": "lerna bootstrap",
     "lint": "eslint --format=codeframe '**/*.js'",
-    "pretest": "npm run lint",
-    "test": "lerna run test --stream",
-    "update-version": "lerna publish --skip-git --skip-npm --force-publish '*'",
-    "check-packages": "yarn clean && yarn compile && yarn test && yarn lint",
-    "deploy": "yarn update-version && lerna run deploy",
-    "lerna-wizard": "npx lerna-wizard",
-    "upgrade-deps": "yarn upgrade-interactive --latest"
+    "test": "lerna run test --since master",
+    "long-test": "lerna run test --stream",
+    "clean-test": "npm run clean && npm run lint && npm run long-test",
+    "update-version": "lerna version",
+    "deploy": "lerna run deploy"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
