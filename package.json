@@ -10,7 +10,7 @@
   },
   "scripts": {
     "clean": "lerna clean && rm -rf ./node_modules/",
-    "postinstall": "lerna bootstrap",
+    "postinstall": "lerna exec npm install",
     "lint": "eslint --format=codeframe '**/*.js'",
     "test": "lerna run test --since master",
     "long-test": "lerna run test --stream",
