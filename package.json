@@ -1,9 +1,6 @@
 {
   "name": "arbitrage",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "engines": {
     "node": ">=10",
     "npm": ">=6.9.0"
@@ -28,10 +25,6 @@
     "lerna": "^3.13.3",
     "lint-staged": "^8.1.5",
     "prettier": "^1.17.0"
-  },
-  "dependencies": {
-    "arbitrage-lib": "file:packages/arbitrage-lib",
-    "minute-tick-processor": "file:packages/minute-tick-processor"
   },
   "lint-staged": {
     "*.js": [
