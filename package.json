@@ -1,0 +1,17 @@
+{
+  "name": "arbitrage-lib",
+  "version": "0.0.3",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "ava -T 30s test/*.test.js",
+    "deploy": "gitpkg publish"
+  },
+  "dependencies": {
+    "ava": "^1.4.1",
+    "safe-buffer": "^5.1.2"
+  },
+  "gitHead": "52fc3cd143b587985007d674b8aed86153f75447",
+  "devDependencies": {
+    "gitpkg": "^1.0.0-beta.1"
+  }
+}
