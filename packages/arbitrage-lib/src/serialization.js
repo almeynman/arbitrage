@@ -1,4 +1,4 @@
-const Buffer = require('safe-buffer').Buffer
+const { Buffer } = require('safe-buffer')
 
 module.exports.serialize = data =>
   Buffer.from(

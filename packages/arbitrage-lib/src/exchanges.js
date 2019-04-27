@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = ['kraken', 'kucoin']
+exports.exchanges = ['kraken', 'kucoin']

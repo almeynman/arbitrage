@@ -16,7 +16,7 @@ function getSample() {
   const PubSubMock = sinon.stub().returns(pubsubMock)
 
   return {
-    program: proxyquire('../src', {
+    program: proxyquire('../src/minute-tick-processor', {
       '@google-cloud/pubsub': { PubSub: PubSubMock },
     }),
     mocks: {
@@ -37,6 +37,6 @@ test('on minute-tick event emits fetch-rates-for-exchange event for each exchang
   t.is(sample.mocks.topic.publish.callCount, exchanges.length)
   exchanges.forEach((exchange, i) => {
     console.log(serialize({ exchange }))
-    t.deepEqual(sample.mocks.topic.minuteTickProcessor.getCall(i).args, [serialize({ exchange })])
+    t.deepEqual(sample.mocks.topic.publish.getCall(i).args, [serialize({ exchange })])
   })
 })

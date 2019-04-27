@@ -5,7 +5,7 @@ const pubsub = new PubSub()
 
 const FETCH_EXCHANGE_RATES_TOPIC = 'fetch-rates-for-exchange'
 
-module.exports = () => {
+exports.minuteTickProcessor = () => {
   const topic = pubsub.topic(FETCH_EXCHANGE_RATES_TOPIC)
   return Promise.all(
     exchanges.map(exchange => {

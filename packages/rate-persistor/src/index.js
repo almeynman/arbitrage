@@ -1,5 +1,5 @@
 'use strict'
 
-const minuteTickProcessor = require('./minute-tick-processor')
+const { minuteTickProcessor } = require('./minute-tick-processor')
 
-module.exports.minuteTickProcessor = minuteTickProcessor
+exports.minuteTickProcessor = minuteTickProcessor
