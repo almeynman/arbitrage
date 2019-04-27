@@ -4,8 +4,7 @@ const test = require('ava')
 const proxyquire = require('proxyquire').noCallThru()
 const sinon = require('sinon')
 const tools = require('@google-cloud/nodejs-repo-tools')
-const { serialize } = require('arbitrage-lib')
-const exchanges = require('arbitrage-lib/src/exchanges')
+const { serialize, exchanges } = require('arbitrage-lib')
 
 function getSample() {
   const topicMock = {
@@ -31,13 +30,13 @@ function getSample() {
 test.beforeEach(tools.stubConsole)
 test.afterEach(tools.restoreConsole)
 
-test('on minute-tick event emits fetch rates event for each exchange', t => {
+test('on minute-tick event emits fetch-rates-for-exchange event for each exchange', t => {
   const sample = getSample()
-  sample.program.subscribe()
+  sample.program.minuteTickProcessor()
 
   t.is(sample.mocks.topic.publish.callCount, exchanges.length)
   exchanges.forEach((exchange, i) => {
     console.log(serialize({ exchange }))
-    t.deepEqual(sample.mocks.topic.publish.getCall(i).args, [serialize({ exchange })])
+    t.deepEqual(sample.mocks.topic.minuteTickProcessor.getCall(i).args, [serialize({ exchange })])
   })
 })

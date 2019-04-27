@@ -1,13 +1,8 @@
 'use strict'
 
-const Buffer = require('safe-buffer').Buffer
+const exchanges = require('./exchanges')
+const { serialize, deserialize } = require('./serialization')
 
-module.exports.serialize = data =>
-  Buffer.from(
-    JSON.stringify({
-      data,
-    }),
-    'base64'
-  )
-
-module.exports.deserialize = data => JSON.parse(Buffer.from(data, 'base64').toString())
+module.exports.exchanges = exchanges
+module.exports.serialize = serialize
+module.exports.deserialize = deserialize
