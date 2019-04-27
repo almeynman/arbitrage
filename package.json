@@ -9,9 +9,7 @@
     "clean": "lerna clean && rm -rf ./node_modules/",
     "postinstall": "lerna exec npm install",
     "lint": "eslint --format=codeframe '**/*.js'",
-    "test": "lerna run test --since master",
-    "long-test": "lerna run test --stream",
-    "clean-test": "npm run clean && npm run lint && npm run long-test",
+    "test": "lerna run test",
     "update-version": "lerna version",
     "deploy": "lerna run deploy"
   },
