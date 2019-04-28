@@ -9,7 +9,32 @@ jobs:
       - run: npm run lint
       - run: npm run test
 
+  deploy-production:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run update-version -- patch
+      - run:
+          name: Workaround for installing git dependency in Google Cloud
+          command: |
+            cd packages/rate-persistor/node_modules/arbitrage-lib
+            npm version 0.0.1
+            npm pack
+            mv arbitrage-lib*.tgz ../../
+            cd ../../
+            npm install file:arbitrage-lib-0.0.1.tgz
+
+
 workflows:
   arbitrage-workflow:
     jobs:
       - build
+      - deploy-production:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
