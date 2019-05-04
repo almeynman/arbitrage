@@ -10,11 +10,7 @@ exports.minuteTickProcessor = () => {
   return Promise.all(
     exchanges.map(exchange => {
       console.log(`Triggering market rate fetch for exchange: ${exchange}`)
-      return topic.publish(
-        serialize({
-          exchange,
-        }),
-      )
+      return topic.publish(serialize({ exchange }))
     }),
   )
 }

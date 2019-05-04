@@ -1,8 +1,8 @@
 'use strict'
 
+const { deserialize } = require('arbitrage-lib')
+
 exports.fetchRateForExchangeProcessor = async event => {
-  console.log('event.data', event.data)
-  console.log('BUFFER', Buffer.from(event.data, 'base64').toString())
-  const str = JSON.stringify(Buffer.from(event.data, 'base64').toString('ascii'))
-  console.log(str)
+  const { exchange } = deserialize(event.data)
+  console.log(exchange)
 }
