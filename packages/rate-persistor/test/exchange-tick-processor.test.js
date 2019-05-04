@@ -1,10 +1,8 @@
-'use strict'
-
 const test = require('ava')
 const proxyquire = require('proxyquire').noCallThru()
 const sinon = require('sinon')
 const tools = require('@google-cloud/nodejs-repo-tools')
-const { serialize } = require('arbitrage-lib')
+const { serialize, deserialize, topics } = require('arbitrage-lib')
 
 function getSample() {
   const topicMock = {
@@ -15,14 +13,17 @@ function getSample() {
   }
   const PubSubMock = sinon.stub().returns(pubsubMock)
 
+  const symbols = ['BTC/USD', 'USD/BTC', 'ETH/BTC']
   return {
-    program: proxyquire('../src/fetch-rate-processor', {
+    program: proxyquire('../src/exchange-tick-processor', {
       '@google-cloud/pubsub': { PubSub: PubSubMock },
+      'arbitrage-lib': { symbols, serialize, deserialize, topics },
     }),
     mocks: {
       PubSub: PubSubMock,
       pubsub: pubsubMock,
       topic: topicMock,
+      symbols,
     },
   }
 }
@@ -30,14 +31,13 @@ function getSample() {
 test.beforeEach(tools.stubConsole)
 test.afterEach(tools.restoreConsole)
 
-test('subscribes to topic', t => {
-  const data = { exchange: 'kraken' }
-  const event = {
-    data: serialize(data)
-  }
-
+test('on exchange-tick event emits exchange-symbol-tick event for each symbol', t => {
+  const exchange = 'kraken'
   const sample = getSample()
-  sample.program.fetchRateForExchangeProcessor(event)
+  sample.program.exchangeTickProcessor({ data: serialize({ exchange }) })
 
-  t.deepEqual(console.log.firstCall.args, ['kraken'])
+  t.is(sample.mocks.topic.publish.callCount, sample.mocks.symbols.length)
+  sample.mocks.symbols.forEach((symbol, i) => {
+    t.deepEqual(sample.mocks.topic.publish.getCall(i).args, [serialize({ exchange, symbol })])
+  })
 })

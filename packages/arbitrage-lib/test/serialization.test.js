@@ -1,5 +1,3 @@
-'use strict'
-
 const test = require('ava')
 const Buffer = require('safe-buffer').Buffer
 const { serialize, deserialize } = require('../src')
