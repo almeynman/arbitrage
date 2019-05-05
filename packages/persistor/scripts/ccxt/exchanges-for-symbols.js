@@ -18,5 +18,5 @@ const symbols = ['BTC/USD', 'ETH/BTC']
       console.log(e)
     }
   }
-  fs.writeFileSync('./scripts/exchanges-for-symbol.ignore.json', stringify(result))
+  fs.writeFileSync('./scripts/ccxt/exchanges-for-symbol.ignore.json', stringify(result))
 })()

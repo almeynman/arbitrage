@@ -16,5 +16,5 @@ const ids = ['kraken', 'kucoin']
     .filter(symbol => ids.filter(id => exchanges[id].symbols.indexOf(symbol) >= 0).length > 1)
     .sort((id1, id2) => (id1 > id2 ? 1 : id2 > id1 ? -1 : 0))
 
-  fs.writeFileSync('./scripts/common-pairs.ignore.json', stringify(arbitrableSymbols))
+  fs.writeFileSync('./scripts/ccxt/common-pairs.ignore.json', stringify(arbitrableSymbols))
 })()

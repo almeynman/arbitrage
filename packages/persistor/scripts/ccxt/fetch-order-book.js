@@ -8,6 +8,6 @@ const symbol = 'BTC/USD'
 ;(async function main() {
   let exchange = new ccxt[exchangeId]()
   await exchange.loadMarkets()
-  const ticker = await exchange.fetchTicker(symbol)
-  fs.writeFileSync('./scripts/fetch-ticker.ignore.json', stringify(ticker))
+  const orderBook = await exchange.fetchOrderBook(symbol)
+  fs.writeFileSync('./scripts/ccxt/fetch-order-book.ignore.json', stringify(orderBook))
 })()
