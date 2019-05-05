@@ -9,7 +9,7 @@ exports.exchangeSymbolTickProcessor = async event => {
   const exchange = new ccxt[exchangeId]()
   return Promise.all([
     exchange.fetchTicker(symbol),
-    exchange.fetchOrderBook(symbol)
+    exchange.fetchL2OrderBook(symbol)
   ]).then(([ticker, orderBook]) => {
     console.log(`Persisting ticker and order book for exchange ${exchangeId} and symbol ${symbol}`)
     firestore.collection('symbol-tick').add({

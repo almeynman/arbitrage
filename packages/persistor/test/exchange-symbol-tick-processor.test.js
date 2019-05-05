@@ -21,7 +21,7 @@ test('fetches orderbook for symbol at exchange', async t => {
   const sample = getSample()
   await sample.program.exchangeSymbolTickProcessor(event)
 
-  t.deepEqual(sample.mocks.exchange.fetchOrderBook.firstCall.args, [symbol])
+  t.deepEqual(sample.mocks.exchange.fetchL2OrderBook.firstCall.args, [symbol])
 })
 
 test('persists ticker and orderbook info', async t => {
@@ -46,7 +46,7 @@ function getSample() {
   const { FirestoreMock, firestoreMock, collectionMock } = mockFirestore()
   const exchangeMock = {
     fetchTicker: sinon.stub().returns(Promise.resolve(testTicker)),
-    fetchOrderBook: sinon.stub().returns(Promise.resolve(testOrderBook)),
+    fetchL2OrderBook: sinon.stub().returns(Promise.resolve(testOrderBook)),
   }
   const ccxtMock = { [exchangeId]: sinon.stub().returns(exchangeMock) }
 
