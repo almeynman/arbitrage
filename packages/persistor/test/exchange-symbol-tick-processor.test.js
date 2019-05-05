@@ -25,6 +25,8 @@ test('fetches orderbook for symbol at exchange', async t => {
 })
 
 test('persists ticker and orderbook info', async t => {
+  const timestamp = 1557084602260
+  sinon.useFakeTimers(timestamp)
   const sample = getSample()
   await sample.program.exchangeSymbolTickProcessor(event)
 
@@ -34,6 +36,7 @@ test('persists ticker and orderbook info', async t => {
       symbol,
       ticker: removeUndefined(testTicker),
       orderBook: removeUndefined(testOrderBook),
+      timestamp,
     },
   ])
 })

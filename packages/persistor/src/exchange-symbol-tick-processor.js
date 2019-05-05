@@ -17,6 +17,7 @@ exports.exchangeSymbolTickProcessor = async event => {
       symbol,
       ticker: removeUndefined(ticker),
       orderBook: removeUndefined(orderBook),
+      timestamp: Date.now()
     })
   })
 }
