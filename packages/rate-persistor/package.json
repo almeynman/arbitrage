@@ -6,7 +6,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "test": "ava -T 30s test/*.test.js",
+    "test": "ava -T 30s test/*.test.js --verbose",
     "simulate-minute-tick": "gcloud pubsub topics publish minute-tick --message minute-tick",
     "simulate-fetch-rate": "gcloud pubsub topics publish fetch-rates-for-exchange --message '{\"exchange\":\"bitfinex\"}'",
     "deploy-minute-tick-processor": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
@@ -16,11 +16,12 @@
     "deploy": "npm run package-arbitrage-lib && npm run deploy-minute-tick-processor && npm run deploy-exchange-tick-processor && npm run deploy-exchange-symbol-tick-processor"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^1.3.0",
     "@google-cloud/pubsub": "^0.28.1",
-    "arbitrage-lib": "../arbitrage-lib"
+    "arbitrage-lib": "file:arbitrage-lib-0.0.1.tgz",
+    "ccxt": "^1.18.507"
   },
   "devDependencies": {
-    "@google-cloud/nodejs-repo-tools": "^3.2.0",
     "ava": "^1.4.1",
     "proxyquire": "^2.1.0",
     "sinon": "^7.3.2"

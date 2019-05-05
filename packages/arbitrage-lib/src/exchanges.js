@@ -1,1 +1,0 @@
-exports.exchanges = ['kraken', 'kucoin']
