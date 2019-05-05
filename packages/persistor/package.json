@@ -8,7 +8,8 @@
   "scripts": {
     "test": "ava -T 30s test/*.test.js --verbose",
     "simulate-minute-tick": "gcloud pubsub topics publish minute-tick --message minute-tick",
-    "simulate-fetch-rate": "gcloud pubsub topics publish fetch-rates-for-exchange --message '{\"exchange\":\"bitfinex\"}'",
+    "simulate-exchange-tick": "gcloud pubsub topics publish exchange-tick --message '{\"exchangeId\":\"bitfinex\"}'",
+    "simulate-exchange-symbol-tick": "gcloud pubsub topics publish exchange-symbol-tick --message '{\"exchangeId\":\"bitfinex\", \"symbol\":\"BTC/USD\"}'",
     "deploy-minute-tick-processor": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
     "deploy-exchange-tick-processor": "gcloud functions deploy exchangeTickProcessor --trigger-topic exchange-tick --runtime=nodejs10 --region=europe-west1",
     "deploy-exchange-symbol-tick-processor": "gcloud functions deploy exchangeSymbolTickProcessor --trigger-topic exchange-symbol-tick --runtime=nodejs10 --region=europe-west1",
