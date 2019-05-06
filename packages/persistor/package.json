@@ -12,14 +12,13 @@
     "simulate-exchange-symbol-tick": "gcloud pubsub topics publish exchange-symbol-tick --message '{\"exchangeId\":\"bitfinex\", \"symbol\":\"BTC/USD\"}'",
     "deploy-minute-tick-processor": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
     "deploy-exchange-tick-processor": "gcloud functions deploy exchangeTickProcessor --trigger-topic exchange-tick --runtime=nodejs10 --region=europe-west1",
-    "deploy-exchange-symbol-tick-processor": "gcloud functions deploy exchangeSymbolTickProcessor --trigger-topic exchange-symbol-tick --runtime=nodejs10 --region=europe-west1",
     "package-arbitrage-lib": "cd ../arbitrage-lib && npm version 0.0.1 --allow-same-version && npm pack && mv arbitrage-lib*.tgz ../persistor/ && cd ../persistor && npm install file:arbitrage-lib-0.0.1.tgz",
-    "deploy": "npm run package-arbitrage-lib && npm run deploy-minute-tick-processor && npm run deploy-exchange-tick-processor && npm run deploy-exchange-symbol-tick-processor"
+    "deploy": "npm run package-arbitrage-lib && npm run deploy-minute-tick-processor && npm run deploy-exchange-tick-processor"
   },
   "dependencies": {
     "@google-cloud/firestore": "^1.3.0",
     "@google-cloud/pubsub": "^0.28.1",
-    "arbitrage-lib": "../arbitrage-lib",
+    "arbitrage-lib": "file:arbitrage-lib-0.0.1.tgz",
     "ccxt": "^1.18.507"
   },
   "devDependencies": {
