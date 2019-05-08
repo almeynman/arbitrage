@@ -1,3 +1,3 @@
 exports.collections = {
-  SYMBOL_TICK: 'symbol-tick',
+  SYMBOL_TICK: 'symbol-ticks',
 }

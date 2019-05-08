@@ -14,7 +14,7 @@ const firestore = new Firestore({ projectId })
         var batch = firestore.batch()
         snapshot.docs.forEach(doc => {
           const data = doc.data()
-          if (data.kraken == null) {
+          if (data.data == null) {
             batch.delete(doc.ref)
           }
         })

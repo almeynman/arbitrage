@@ -15,8 +15,8 @@ exports.symbolTickProcessor = async event => {
         const [ticker, orderBook] = await fetchDataFromExchange(exchange, symbol)
         return { exchange, ticker: removeUndefined(ticker), orderBook: removeUndefined(orderBook) }
       }),
-      reduce((acc, { exchange, ticker, orderBook }) => ({ ...acc, [exchange.id]: { ticker, orderBook } }), {}),
-      map(data => persist(symbol, data)),
+      reduce((acc, { exchange, ticker, orderBook }) => ([ ...acc, {id: exchange.id, ticker, orderBook } ]), []),
+      mergeMap(data => persist(symbol, data)),
     )
     .toPromise()
 }
@@ -28,9 +28,9 @@ async function fetchDataFromExchange(exchange, symbol) {
 
 async function persist(symbol, data) {
   console.log(`Persisting data for symbol ${symbol}`)
-  firestore.collection(collections.SYMBOL_TICK).add({
+  return firestore.collection(collections.SYMBOL_TICK).add({
     symbol,
-    ...data,
+    data,
     timestamp: Date.now(),
   })
 }
