@@ -1,5 +1,5 @@
 const { minuteTickProcessor } = require('./minute-tick-processor')
-const { exchangeTickProcessor } = require('./exchange-tick-processor')
+const { symbolTickProcessor } = require('./symbol-tick-processor')
 
 exports.minuteTickProcessor = minuteTickProcessor
-exports.exchangeTickProcessor = exchangeTickProcessor
+exports.symbolTickProcessor = symbolTickProcessor
