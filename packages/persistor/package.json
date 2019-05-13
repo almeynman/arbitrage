@@ -11,7 +11,8 @@
     "simulate-symbol-tick": "gcloud pubsub topics publish symbol-tick --message '{\"exchangeIds\": [\"bitfinex\", \"kraken\"], \"symbol\":\"BTC/USD\"}'",
     "deploy-minute-tick-processor": "gcloud functions deploy minuteTickProcessor --trigger-topic minute-tick --runtime=nodejs10 --region=europe-west1",
     "deploy-symbol-tick-processor": "gcloud functions deploy symbolTickProcessor --trigger-topic symbol-tick --runtime=nodejs10 --region=europe-west1",
-    "package-arbitrage-lib": "cd ../arbitrage-lib && npm version 0.0.1 --allow-same-version && npm pack && mv arbitrage-lib*.tgz ../persistor/ && cd ../persistor && npm install file:arbitrage-lib-0.0.1.tgz",
+    "deploy-opportunity": "gcloud functions deploy opportunity --trigger-event providers/cloud.firestore/eventTypes/document.create --trigger-resource projects/arbitrage-238217/databases/default/documents/symbol-ticks/{docId} --runtime=nodejs10 --region=europe-west1",
+    "package": "cd ../arbitrage-lib && npm version 0.0.1 --allow-same-version && npm pack && mv arbitrage-lib*.tgz ../persistor/ && cd ../persistor && npm install file:arbitrage-lib-0.0.1.tgz",
     "deploy": "npm run package-arbitrage-lib && npm run deploy-minute-tick-processor && npm run deploy-symbol-tick-processor"
   },
   "dependencies": {
