@@ -1,5 +1,5 @@
 const Firestore = require('@google-cloud/firestore')
-const { projectId } = require('arbitrage-lib')
+const { projectId, collections } = require('arbitrage-lib')
 
 const firestore = new Firestore({ projectId })
 
@@ -24,10 +24,24 @@ const firestore = new Firestore({ projectId })
 
           if (coeficient > 1) {
             console.log(`Oppotunity to buy from ${exchangesData[0].exchangeId} at ${exchangesData[0].buyPrice} and sell to ${exchangesData[1].exchangeId} at ${exchangesData[1].sellPrice}`)
+            persistOpportunity(
+              coeficient,
+              exchangesData[0].exchangeId,
+              exchangesData[1].exchangeId,
+              exchangesData[0].buyPrice,
+              exchangesData[1].sellPrice
+            )
           }
 
           if (coeficient2 > 1) {
             console.log(`Oppotunity to buy from ${exchangesData[1].exchangeId} at ${exchangesData[1].buyPrice} and sell to ${exchangesData[0].exchangeId} at ${exchangesData[0].sellPrice}`)
+            persistOpportunity(
+              coeficient2,
+              exchangesData[1].exchangeId,
+              exchangesData[0].exchangeId,
+              exchangesData[1].buyPrice,
+              exchangesData[0].sellPrice
+            )
           }
         })
       })
@@ -36,4 +50,21 @@ const firestore = new Firestore({ projectId })
 
 function checkOpportunity(aExchangeBuyPrice, bExchangeSellPrice) {
   return bExchangeSellPrice/aExchangeBuyPrice
+}
+
+function persistOpportunity(coeficient, buyExchangeId, sellExchangeId, buyPrice, sellPrice) {
+  const data = {
+    'coeficient': coeficient,
+	  'buy': {
+		'exchange': buyExchangeId,
+		'price': buyPrice
+	},
+	'sell': {
+		'exchange': sellExchangeId,
+		'price': sellPrice,
+	},
+	'timestamp': Date.now()
+  }
+
+  return firestore.collection(collections.OPPORTUNITY).add(data)
 }
