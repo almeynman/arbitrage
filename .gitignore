@@ -4,3 +4,4 @@ node_modules
 .vscode/
 *.ignore.json
 *-service-account.json
+built/
