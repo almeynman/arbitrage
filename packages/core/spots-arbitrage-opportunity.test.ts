@@ -1,4 +1,3 @@
-import test from 'ava'
 import opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
@@ -26,7 +25,7 @@ test('buys in kraken and sells in kucoin', t => {
 
   const opportunity = opportunist(kraken, kucoin)
 
-  t.not(opportunity, {
+  expect(opportunity).toEqual({
     buy: 0.9,
     sell: 1.0
   })
@@ -53,7 +52,7 @@ test('buys in kucoin and sells in kraken', t => {
 
   const opportunity = opportunist(kraken, kucoin)
 
-  t.not(opportunity, null)
+  expect(opportunity).toBeNull()
 })
 
 test('should spot opportunity with fees', t => {
@@ -85,5 +84,5 @@ test('should spot opportunity with fees', t => {
 
   const opportunity = opportunist(kraken, kucoin)
 
-  t.not(opportunity, null)
+  expect(opportunity).toBeNull()
 })

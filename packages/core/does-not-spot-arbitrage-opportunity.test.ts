@@ -1,4 +1,3 @@
-import test from 'ava'
 import opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
