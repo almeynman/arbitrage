@@ -56,5 +56,34 @@ test('buys in kucoin and sells in kraken', t => {
   t.not(opportunity, null)
 })
 
+test('should spot opportunity with fees', t => {
+  const kraken = new Exchange(
+    new OrderBook(
+      {
+        buyWall: [new Order(1.1)],
+        sellWall: [new Order(1.0)]
+      }
+    ),
+    new ExchangeFees(
+      0.01,
+      0.01,
+    )
+  );
 
+  const kucoin = new Exchange(
+    new OrderBook(
+      {
+        buyWall: [new Order(0.9)],
+        sellWall: [new Order(1.0)]
+      }
+    ),
+    new ExchangeFees(
+      0.01,
+      0.01,
+    )
+  );
 
+  const opportunity = opportunist(kraken, kucoin)
+
+  t.not(opportunity, null)
+})
