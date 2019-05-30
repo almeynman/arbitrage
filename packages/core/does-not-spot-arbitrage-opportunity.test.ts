@@ -31,7 +31,7 @@ test('should not spot arbitrage opportunity', t => {
   t.is(opportunity, null)
 })
 
-test('should not spot with fees', t => {
+test('should not spot opportunity with fees', t => {
   const kraken = new Exchange(
     new OrderBook(
       {
