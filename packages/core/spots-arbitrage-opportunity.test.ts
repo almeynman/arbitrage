@@ -87,3 +87,6 @@ test('should spot opportunity with fees', t => {
 
   t.not(opportunity, null)
 })
+
+
+
