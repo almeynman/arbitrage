@@ -55,3 +55,6 @@ test('buys in kucoin and sells in kraken', t => {
 
   t.not(opportunity, null)
 })
+
+
+
