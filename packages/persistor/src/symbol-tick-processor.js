@@ -1,13 +1,16 @@
-const { deserialize, projectId, removeUndefined, collections } = require('arbitrage-lib')
+const { deserialize, projectId, removeUndefined, collections, topics, serialize } = require('arbitrage-lib')
+const { PubSub } = require('@google-cloud/pubsub')
 const ccxt = require('ccxt')
 const Firestore = require('@google-cloud/firestore')
 const { from } = require('rxjs')
 const { map, mergeMap, reduce } = require('rxjs/operators')
 
 const firestore = new Firestore({ projectId })
+const pubsub = new PubSub()
 
 exports.symbolTickProcessor = async event => {
   const { exchangeIds, symbol } = deserialize(event.data)
+  const topic = pubsub.topic(topics.OPPORTUNITY)
   return from(exchangeIds)
     .pipe(
       map(exchangeId => new ccxt[exchangeId]()),
@@ -16,7 +19,10 @@ exports.symbolTickProcessor = async event => {
         return { exchange, ticker: removeUndefined(ticker), orderBook: removeUndefined(orderBook) }
       }),
       reduce((acc, { exchange, ticker, orderBook }) => ([ ...acc, {id: exchange.id, ticker, orderBook } ]), []),
-      mergeMap(data => persist(symbol, data)),
+      mergeMap(data => Promise.all([
+        persist(symbol, data),
+        topic.publish(serialize({ symbol, data })),
+      ])),
     )
     .toPromise()
 }
