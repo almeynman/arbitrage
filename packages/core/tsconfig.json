@@ -1,25 +1,10 @@
 {
   "compilerOptions": {
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "resolveJsonModule": true,
-      "target": "es6",
-      "noImplicitAny": true,
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "outDir": "dist",
-      "baseUrl": ".",
-      "paths": {
-          "*": [
-              "node_modules/*",
-              "src/types/*"
-          ]
-      }
+      "outDir": "./built",
+      "allowJs": true,
+      "target": "es5"
   },
   "include": [
-      "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules/**/*"
+      "./*.ts", "jest.config.js"
   ]
 }

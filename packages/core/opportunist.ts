@@ -1,11 +1,8 @@
 import Exchange from './exchange'
-import Opportunity from './opportunity';
 
-export default function opportunist(exchange1: Exchange, exchange2: Exchange): Opportunity {
+export default function opportunist(exchange1: Exchange, exchange2: Exchange) {
   if (isOpportunity(exchange1, exchange2)) {
-    return {
-      coeficient
-    }
+    return {}
   }
   if (isOpportunity(exchange2, exchange1)) {
     return {}
@@ -13,6 +10,6 @@ export default function opportunist(exchange1: Exchange, exchange2: Exchange): O
   return null
 }
 
-function isOpportunity(exchange1: Exchange, exchange2: Exchange): number {
+function isOpportunity(exchange1: Exchange, exchange2: Exchange) {
   return exchange1.getBuyCost() < exchange2.getSellCost()
 }
