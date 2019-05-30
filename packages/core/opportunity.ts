@@ -1,6 +1,14 @@
-interface opportunity {
+interface Opportunity {
     symbol: string,
-    coeficient: number
+    coeficient: number,
+    buy: OpportunityExchangeDetail,
+    sell: OpportunityExchangeDetail
 }
 
-export default opportunity
+interface OpportunityExchangeDetail {
+    exchange: string,
+    price: number,
+    expectedFee: number,
+}
+
+export default Opportunity
