@@ -1,20 +1,46 @@
 import ExchangeFees from './exchange-fees'
-import OrderBook from './order-book'
+import Market from './market';
+
+interface Markets {
+  [key: string]: Market
+}
 
 export default class Exchange {
-
   constructor(
-    public orderBook: OrderBook,
+    public name: string,
+    public markets: Markets,
     public fees: ExchangeFees = new ExchangeFees(0, 0)
-  ) {}
+  ) { }
 
-  getBuyCost(): number {
-    const buyPrice = this.orderBook.getBestBuyPrice();
+  getBuyCost(symbol: string): number {
+    const buyPrice = this.getBestBuyPrice(symbol)
     return buyPrice + this.fees.buy * buyPrice
   }
 
-  getSellCost(): number {
-    const sellPrice = this.orderBook.getBestSellPrice();
+  getBuyFee(): number {
+    return this.fees.buy
+  }
+
+  getSellCost(symbol: string): number {
+    const sellPrice = this.getBestSellPrice(symbol)
     return sellPrice - this.fees.sell * sellPrice
+  }
+
+  getSellFee(): number {
+    return this.fees.sell
+  }
+
+  getBestBuyPrice(symbol: string): number {
+    const market = this.findMarketBySymbol(symbol)
+    return market.getBestBuyPrice()
+  }
+
+  getBestSellPrice(symbol: string): number {
+    const market = this.findMarketBySymbol(symbol)
+    return market.getBestSellPrice()
+  }
+
+  private findMarketBySymbol(symbol: string) {
+    return this.markets[symbol]
   }
 }
