@@ -1,7 +1,7 @@
 export default class Order {
-  price: Number;
+  price: number;
 
-  constructor(price: Number) {
+  constructor(price: number) {
     this.price = price;
   }
 }

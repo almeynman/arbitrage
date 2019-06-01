@@ -26,10 +26,7 @@ test('buys in kraken and sells in kucoin', t => {
 
   const opportunity = opportunist(kraken, kucoin)
 
-  t.not(opportunity, {
-    buy: 0.9,
-    sell: 1.0
-  })
+  t.not(opportunity, null)
 })
 
 test('buys in kucoin and sells in kraken', t => {
