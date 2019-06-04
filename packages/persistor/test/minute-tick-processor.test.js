@@ -1,4 +1,3 @@
-const test = require('ava')
 const proxyquire = require('proxyquire').noCallThru()
 const { serialize, topics } = require('arbitrage-lib')
 const { mockPubSub } = require('./mock')
@@ -6,13 +5,13 @@ const { mockPubSub } = require('./mock')
 const exchangeIds = ['kraken', 'bitfinex']
 const symbols = ['BTC/USD', 'ETH/BTC', 'LTC/BTC']
 
-test('publishes symbol-tick event for each symbol', async t => {
+test('publishes symbol-tick event for each symbol', async () => {
   const sample = getSample()
   await sample.program.minuteTickProcessor()
 
-  t.is(sample.mocks.topic.publish.callCount, symbols.length)
+  expect(sample.mocks.topic.publish.callCount).toBe(symbols.length)
   symbols.forEach((symbol, i) => {
-    t.deepEqual(sample.mocks.topic.publish.getCall(i).args, [serialize({ exchangeIds, symbol })])
+    expect(sample.mocks.topic.publish.getCall(i).args).toEqual([serialize({ exchangeIds, symbol })])
   })
 })
 

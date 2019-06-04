@@ -50,7 +50,7 @@ const findOpportunity = symbolTick => {
     )
   }
 
-  if (coeficient <= 1 &&     coeficient2 <= 1) {
+  if (coeficient <= 1 && coeficient2 <= 1) {
     console.log('No opportunity found')
   }
 }

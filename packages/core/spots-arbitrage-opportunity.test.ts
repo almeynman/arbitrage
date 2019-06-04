@@ -5,7 +5,7 @@ import OrderBook from './order-book'
 import Order from './order'
 import Market from './market'
 
-test('buys in kraken and sells in kucoin', t => {
+test('buys in kraken and sells in kucoin', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -40,10 +40,10 @@ test('buys in kraken and sells in kucoin', t => {
     exchange2: kucoin,
   })
 
-  expect(opportunity).toBeNull()
+  expect(opportunity).not.toBeNull()
 })
 
-test('buys in kucoin and sells in kraken', t => {
+test('buys in kucoin and sells in kraken', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -78,39 +78,7 @@ test('buys in kucoin and sells in kraken', t => {
     exchange2: kucoin,
   })
 
-  expect(opportunity).toBeNull()
-})
-
-test('should spot opportunity with fees', () => {
-  const kraken = new Exchange(
-    new OrderBook(
-      {
-        buyWall: [new Order(1.1)],
-        sellWall: [new Order(1.0)]
-      }
-    ),
-    new ExchangeFees(
-      0.01,
-      0.01,
-    )
-  );
-
-  const kucoin = new Exchange(
-    new OrderBook(
-      {
-        buyWall: [new Order(0.9)],
-        sellWall: [new Order(1.0)]
-      }
-    ),
-    new ExchangeFees(
-      0.01,
-      0.01,
-    )
-  );
-
-  const opportunity = opportunist(kraken, kucoin)
-
-  expect(opportunity).toBeNull()
+  expect(opportunity).not.toBeNull()
 })
 
 test('should spot opportunity with fees', () => {

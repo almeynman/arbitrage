@@ -1,9 +1,7 @@
-import test from 'ava'
-
 import OrderBook from './order-book'
 import Order from './order'
 
-test('should find the best buy price', t => {
+test('should find the best buy price', () => {
   const orderBook = new OrderBook({
     buyWall: [
       new Order(1.1),
@@ -14,10 +12,10 @@ test('should find the best buy price', t => {
 
   const bestBuyPrice = orderBook.getBestBuyPrice()
 
-  t.is(bestBuyPrice, 1)
+  expect(bestBuyPrice).toBe(1)
 })
 
-test('should find the best sell price', t => {
+test('should find the best sell price', () => {
   const orderBook = new OrderBook({
     buyWall: [],
     sellWall: [
@@ -28,5 +26,5 @@ test('should find the best sell price', t => {
 
   const bestSellPrice = orderBook.getBestSellPrice()
 
-  t.is(bestSellPrice, 1.1)
+  expect(bestSellPrice).toBe(1.1)
 })
