@@ -1,24 +1,32 @@
 import Order from './order'
 
 interface OrderBookArgs {
-  buyWall: Iterable<Order>,
-  sellWall: Iterable<Order>
+  buyWall: Array<Order>,
+  sellWall: Array<Order>
+}
+
+function highestPrice(order1, order2) {
+  return order1.price - order2.price
+}
+
+function lowestPrice(order1, order2) {
+  return order2.price - order1.price
 }
 
 export default class OrderBook {
-  buyWall: Iterable<Order>;
-  sellWall: Iterable<Order>;
+  buyWall: Array<Order>;
+  sellWall: Array<Order>;
 
   constructor(args: OrderBookArgs) {
     this.buyWall = args.buyWall;
     this.sellWall = args.sellWall;
   }
 
-  getBestBuyPrice() {
-    return this.buyWall[0].price;
+  getBestBuyPrice(): number {
+    return this.buyWall.sort(highestPrice)[0].price;
   }
 
-  getBestSellPrice() {
-    return this.sellWall[0].price;
+  getBestSellPrice(): number {
+    return this.sellWall.sort(lowestPrice)[0].price;
   }
 }
