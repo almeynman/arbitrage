@@ -1,4 +1,3 @@
-const test = require('ava')
 const sinon = require('sinon')
 const proxyquire = require('proxyquire').noCallThru()
 const { serialize, removeUndefined } = require('arbitrage-lib')
@@ -10,31 +9,31 @@ const symbol = 'BTC/USD'
 const data = { exchangeIds, symbol }
 const event = { data: serialize(data) }
 
-test('fetches ticker for symbol for each exchange', async t => {
+test('fetches ticker for symbol for each exchange', async () => {
   const sample = getSample()
   await sample.program.symbolTickProcessor(event)
 
   exchangeIds.forEach(exchangeId => {
-    t.deepEqual(sample.mocks.exchanges[exchangeId].fetchTicker.firstCall.args, [symbol])
+    expect(sample.mocks.exchanges[exchangeId].fetchTicker.firstCall.args).toEqual([symbol])
   })
 })
 
-test('fetches orderbook for symbol for each exchange', async t => {
+test('fetches orderbook for symbol for each exchange', async () => {
   const sample = getSample()
   await sample.program.symbolTickProcessor(event)
 
   exchangeIds.forEach(exchangeId => {
-    t.deepEqual(sample.mocks.exchanges[exchangeId].fetchL2OrderBook.firstCall.args, [symbol])
+    expect(sample.mocks.exchanges[exchangeId].fetchL2OrderBook.firstCall.args).toEqual([symbol])
   })
 })
 
-test('persists ticker and orderbook', async t => {
+test('persists ticker and orderbook', async () => {
   const timestamp = 1557084602260
   sinon.useFakeTimers(timestamp)
   const sample = getSample()
   await sample.program.symbolTickProcessor(event)
 
-  t.deepEqual(sample.mocks.collection.add.firstCall.args, [
+  expect(sample.mocks.collection.add.firstCall.args).toEqual([
     {
       symbol,
       kraken: {

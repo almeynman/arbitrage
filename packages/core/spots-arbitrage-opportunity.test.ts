@@ -1,4 +1,3 @@
-import test from 'ava'
 import findOpportunity from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
@@ -6,7 +5,7 @@ import OrderBook from './order-book'
 import Order from './order'
 import Market from './market'
 
-test('buys in kraken and sells in kucoin', t => {
+test('buys in kraken and sells in kucoin', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -41,10 +40,10 @@ test('buys in kraken and sells in kucoin', t => {
     exchange2: kucoin,
   })
 
-  t.not(opportunity, null)
+  expect(opportunity).not.toBeNull()
 })
 
-test('buys in kucoin and sells in kraken', t => {
+test('buys in kucoin and sells in kraken', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -79,10 +78,10 @@ test('buys in kucoin and sells in kraken', t => {
     exchange2: kucoin,
   })
 
-  t.not(opportunity, null)
+  expect(opportunity).not.toBeNull()
 })
 
-test('should spot opportunity with fees', t => {
+test('should spot opportunity with fees', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -126,5 +125,5 @@ test('should spot opportunity with fees', t => {
     exchange2: kucoin,
   })
 
-  t.not(opportunity, null)
+  expect(opportunity).not.toBeNull()
 })

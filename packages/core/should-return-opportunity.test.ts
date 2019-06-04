@@ -1,5 +1,3 @@
-import test from 'ava'
-
 import findOpportunity from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
@@ -8,7 +6,7 @@ import Order from './order'
 import Assessment from './assessment'
 import Market from './market'
 
-test('should return opportunity found', t => {
+test('should return opportunity found', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -51,7 +49,7 @@ test('should return opportunity found', t => {
     exchange2: kucoin,
   })
 
-  t.deepEqual(opportunity, new Assessment({
+  expect(opportunity).toEqual(new Assessment({
     symbol,
     "coefficient": 1.0566448801742918,
     "buy": {

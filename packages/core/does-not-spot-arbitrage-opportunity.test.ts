@@ -1,4 +1,3 @@
-import test from 'ava'
 import findOpportunity from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
@@ -6,7 +5,7 @@ import OrderBook from './order-book'
 import Order from './order'
 import Market from './market'
 
-test('should not spot arbitrage opportunity', t => {
+test('should not spot arbitrage opportunity', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -41,10 +40,10 @@ test('should not spot arbitrage opportunity', t => {
     exchange2: kucoin,
   })
 
-  t.is(opportunity, null)
+  expect(opportunity).toBeNull()
 })
 
-test('should not spot opportunity with fees', t => {
+test('should not spot opportunity with fees', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
@@ -87,5 +86,5 @@ test('should not spot opportunity with fees', t => {
     exchange2: kucoin,
   })
 
-  t.is(opportunity, null)
+  expect(opportunity).toBeNull()
 })

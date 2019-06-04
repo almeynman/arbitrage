@@ -1,11 +1,12 @@
-const { projectId, collections } = require('arbitrage-lib')
+const { projectId, collections, deserialize } = require('arbitrage-lib')
 
 const Firestore = require('@google-cloud/firestore')
 const firestore = new Firestore({ projectId })
 
-exports.opportunity = (data) => {
-    console.log('received data')
-    findOpportunity(data.value)
+exports.opportunity = event => {
+  const symbolTick = deserialize(event.data)
+  console.log('received data')
+  findOpportunity(symbolTick)
 }
 
 const findOpportunity = symbolTick => {
@@ -21,7 +22,7 @@ const findOpportunity = symbolTick => {
 
   if (coeficient > 1) {
     console.log(
-      `Oppotunity to buy from ${exchangesData[0].exchangeId} at ${exchangesData[0].buyPrice} and sell to ${
+      `Oppotunity with coefficient ${coeficient} to buy from ${exchangesData[0].exchangeId} at ${exchangesData[0].buyPrice} and sell to ${
         exchangesData[1].exchangeId
       } at ${exchangesData[1].sellPrice}`,
     )
@@ -36,7 +37,7 @@ const findOpportunity = symbolTick => {
 
   if (coeficient2 > 1) {
     console.log(
-      `Oppotunity to buy from ${exchangesData[1].exchangeId} at ${exchangesData[1].buyPrice} and sell to ${
+      `Oppotunity with coefficient ${coeficient2} to buy from ${exchangesData[1].exchangeId} at ${exchangesData[1].buyPrice} and sell to ${
         exchangesData[0].exchangeId
       } at ${exchangesData[0].sellPrice}`,
     )
@@ -47,6 +48,10 @@ const findOpportunity = symbolTick => {
       exchangesData[1].buyPrice,
       exchangesData[0].sellPrice,
     )
+  }
+
+  if (coeficient <= 1 && coeficient2 <= 1) {
+    console.log('No opportunity found')
   }
 }
 
