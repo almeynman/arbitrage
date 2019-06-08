@@ -3,7 +3,7 @@ const { projectId, collections, deserialize } = require('arbitrage-lib')
 const Firestore = require('@google-cloud/firestore')
 const firestore = new Firestore({ projectId })
 
-const { Exchange } = require('core/exchange')
+const Exchange= require('core/exchange')
 
 exports.opportunity = event => {
   const symbolTick = deserialize(event.data)

@@ -14,6 +14,8 @@
     "deploy": "lerna run deploy"
   },
   "devDependencies": {
+    "fstream": ">=1.0.12",
+    "tar": ">=2.2.2",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-monorepo": "^0.2.1",
