@@ -1,4 +1,4 @@
-interface AssessmentArgs {
+export interface AssessmentArgs {
   symbol: string;
   coefficient: number;
   buy: AssessmentTrade;

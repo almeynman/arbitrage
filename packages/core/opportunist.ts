@@ -24,7 +24,7 @@ export default function findOpportunity({
 
 
 
-function assess(symbol, buyIn, sellTo): Assessment {
+function assess(symbol: string, buyIn: Exchange, sellTo: Exchange): Assessment {
   const coefficient = calculateCoefficient({ buyCost: buyIn.getBuyCost(symbol), sellCost: sellTo.getSellCost(symbol), })
   return new Assessment({
     symbol,

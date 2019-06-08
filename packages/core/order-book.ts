@@ -5,11 +5,11 @@ interface OrderBookArgs {
   sellWall: Array<Order>
 }
 
-function highestPrice(order1, order2) {
+function highestPrice(order1: Order, order2: Order) {
   return order1.price - order2.price
 }
 
-function lowestPrice(order1, order2) {
+function lowestPrice(order1: Order, order2: Order) {
   return order2.price - order1.price
 }
 
