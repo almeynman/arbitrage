@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && jest"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ts-node": "^8.1.1",
-    "typescript": "^3.4.5",
+    "@types/jest": "24.0.13",
+    "@types/node": "^12.0.7",
+    "@types/sinon": "^7.0.12",
+    "chai": "^4.2.0",
     "jest": "24.8.0",
+    "sinon": "^7.3.2",
     "ts-jest": "23.10.5",
-    "@types/jest": "24.0.13"
+    "ts-node": "^8.1.1",
+    "typescript": "^3.4.5"
   }
 }
