@@ -1,0 +1,53 @@
+import sinon from 'sinon'
+
+import Market from 'core/market'
+import OrderBook from 'core/order-book'
+import Order from 'core/order'
+import Exchange from 'core/exchange'
+
+import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
+
+let exchangeClient: any
+let arbitrageCoordination: ArbitrageCoordination
+
+let exchange1: ExchangeArgs
+let exchange2: ExchangeArgs
+
+let symbol = 'FOO/BAR'
+
+beforeEach(() => {
+    exchangeClient = {
+        fetchOrderBook: sinon.spy()
+    }
+
+    exchange1 = {
+        name: 'exchange1',
+        fees: {
+            buy: 1,
+            sell: 1
+        }
+    }
+
+    exchange2 = {
+        name: 'exchange2',
+        fees: {
+            buy: 1,
+            sell: 1
+        }
+    }
+
+    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, [exchange1, exchange2], symbol)
+})
+
+test('should fetch order book for two exchanges', () => {
+    arbitrageCoordination.arbitrate()
+
+    expect(exchangeClient.fetchOrderBook.calledTwice).toBeTruthy()
+})
+
+test('should fetch order books for any two exchanges', () => {
+    arbitrageCoordination.arbitrate()
+
+    expect(exchangeClient.fetchOrderBook.withArgs('exchange1', symbol).calledOnce).toBeTruthy()
+    expect(exchangeClient.fetchOrderBook.withArgs('exchange2', symbol).calledOnce).toBeTruthy()
+})
