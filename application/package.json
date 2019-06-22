@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "jest"
   },
   "dependencies": {
-    "js-yaml": "3.13.1"
+    "ccxt": "^1.18.781",
+    "implementation": "../packages/implementation",
+    "js-yaml": "3.13.1",
+    "sinon": "7.3.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",
