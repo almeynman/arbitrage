@@ -10,6 +10,7 @@ import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
 
 let exchangeClient: any
 let opportunist: any
+let opportunityRepository: any
 let arbitrageCoordination: ArbitrageCoordination
 
 let exchange1: ExchangeArgs
@@ -24,6 +25,10 @@ beforeEach(() => {
 
     opportunist = {
         findOpportunity: sinon.spy()
+    }
+
+    opportunityRepository = {
+        save: sinon.spy()
     }
 
     exchange1 = {
@@ -42,7 +47,7 @@ beforeEach(() => {
         }
     }
 
-    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, [exchange1, exchange2], symbol)
+    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, opportunityRepository, [exchange1, exchange2], symbol)
 })
 
 test('should fetch order book for two exchanges', async () => {
@@ -62,4 +67,9 @@ test('should find opportunity for any two exchanges', async () => {
     await arbitrageCoordination.arbitrate()
 
     expect(opportunist.findOpportunity.calledOnce).toBeTruthy()
+})
+
+test('should persist opportunity', async () => {
+    await arbitrageCoordination.arbitrate()
+    expect(opportunityRepository.save.calledOnce).toBeTruthy()
 })
