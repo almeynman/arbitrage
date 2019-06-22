@@ -1,4 +1,4 @@
-import findOpportunity from './opportunist'
+import Opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
 import OrderBook from './order-book'
@@ -34,7 +34,7 @@ test('buys in kraken and sells in kucoin', () => {
     { [symbol]: kucoinFooBarMarket }
   )
 
-  const opportunity = findOpportunity({
+  const opportunity = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
@@ -72,7 +72,7 @@ test('buys in kucoin and sells in kraken', () => {
     { [symbol]: kucoinFooBarMarket },
   )
 
-  const opportunity = findOpportunity({
+  const opportunity = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
@@ -119,7 +119,7 @@ test('should spot opportunity with fees', () => {
     )
   )
 
-  const opportunity = findOpportunity({
+  const opportunity = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,

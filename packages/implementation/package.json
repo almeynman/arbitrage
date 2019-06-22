@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "core": "../core"
+    "@types/ramda": "^0.26.9",
+    "core": "../core",
+    "ramda": "^0.26.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.14",

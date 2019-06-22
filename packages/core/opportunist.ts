@@ -8,21 +8,21 @@ interface OpportunistArgs {
   exchange2: Exchange,
 }
 
-export default function findOpportunity({
-  symbol,
-  exchange1,
-  exchange2,
-}: OpportunistArgs): Assessment {
-  const assessment1 = assess(symbol, exchange1, exchange2)
-  if (assessment1.isOpportunity()) return assessment1
-
-  const assessment2 = assess(symbol, exchange2, exchange1)
-  if (assessment2.isOpportunity()) return assessment2
-
-  return null
+export default class Opportunist {
+  findOpportunity({
+    symbol,
+    exchange1,
+    exchange2,
+  }: OpportunistArgs): Assessment {
+    const assessment1 = assess(symbol, exchange1, exchange2)
+    if (assessment1.isOpportunity()) return assessment1
+  
+    const assessment2 = assess(symbol, exchange2, exchange1)
+    if (assessment2.isOpportunity()) return assessment2
+  
+    return null
+  }
 }
-
-
 
 function assess(symbol: string, buyIn: Exchange, sellTo: Exchange): Assessment {
   const coefficient = calculateCoefficient({ buyCost: buyIn.getBuyCost(symbol), sellCost: sellTo.getSellCost(symbol), })
