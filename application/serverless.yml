@@ -1,0 +1,12 @@
+service: arbitrage-checker
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-central-1
+
+functions:
+  app:
+    handler: index.handler

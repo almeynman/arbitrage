@@ -1,0 +1,21 @@
+{
+  "name": "arbitrage-checker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "dependencies": {
+    "js-yaml": "3.13.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "jest": "24.8.0",
+    "serverless-offline": "^5.3.3",
+    "ts-jest": "24.0.2",
+    "typescript": "^3.4.5"
+  },
+  "author": "",
+  "license": "ISC"
+}
