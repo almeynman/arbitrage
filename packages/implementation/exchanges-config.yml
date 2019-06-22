@@ -1,0 +1,9 @@
+exchanges:
+  - name: kucoin
+    fees:
+      buy: 1
+      sell: 1
+  - name: kraken
+    fees:
+      buy: 1
+      sell: 1

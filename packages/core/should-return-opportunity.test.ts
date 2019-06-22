@@ -1,4 +1,4 @@
-import findOpportunity from './opportunist'
+import Opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
 import OrderBook from './order-book'
@@ -43,7 +43,7 @@ test('should return opportunity found', () => {
     )
   )
 
-  const opportunity = findOpportunity({
+  const opportunity = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,

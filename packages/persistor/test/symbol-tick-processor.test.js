@@ -1,3 +1,4 @@
+const test = require('ava')
 const sinon = require('sinon')
 const proxyquire = require('proxyquire').noCallThru()
 const { serialize, removeUndefined } = require('arbitrage-lib')
@@ -9,7 +10,7 @@ const symbol = 'BTC/USD'
 const data = { exchangeIds, symbol }
 const event = { data: serialize(data) }
 
-test('fetches ticker for symbol for each exchange', async () => {
+test.skip('fetches ticker for symbol for each exchange', async () => {
   const sample = getSample()
   await sample.program.symbolTickProcessor(event)
 
@@ -18,7 +19,7 @@ test('fetches ticker for symbol for each exchange', async () => {
   })
 })
 
-test('fetches orderbook for symbol for each exchange', async () => {
+test.skip('fetches orderbook for symbol for each exchange', async () => {
   const sample = getSample()
   await sample.program.symbolTickProcessor(event)
 
@@ -27,7 +28,7 @@ test('fetches orderbook for symbol for each exchange', async () => {
   })
 })
 
-test('persists ticker and orderbook', async () => {
+test.skip('persists ticker and orderbook', async () => {
   const timestamp = 1557084602260
   sinon.useFakeTimers(timestamp)
   const sample = getSample()
