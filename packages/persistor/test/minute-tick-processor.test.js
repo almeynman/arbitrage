@@ -1,3 +1,4 @@
+const test = require('ava')
 const proxyquire = require('proxyquire').noCallThru()
 const { serialize, topics } = require('arbitrage-lib')
 const { mockPubSub } = require('./mock')
@@ -5,7 +6,7 @@ const { mockPubSub } = require('./mock')
 const exchangeIds = ['kraken', 'bitfinex']
 const symbols = ['BTC/USD', 'ETH/BTC', 'LTC/BTC']
 
-test('publishes symbol-tick event for each symbol', async () => {
+test.skip('publishes symbol-tick event for each symbol', async () => {
   const sample = getSample()
   await sample.program.minuteTickProcessor()
 

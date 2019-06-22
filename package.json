@@ -31,11 +31,6 @@
       "eslint --format=codeframe"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
     "firebase-functions": "^2.3.1"
   }
