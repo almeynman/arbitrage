@@ -1,14 +1,18 @@
 service: arbitrage-checker
 plugins:
   - serverless-offline
-
+  - serverless-plugin-typescript
+  - serverless-plugin-optimize
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs10.x
   region: eu-central-1
 
 functions:
   app:
     handler: index.helloWorld
     events:
-      - schedule: rate(10 minutes)
+      - schedule: rate(1 minute)
+
+package:
+  individually: true

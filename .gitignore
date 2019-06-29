@@ -5,3 +5,5 @@ node_modules
 *.ignore.json
 *-service-account.json
 built/
+.serverless
+.DS_Store
