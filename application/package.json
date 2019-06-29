@@ -8,6 +8,7 @@
     "tsc": "tsc"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^2.2.3",
     "core": "../packages/core",
     "implementation": "../packages/implementation",
     "js-yaml": "3.13.1"
