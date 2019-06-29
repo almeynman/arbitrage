@@ -32,12 +32,12 @@ function assess(symbol: string, buyIn: Exchange, sellTo: Exchange): Assessment {
     buy: {
       exchange: buyIn.name,
       price: buyIn.getBestBuyPrice(symbol),
-      expectedFee: buyIn.getBuyFee()
+      expectedFee: buyIn.getTakerFee()
     },
     sell: {
       exchange: sellTo.name,
       price: sellTo.getBestSellPrice(symbol),
-      expectedFee: sellTo.getSellFee()
+      expectedFee: sellTo.getTakerFee()
     }
   })
 }

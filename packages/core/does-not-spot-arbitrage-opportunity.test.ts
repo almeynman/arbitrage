@@ -57,8 +57,7 @@ test('should not spot opportunity with fees', () => {
     "kraken",
     { [symbol]: krakenFooBarMarket },
     new ExchangeFees(
-      0.06,
-      0.05,
+      0.06
     )
   )
 
@@ -75,8 +74,7 @@ test('should not spot opportunity with fees', () => {
     "kucoin",
     { [symbol]: kucoinFooBarMarket },
     new ExchangeFees(
-      0.1,
-      0.03,
+      0.1
     )
   )
 
