@@ -6,11 +6,11 @@ interface OrderBookArgs {
 }
 
 function highestPrice(order1: Order, order2: Order) {
-  return order1.price - order2.price
+  return order2.price - order1.price
 }
 
 function lowestPrice(order1: Order, order2: Order) {
-  return order2.price - order1.price
+  return order1.price - order2.price
 }
 
 export default class OrderBook {
