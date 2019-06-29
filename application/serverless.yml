@@ -9,4 +9,6 @@ provider:
 
 functions:
   app:
-    handler: index.handler
+    handler: index.helloWorld
+    events:
+      - schedule: rate(10 minutes)
