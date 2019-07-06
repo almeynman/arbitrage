@@ -1,7 +1,7 @@
 import * as sinon from 'sinon'
 import Assessment from 'core/assessment'
 import DynamoDBOpportunityRepository from './dynamodb-opportunity-repository'
-import { DynamoDB } from 'aws-sdk';
+import { DynamoDB, Request } from 'aws-sdk';
 import * as chai from 'chai'
 import sinonChai from 'sinon-chai'
 
@@ -9,7 +9,9 @@ const expect = chai.expect;
 chai.use(sinonChai)
 
 test('puts an opportunity to a document client', async () => {
-  const docClient = sinon.createStubInstance(DynamoDB.DocumentClient)
+  const docClient = sinon.createStubInstance(DynamoDB.DocumentClient, {
+    put: (() => sinon.createStubInstance(Request)) as any
+  })
   const opportunityRepository = new DynamoDBOpportunityRepository(docClient as any)
   const opportunity = new Assessment({
     symbol: 'EUR/BTC',
@@ -25,6 +27,6 @@ test('puts an opportunity to a document client', async () => {
       expectedFee: 0.02
     },
   })
-  opportunityRepository.save(opportunity)
+  await opportunityRepository.save(opportunity)
   expect(docClient.put).to.have.been.called
 });
