@@ -1,18 +1,18 @@
 import ExchangeClient from './exchange-client'
-import Opportunist from 'core/opportunist'
-import Exchange from 'core/exchange'
-import Market from 'core/market'
-import ExchangeFees from 'core/exchange-fees'
-import OrderBook from 'core/order-book'
-
+import {
+    Opportunist,
+    Exchange,
+    Market,
+    ExchangeFees,
+    OrderBook
+ } from 'core'
 import R from 'ramda';
 import OpportunityRepository from './opportunity-repository';
 
 export interface ExchangeArgs {
     name: string
     fees: {
-        buy: number
-        sell: number
+        taker: number
     }
 }
 
@@ -39,7 +39,7 @@ export default class ArbitrageCoordination {
             return new Exchange(
                 exchange.name,
                 { [this.symbol] : new Market(this.symbol, orderBook) },
-                new ExchangeFees(exchange.fees.buy, exchange.fees.sell)
+                new ExchangeFees(exchange.fees.taker)
             )
         })
 
@@ -50,3 +50,4 @@ export default class ArbitrageCoordination {
         return Promise.all(this.exchanges.map((exchange) => this.exchangeClient.fetchOrderBook(exchange.name, this.symbol)))
     }
 }
+

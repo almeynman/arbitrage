@@ -1,22 +1,28 @@
 import DynamoDBOpportunityRepository from './dynamodb-opportunity-repository'
 import AWS from 'aws-sdk'
-import Assessment from 'core/assessment';
+import * as exchangeFees from 'implementation/exchanges-config.json'
+import ccxt from 'ccxt'
+import { Opportunist } from 'core'
+import { CCXTExchangeClient, ArbitrageCoordination } from 'implementation'
 
-export const helloWorld = async (event: any) => {
-    const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient())
-    const assessment = new Assessment({
-        symbol: 'EUR/BTC',
-        coefficient: 1.1,
-        buy: {
-          exchange: 'exchange1',
-          price: 8000,
-          expectedFee: 0.01
-        },
-        sell: {
-          exchange: 'exchange2',
-          price: 8100,
-          expectedFee: 0.02
-        },
-      })
-    await opportunityRepository.save(assessment)
+export const opportunist = async (event: any) => {
+  const symbol = 'DASH/BTC'
+  const krakenExchangeName = 'kraken'
+  const kucoinExchangeName = 'kucoin'
+  const exchangeClient = new CCXTExchangeClient(ccxt)
+  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient())
+
+  const coordination = new ArbitrageCoordination(
+    exchangeClient,
+    new Opportunist(),
+    opportunityRepository,
+    [
+      exchangeFees.exchanges[krakenExchangeName],
+      exchangeFees.exchanges[kucoinExchangeName],
+    ],
+    symbol
+  )
+
+  coordination.arbitrate()
+  console.log('done')
 }

@@ -1,6 +1,5 @@
 import ExchangeClient from './exchange-client'
-import OrderBook from 'core/order-book'
-import Order from 'core/order'
+import { OrderBook, Order } from 'core'
 
 export default class CCXTExchangeClient implements ExchangeClient {
     constructor(private ccxt: any) {}

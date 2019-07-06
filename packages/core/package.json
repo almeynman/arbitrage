@@ -2,9 +2,10 @@
   "name": "core",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "built/index.js",
   "scripts": {
-    "test": "tsc && jest"
+    "test": "tsc && jest",
+    "tsc": "tsc"
   },
   "author": "",
   "license": "ISC",

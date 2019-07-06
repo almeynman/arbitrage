@@ -1,5 +1,7 @@
 service: arbitrage-checker
 plugins:
+  - serverless-offline
+  - serverless-offline-scheduler
   - serverless-plugin-typescript
   - serverless-plugin-optimize
 
@@ -22,7 +24,7 @@ provider:
 
 functions:
   app:
-    handler: index.helloWorld
+    handler: index.opportunist
     events:
       - schedule: rate(1 minute)
 
@@ -31,6 +33,7 @@ package:
     - 'node_modules/core/**'
     - 'node_modules/implementation/**'
     - 'node_modules/aws-sdk/**'
+    - 'node_modules/ccxt/**'
 
 resources:
   Resources:
