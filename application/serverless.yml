@@ -8,7 +8,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs10.x
-  region: eu-central-1
+  region: eu-west-1
   environment:
     OPPORTUNITY_TABLE: opportunity
   iamRoleStatements:
@@ -27,6 +27,8 @@ functions:
     handler: index.opportunist
     events:
       - schedule: rate(1 minute)
+  test:
+    handler: index.test
 
 package:
   include:

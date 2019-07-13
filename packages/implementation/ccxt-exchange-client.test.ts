@@ -4,24 +4,24 @@ class AnyExchange {
     public async fetchOrderBook(symbol: string): Promise<any> {
         return {
             bids: [
-                {
-                    price: 0.9,
-                    amount: 1
-                },
-                {
-                    price: 0.8,
-                    amount: 2
-                }
+                [
+                    0.9,
+                    1
+                ],
+                [
+                    0.8,
+                    2
+                ]
             ],
             asks: [
-                {
-                    price: 1,
-                    amount: 1
-                },
-                {
-                    price: 2,
-                    amount: 2
-                }
+                [
+                    1,
+                    1
+                ],
+                [
+                    2,
+                    2
+                ]
             ]
         }
     }
@@ -32,7 +32,7 @@ test('should obtain an order book', async () => {
     const anySymbol = 'foobar'
 
     const ccxt = {
-       'any': AnyExchange 
+       'any': AnyExchange
     }
 
     const ccxtExchangeClient = new CCXTExchangeClient(ccxt)

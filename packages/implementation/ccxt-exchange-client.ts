@@ -7,16 +7,17 @@ export default class CCXTExchangeClient implements ExchangeClient {
     async fetchOrderBook(exchange: string, symbol: string): Promise<OrderBook> {
         const exchangeClass = this.ccxt[exchange]
         const exchangeInstance = new exchangeClass()
-
-        const orderBook = this.convertToCoreOrderBook(await exchangeInstance.fetchOrderBook(symbol))
-
+        const ccxtOrderBook = await exchangeInstance.fetchOrderBook(symbol)
+        console.log(`CCXT order book for exchange ${exchangeInstance.id}: ${JSON.stringify(ccxtOrderBook)}`)
+        const orderBook = this.convertToCoreOrderBook(ccxtOrderBook)
+        console.log(`our order book for exchange ${exchangeInstance.id}: ${JSON.stringify(orderBook)}`)
         return orderBook
     }
 
     private convertToCoreOrderBook(orderBook: any): OrderBook {
         return new OrderBook({
-            buyWall: orderBook.bids.map((bid: any) => new Order(bid.price)),
-            sellWall: orderBook.asks.map((bid: any) => new Order(bid.price))
+            buyWall: orderBook.bids.map(([price, volume]: any) => new Order(price)),
+            sellWall: orderBook.asks.map(([price, volume]: any) => new Order(price))
         })
     }
 }

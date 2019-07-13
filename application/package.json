@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "start": "sls schedule && sls offline start"
   },
   "dependencies": {
     "@google-cloud/firestore": "^2.2.3",

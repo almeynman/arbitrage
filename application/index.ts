@@ -23,6 +23,6 @@ export const opportunist = async (event: any) => {
     symbol
   )
 
-  coordination.arbitrate()
+  await coordination.arbitrate()
   console.log('done')
 }

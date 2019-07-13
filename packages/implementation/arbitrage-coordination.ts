@@ -27,11 +27,10 @@ export default class ArbitrageCoordination {
 
     public async arbitrate() {
         const orderBooks = await this.fetchOrderBooks()
-
         const [exchange1, exchange2] = this.instantiateExchanges(orderBooks)
 
         const opportunity = this.opportunist.findOpportunity({symbol: this.symbol, exchange1, exchange2})
-        this.opportunityRepository.save(opportunity)
+        await this.opportunityRepository.save(opportunity)
     }
 
     private instantiateExchanges(orderBooks: OrderBook[]): [Exchange, Exchange] {
