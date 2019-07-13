@@ -34,16 +34,14 @@ beforeEach(() => {
     exchange1 = {
         name: 'exchange1',
         fees: {
-            buy: 1,
-            sell: 1
+            taker: 1,
         }
     }
 
     exchange2 = {
         name: 'exchange2',
         fees: {
-            buy: 1,
-            sell: 1
+            taker: 1,
         }
     }
 

@@ -1,0 +1,57 @@
+service: arbitrage-checker
+plugins:
+  - serverless-offline
+  - serverless-offline-scheduler
+  - serverless-plugin-typescript
+  - serverless-plugin-optimize
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: eu-west-1
+  environment:
+    OPPORTUNITY_TABLE: opportunity
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.OPPORTUNITY_TABLE}"
+
+functions:
+  app:
+    handler: index.opportunist
+    events:
+      - schedule: rate(1 minute)
+  test:
+    handler: index.test
+
+package:
+  include:
+    - 'node_modules/core/**'
+    - 'node_modules/implementation/**'
+    - 'node_modules/aws-sdk/**'
+    - 'node_modules/ccxt/**'
+
+resources:
+  Resources:
+    OpportunityDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.OPPORTUNITY_TABLE}

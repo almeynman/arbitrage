@@ -9,35 +9,35 @@ export default class Exchange {
   constructor(
     public name: string,
     public markets: Markets,
-    public fees: ExchangeFees = new ExchangeFees(0, 0)
+    public fees: ExchangeFees = new ExchangeFees(0)
   ) { }
 
   getBuyCost(symbol: string): number {
     const buyPrice = this.getBestBuyPrice(symbol)
-    return buyPrice + this.fees.buy * buyPrice
+    return buyPrice + this.fees.taker * buyPrice
   }
 
-  getBuyFee(): number {
-    return this.fees.buy
+  getTakerFee(): number {
+    return this.fees.taker
   }
 
   getSellCost(symbol: string): number {
     const sellPrice = this.getBestSellPrice(symbol)
-    return sellPrice - this.fees.sell * sellPrice
-  }
-
-  getSellFee(): number {
-    return this.fees.sell
+    return sellPrice - this.fees.taker * sellPrice
   }
 
   getBestBuyPrice(symbol: string): number {
     const market = this.findMarketBySymbol(symbol)
-    return market.getBestBuyPrice()
+    const bestBuyPrice = market.getBestBuyPrice()
+    console.log(`Best buy price at ${this.name}: ${bestBuyPrice}`)
+    return bestBuyPrice
   }
 
   getBestSellPrice(symbol: string): number {
     const market = this.findMarketBySymbol(symbol)
-    return market.getBestSellPrice()
+    const bestSellPrice = market.getBestSellPrice()
+    console.log(`Best sell price at ${this.name}: ${bestSellPrice}`)
+    return bestSellPrice
   }
 
   private findMarketBySymbol(symbol: string) {

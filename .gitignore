@@ -1,7 +1,11 @@
-node_modules
+node_modules/
 *.log
 *.tgz
 .vscode/
 *.ignore.json
 *-service-account.json
+dist/
 built/
+.build/
+.serverless
+.DS_Store

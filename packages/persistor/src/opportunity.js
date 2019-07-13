@@ -3,16 +3,10 @@ const { projectId, collections, deserialize } = require('arbitrage-lib')
 const Firestore = require('@google-cloud/firestore')
 const firestore = new Firestore({ projectId })
 
-const Exchange= require('core/exchange')
-
 exports.opportunity = event => {
   const symbolTick = deserialize(event.data)
   console.log('received data')
-  findOpportunity({
-    symbol: symbolTick.symbol,
-    exchange1: new Exchange()
-  })
-
+  findOpportunity(symbolTick)
 }
 
 const findOpportunity = symbolTick => {
@@ -56,7 +50,7 @@ const findOpportunity = symbolTick => {
     )
   }
 
-  if (coeficient <= 1 && coeficient2 <= 1) {
+  if (coeficient <= 1 &&     coeficient2 <= 1) {
     console.log('No opportunity found')
   }
 }

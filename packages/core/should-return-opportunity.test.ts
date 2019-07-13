@@ -20,8 +20,7 @@ test('should return opportunity found', () => {
     "kraken",
     { [symbol]: krakenFooBarMarket },
     new ExchangeFees(
-      0.04,
-      0.03,
+      0.04
     )
   )
 
@@ -38,8 +37,7 @@ test('should return opportunity found', () => {
     "kucoin",
     { [symbol]: kucoinFooBarMarket },
     new ExchangeFees(
-      0.02,
-      0.01,
+      0.02
     )
   )
 
@@ -51,7 +49,7 @@ test('should return opportunity found', () => {
 
   expect(opportunity).toEqual(new Assessment({
     symbol,
-    "coefficient": 1.0566448801742918,
+    "coefficient": 1.045751633986928,
     "buy": {
       "exchange": "kucoin",
       "price": 0.9,
@@ -60,7 +58,7 @@ test('should return opportunity found', () => {
     "sell": {
       "exchange": "kraken",
       "price": 1.0,
-      "expectedFee": 0.03
+      "expectedFee": 0.04
     }
   }))
 })

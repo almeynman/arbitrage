@@ -2,15 +2,17 @@
   "name": "implementation",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "lint": "tslint -c tslint.json '**/*.ts' -e 'node_modules/**'"
+    "lint": "tslint -c tslint.json '**/*.ts' -e 'node_modules/**'",
+    "tsc": "tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/ramda": "^0.26.9",
+    "ccxt": "^1.18.846",
     "core": "../core",
     "ramda": "^0.26.1"
   },

@@ -12,7 +12,7 @@ test('should find the best buy price', () => {
 
   const bestBuyPrice = orderBook.getBestBuyPrice()
 
-  expect(bestBuyPrice).toBe(1)
+  expect(bestBuyPrice).toBe(1.1)
 })
 
 test('should find the best sell price', () => {
@@ -26,5 +26,5 @@ test('should find the best sell price', () => {
 
   const bestSellPrice = orderBook.getBestSellPrice()
 
-  expect(bestSellPrice).toBe(1.1)
+  expect(bestSellPrice).toBe(1)
 })
