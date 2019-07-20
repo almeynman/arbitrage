@@ -2,6 +2,7 @@ service: arbitrage-checker
 plugins:
   - serverless-offline
   - serverless-offline-scheduler
+  - serverless-offline-sns
   - serverless-plugin-typescript
   - serverless-plugin-optimize
 
@@ -11,6 +12,8 @@ provider:
   region: eu-west-1
   environment:
     OPPORTUNITY_TABLE: opportunity
+    DISPATCH_WITH_COMMON_SYMBOLS_TOPIC: arn:aws:sns:eu-west-1:970227894311:dispatch-with-common-symbols
+    ASSESS_ARBITRAGE_OPPORTUNITY_TOPIC: arn:aws:sns:eu-west-1:970227894311:assess-arbitrage-opportunity
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -20,15 +23,26 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.OPPORTUNITY_TABLE}"
-
+        - sns:*
+      Resource:
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.OPPORTUNITY_TABLE}"
+        - ${self:provider.environment.DISPATCH_WITH_COMMON_SYMBOLS_TOPIC}
+        - ${self:provider.environment.ASSESS_ARBITRAGE_OPPORTUNITY_TOPIC}
 functions:
-  app:
-    handler: index.opportunist
+  sendExchangePairs:
+    handler: index.sendExchangePairs
     events:
       - schedule: rate(1 minute)
-  test:
-    handler: index.test
+  dispatchWithCommonSymbols:
+    handler: index.dispatchWithCommonSymbols
+    events:
+      - sns:
+          arn: ${self:provider.environment.DISPATCH_WITH_COMMON_SYMBOLS_TOPIC}
+  assess:
+    handler: index.assess
+    events:
+      - sns:
+          arn: ${self:provider.environment.ASSESS_ARBITRAGE_OPPORTUNITY_TOPIC}
 
 package:
   include:
@@ -55,3 +69,7 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.OPPORTUNITY_TABLE}
+
+custom:
+  serverless-offline-sns:
+    debug: false
