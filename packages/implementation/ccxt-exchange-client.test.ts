@@ -1,6 +1,7 @@
 import CCXTExchangeClient from './ccxt-exchange-client'
 
 class AnyExchange {
+    public async loadMarkets() {}
     public async fetchOrderBook(symbol: string): Promise<any> {
         return {
             bids: [

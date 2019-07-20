@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "tsc": "tsc",
-    "start": "sls schedule && sls offline start"
+    "start": "sls offline start",
+    "deploy": "sls deploy"
   },
   "dependencies": {
     "@google-cloud/firestore": "^2.2.3",
@@ -17,6 +18,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.28",
     "@types/chai": "^4.1.7",
     "@types/jest": "^24.0.13",
     "@types/sinon": "^7.0.13",
@@ -26,6 +28,7 @@
     "jest": "24.8.0",
     "serverless-offline": "^5.6.1",
     "serverless-offline-scheduler": "^0.3.7",
+    "serverless-offline-sns": "^0.53.0",
     "serverless-plugin-optimize": "^4.1.0-rc.1",
     "serverless-plugin-typescript": "^1.1.7",
     "sinon": "7.3.2",
