@@ -5,13 +5,14 @@ import { Opportunist } from 'core'
 import { CCXTExchangeClient, ArbitrageCoordination } from 'implementation'
 import parseEvent from './parse-event'
 import { SNSEvent } from 'aws-lambda'
-import { ExchangeArgs } from 'implementation/arbitrage-coordination';
 import combineIntoPairs from './combine-into-pairs'
-import findCommonSymbols, { ExchangePair } from './find-common-symbols'
+import findCommonSymbols from './find-common-symbols'
 
 var sns = new AWS.SNS();
 
 export const sendExchangePairs = () => {
+  console.log('Combining exchanges in pairs for assessment')
+
   let pairs = combineIntoPairs(ccxt.exchanges)
   pairs.forEach(exchanges => {
     sns.publish({
@@ -22,20 +23,28 @@ export const sendExchangePairs = () => {
       if (data) console.log(data)
     })
   })
+
+  console.log('Done combining exchanges in pairs for assessment')
 }
 
-exports.dispatchWithCommonSymbols = async (event: SNSEvent) => {
+export const dispatchWithCommonSymbols = async (event: SNSEvent) => {
+  console.log('Dispatching exchange common symbols for assessment')
+
   const { exchanges } = parseEvent(event)
   const symbols = await findCommonSymbols(exchanges)
   await Promise.all(symbols.map(symbol =>
     sns.publish({
-      Message: JSON.stringify({ symbol, exchanges }), /* required */
+      Message: JSON.stringify({ symbol, exchanges }),
       TopicArn: process.env.ASSESS_ARBITRAGE_OPPORTUNITY_TOPIC
     }).promise()
   ));
+
+  console.log('Done dispatching exchange common symbols')
 }
 
-exports.assess = async (event: SNSEvent) => {
+export const assess = async (event: SNSEvent) => {
+  console.log('Starting arbitrage assessment')
+
   const { symbol, exchanges } = parseEvent(event)
   const exchangeClient = new CCXTExchangeClient(ccxt)
   const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient())
@@ -54,5 +63,6 @@ exports.assess = async (event: SNSEvent) => {
   )
 
   await coordination.arbitrate()
-  console.log('done')
+
+  console.log('Done with arbitrage assessment')
 }

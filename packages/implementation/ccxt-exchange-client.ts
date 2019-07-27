@@ -8,10 +8,10 @@ export default class CCXTExchangeClient implements ExchangeClient {
         const exchangeClass = this.ccxt[exchange]
         const exchangeInstance = new exchangeClass()
         await exchangeInstance.loadMarkets()
+
         const ccxtOrderBook = await exchangeInstance.fetchOrderBook(symbol)
-        console.log(`CCXT order book for exchange ${exchangeInstance.id}: ${JSON.stringify(ccxtOrderBook)}`)
+
         const orderBook = this.convertToCoreOrderBook(ccxtOrderBook)
-        console.log(`our order book for exchange ${exchangeInstance.id}: ${JSON.stringify(orderBook)}`)
         return orderBook
     }
 
