@@ -3,9 +3,10 @@ node_modules/
 *.tgz
 .vscode/
 *.ignore.json
-*-service-account.json
+*-service-account*
 dist/
 built/
 .build/
 .serverless
 .DS_Store
+.localstack

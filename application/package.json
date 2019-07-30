@@ -6,11 +6,15 @@
   "scripts": {
     "test": "jest",
     "tsc": "tsc",
-    "start": "sls offline start",
-    "deploy": "sls deploy"
+    "start": "docker-compose up -d",
+    "deploy": "sls deploy",
+    "subscribe": "aws --endpoint-url=http://localhost:4575 sns subscribe --topic-arn arn:aws:sns:us-east-1:000000000000:testing123 --protocol http --notification-endpoint http://localhost:3000 --region us-east-1",
+    "publish": "aws --endpoint-url=http://localhost:4575 sns publish --topic-arn arn:aws:sns:us-east-1:000000000000:testing123 --message \"the message\" --region us-east-1",
+    ""
   },
   "dependencies": {
     "@google-cloud/firestore": "^2.2.3",
+    "aws-sdk": "^2.501.0",
     "ccxt": "^1.18.900",
     "core": "../packages/core",
     "implementation": "../packages/implementation",
@@ -26,6 +30,7 @@
     "@types/uuid": "^3.4.5",
     "chai": "^4.2.0",
     "jest": "24.8.0",
+    "localstack": "^1.0.0",
     "serverless-offline": "^5.6.1",
     "serverless-offline-scheduler": "^0.3.7",
     "serverless-offline-sns": "^0.53.0",
