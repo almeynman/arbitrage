@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "^2.2.3",
+    "@aws-cdk/core": "*",
+    "@aws-cdk/aws-events": "*",
+    "@aws-cdk/aws-events-targets": "*",
     "ccxt": "^1.18.900",
     "core": "../packages/core",
     "implementation": "../packages/implementation",
