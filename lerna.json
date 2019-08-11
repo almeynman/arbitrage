@@ -3,6 +3,7 @@
   "packages": [
     "./*"
   ],
+  "private": true,
   "npmClient": "npm",
   "command": {
     "publish": {
@@ -10,6 +11,9 @@
         "*.md",
         "*.txt"
       ]
+    },
+    "bootstrap": {
+      "npmClientArgs": ["--no-package-lock"]
     }
   }
 }
