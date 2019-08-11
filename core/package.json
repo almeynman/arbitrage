@@ -1,6 +1,6 @@
 {
   "name": "core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "built/index.js",
   "scripts": {
@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ts-node": "^8.1.1",
-    "typescript": "^3.4.5",
+    "@types/jest": "24.0.13",
     "jest": "24.8.0",
     "ts-jest": "23.10.5",
-    "@types/jest": "24.0.13"
+    "ts-node": "^8.1.1",
+    "typescript": "^3.4.5"
   }
 }

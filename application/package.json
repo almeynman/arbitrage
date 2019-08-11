@@ -1,6 +1,6 @@
 {
   "name": "arbitrage-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "test": "jest",
@@ -9,13 +9,13 @@
     "deploy": "sls deploy"
   },
   "dependencies": {
-    "@google-cloud/firestore": "^2.2.3",
-    "@aws-cdk/core": "*",
     "@aws-cdk/aws-events": "*",
     "@aws-cdk/aws-events-targets": "*",
+    "@aws-cdk/core": "*",
+    "@google-cloud/firestore": "^2.2.3",
     "ccxt": "^1.18.900",
-    "core": "^1.0.0",
-    "implementation": "^1.0.0",
+    "core": "^1.0.1",
+    "implementation": "^1.0.1",
     "js-yaml": "3.13.1",
     "uuid": "^3.3.2"
   },

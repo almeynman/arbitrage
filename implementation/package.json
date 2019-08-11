@@ -1,6 +1,6 @@
 {
   "name": "implementation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/ramda": "^0.26.9",
     "ccxt": "^1.18.846",
-    "core": "^1.0.0",
+    "core": "^1.0.1",
     "ramda": "^0.26.1"
   },
   "devDependencies": {
