@@ -12,6 +12,7 @@ services:
       - PORT_WEB_UI=8055
       - DEFAULT_REGION=us-east-1
       - DATA_DIR=/tmp/localstack/data
+      - HOSTNAME_EXTERNAL=localhost
     volumes:
       - './.localstack:/tmp/localstack'
       - '/var/run/docker.sock:/var/run/docker.sock'
