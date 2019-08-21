@@ -7,7 +7,7 @@ services:
       - '4562-4584:4562-4584'
       - '8055:8055'
     environment:
-      - SERVICES=sqs,sns,dynamodb,cloudwatch
+      - SERVICES=sqs,dynamodb,cloudwatch
       - DEBUG=1
       - PORT_WEB_UI=8055
       - DEFAULT_REGION=us-east-1

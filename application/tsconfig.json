@@ -17,7 +17,7 @@
       }
   },
   "include": [
-      "**/*.ts"
+      "**/*.ts", "sqs-consumer.js"
   ],
   "exclude": [
     "node_modules/**/*"

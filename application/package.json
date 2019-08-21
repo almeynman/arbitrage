@@ -9,8 +9,12 @@
   "scripts": {
     "test": "jest",
     "tsc": "tsc",
-    "deploy": "sls deploy",
-    "start": "node server.js"
+    "start": "npm run tsc && node dist/server.js",
+    "create-queues": "npm run create-send-exchange-pairs && npm run create-dispatch-with-common-symbols && npm run create-assess",
+    "create-send-exchange-pairs": "aws --endpoint http://localhost:4576 sqs create-queue --queue-name send-exchange-pairs --region us-east-1",
+    "create-dispatch-with-common-symbols": "aws --endpoint http://localhost:4576 sqs create-queue --queue-name dispatch-with-common-symbols --region us-east-1",
+    "create-assess": "aws --endpoint http://localhost:4576 sqs create-queue --queue-name assess --region us-east-1",
+    "trigger-send-exchange-pairs": "aws --endpoint-url=http://localhost:4576 sqs send-message --queue-url http://localhost:4576/queue/send-exchange-pairs --region us-east-1 --message-body 'Wassup?'"
   },
   "dependencies": {
     "@google-cloud/firestore": "^2.2.3",
@@ -19,6 +23,7 @@
     "core": "../packages/core",
     "implementation": "../packages/implementation",
     "js-yaml": "3.13.1",
+    "sqs-consumer": "^5.3.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
