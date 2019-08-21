@@ -4,7 +4,8 @@ node_modules/
 *.tgz
 .vscode/
 *.ignore.json
-*-service-account.json
+*-service-account*
+.localstack
 dist/
 built/
 .build/
