@@ -1,8 +1,9 @@
 {
   "version": "1.0.1",
   "packages": [
-    "./*"
+    "./*", "./application/*"
   ],
+
   "private": true,
   "npmClient": "npm",
   "command": {
