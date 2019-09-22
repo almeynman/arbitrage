@@ -5,7 +5,8 @@ import uuidv4 from 'uuid/v4'
 
 export default class DynamoDBOpportunityRepository implements OpportunityRepository {
   constructor(
-    private docClient: DynamoDB.DocumentClient
+    private docClient: DynamoDB.DocumentClient,
+    private tableName: string,
   ) {}
 
   async save(assessment: Assessment): Promise<void> {
@@ -16,7 +17,7 @@ export default class DynamoDBOpportunityRepository implements OpportunityReposit
     }
 
     await this.docClient.put({
-      TableName: process.env.OPPORTUNITY_TABLE || 'opportunity',
+      TableName: this.tableName,
       Item: item
     }).promise().catch((error) => {
       console.error(JSON.stringify(error, null, 4))

@@ -4,7 +4,8 @@ import {
   sendExchangePairs,
   dispatchWithCommonSymbols,
   assess,
-  SendMessageToNextQueue
+  SendMessageToNextQueue,
+  Params,
 } from './index'
 
 AWS.config.update({
@@ -23,7 +24,7 @@ const ASSESS_QUEUE_URL = 'http://localhost:4576/queue/assess'
 interface ConsumeSqsQueueParams {
   sqs: AWS.SQS,
   queueUrl: string,
-  handleMessage: (message: string, sendMessageToNextQueue: SendMessageToNextQueue) => Promise<void>,
+  handleMessage: (params: Params) => Promise<void>,
   nextQueueUrl?: string
 }
 
@@ -52,7 +53,7 @@ function consumeSqsQueue({ sqs, queueUrl, handleMessage, nextQueueUrl }: Consume
   }).promise() : null
   const app = Consumer.create({
     queueUrl,
-    handleMessage: (message: AWS.SQS.Types.Message) => handleMessage(message.Body, sendMessage),
+    handleMessage: (message: AWS.SQS.Types.Message) => handleMessage({ message: message.Body, sendMessageToNextQueue: sendMessage }),
     sqs
   })
 

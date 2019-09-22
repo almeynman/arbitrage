@@ -7,15 +7,25 @@ import combineIntoPairs from './combine-into-pairs'
 import findCommonSymbols from './find-common-symbols'
 
 export type SendMessageToNextQueue = (message: string) => Promise<any>
+export interface Params {
+  message: string
+  sendMessageToNextQueue?: SendMessageToNextQueue
+  config?: {
+    dynamoDb: {
+      endpoint?: string
+      tableName?: string
+    }
+  }
+}
 
-export const sendExchangePairs = async (message: string, sendMessageToNextQueue: SendMessageToNextQueue) => {
+export const sendExchangePairs = async ({ sendMessageToNextQueue }: Params) => {
   console.log('Combining exchanges in pairs for assessment')
   let pairs = combineIntoPairs(ccxt.exchanges)
   pairs.forEach(exchanges => sendMessageToNextQueue(JSON.stringify({ exchanges })))
   console.log('Done combining exchanges in pairs for assessment')
 }
 
-export const dispatchWithCommonSymbols = async (message: string, sendMessageToNextQueue: SendMessageToNextQueue) => {
+export const dispatchWithCommonSymbols = async ({ message, sendMessageToNextQueue }: Params) => {
   console.log('Dispatching exchange common symbols for assessment')
   const { exchanges } = JSON.parse(message)
   const symbols = await findCommonSymbols(exchanges)
@@ -27,11 +37,11 @@ export const dispatchWithCommonSymbols = async (message: string, sendMessageToNe
   console.log('Done dispatching exchange common symbols')
 }
 
-export const assess = async (message: string) => {
+export const assess = async ({ message, config: { dynamoDb } }: Params) => {
   console.log('Starting arbitrage assessment')
   const { symbol, exchanges } = JSON.parse(message)
   const exchangeClient = new CCXTExchangeClient(ccxt)
-  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient({endpoint: 'http://localhost:4569'}))
+  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient({endpoint: dynamoDb.endpoint}), dynamoDb.tableName)
 
   const coordination = new ArbitrageCoordination(
     exchangeClient,
