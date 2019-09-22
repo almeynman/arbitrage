@@ -16,8 +16,10 @@ export default class DynamoDBOpportunityRepository implements OpportunityReposit
     }
 
     await this.docClient.put({
-      TableName: process.env.OPPORTUNITY_TABLE,
+      TableName: process.env.OPPORTUNITY_TABLE || 'opportunity',
       Item: item
+    }).promise().catch((error) => {
+      console.error(JSON.stringify(error, null, 4))
     })
   }
 }

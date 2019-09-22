@@ -31,7 +31,7 @@ export const assess = async (message: string) => {
   console.log('Starting arbitrage assessment')
   const { symbol, exchanges } = JSON.parse(message)
   const exchangeClient = new CCXTExchangeClient(ccxt)
-  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient())
+  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient({endpoint: 'http://localhost:4569'}))
 
   const coordination = new ArbitrageCoordination(
     exchangeClient,
