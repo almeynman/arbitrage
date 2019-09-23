@@ -17,7 +17,7 @@ export interface Config {
 }
 const config: Config = {
   aws: { 
-    accessKeyId: 'something',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'something',
     secretAccessKey: 'something',
     region: 'us-east-1',
     logger: process.stdout,
