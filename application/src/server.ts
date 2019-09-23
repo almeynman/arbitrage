@@ -7,19 +7,11 @@ import {
   SendMessageToNextQueue,
   Params,
 } from './index'
+import config from './config'
 
-AWS.config.update({
-  accessKeyId: 'something',
-  secretAccessKey: 'something',
-  region: 'us-east-1',
-  logger: process.stdout,
-})
+AWS.config.update(config.aws)
 
 const sqs = new AWS.SQS()
-
-const SEND_EXCHANGE_PAIRS_QUEUE_URL = 'http://localhost:4576/queue/send-exchange-pairs'
-const DISPATCH_WITH_COMMON_SYMBOLS_QUEUE_URL = 'http://localhost:4576/queue/dispatch-with-common-symbols'
-const ASSESS_QUEUE_URL = 'http://localhost:4576/queue/assess'
 
 interface ConsumeSqsQueueParams {
   sqs: AWS.SQS,
@@ -30,19 +22,19 @@ interface ConsumeSqsQueueParams {
 
 consumeSqsQueue({
   sqs,
-  queueUrl: SEND_EXCHANGE_PAIRS_QUEUE_URL,
+  queueUrl: config.sqs.sendExchangePairsQueueUrl,
   handleMessage: sendExchangePairs,
-  nextQueueUrl: DISPATCH_WITH_COMMON_SYMBOLS_QUEUE_URL
+  nextQueueUrl: config.sqs.dispatchWithCommonSymbolsQueueUrl
 })
 consumeSqsQueue({
   sqs,
-  queueUrl: DISPATCH_WITH_COMMON_SYMBOLS_QUEUE_URL,
+  queueUrl: config.sqs.dispatchWithCommonSymbolsQueueUrl,
   handleMessage: dispatchWithCommonSymbols,
-  nextQueueUrl: ASSESS_QUEUE_URL
+  nextQueueUrl: config.sqs.assessQueueUrl
 })
 consumeSqsQueue({
   sqs,
-  queueUrl: ASSESS_QUEUE_URL,
+  queueUrl: config.sqs.assessQueueUrl,
   handleMessage: assess
 })
 
@@ -53,7 +45,7 @@ function consumeSqsQueue({ sqs, queueUrl, handleMessage, nextQueueUrl }: Consume
   }).promise() : null
   const app = Consumer.create({
     queueUrl,
-    handleMessage: (message: AWS.SQS.Types.Message) => handleMessage({ message: message.Body, sendMessageToNextQueue: sendMessage }),
+    handleMessage: (message: AWS.SQS.Types.Message) => handleMessage({ message: message.Body, sendMessageToNextQueue: sendMessage, config }),
     sqs
   })
 

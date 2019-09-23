@@ -5,17 +5,13 @@ import { Opportunist } from 'core'
 import { CCXTExchangeClient, ArbitrageCoordination } from 'implementation'
 import combineIntoPairs from './combine-into-pairs'
 import findCommonSymbols from './find-common-symbols'
+import { Config } from './config'
 
 export type SendMessageToNextQueue = (message: string) => Promise<any>
 export interface Params {
   message: string
   sendMessageToNextQueue?: SendMessageToNextQueue
-  config?: {
-    dynamoDb: {
-      endpoint?: string
-      tableName?: string
-    }
-  }
+  config?: Config
 }
 
 export const sendExchangePairs = async ({ sendMessageToNextQueue }: Params) => {
@@ -41,7 +37,7 @@ export const assess = async ({ message, config: { dynamoDb } }: Params) => {
   console.log('Starting arbitrage assessment')
   const { symbol, exchanges } = JSON.parse(message)
   const exchangeClient = new CCXTExchangeClient(ccxt)
-  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient({endpoint: dynamoDb.endpoint}), dynamoDb.tableName)
+  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient({endpoint: dynamoDb.endpoint}), dynamoDb.opportunityTableName)
 
   const coordination = new ArbitrageCoordination(
     exchangeClient,
