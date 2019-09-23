@@ -9,15 +9,10 @@
   "scripts": {
     "test": "jest",
     "tsc": "tsc",
-    "bootstrap": "docker-compose up -d && npm run create-queues && npm run create-table",
+    "bootstrap": "./bootstrap.sh",
     "clean": "docker-compose down",
     "start": "npm run tsc && node dist/server.js",
-    "create-queues": "npm run create-send-exchange-pairs && npm run create-dispatch-with-common-symbols && npm run create-assess",
-    "create-send-exchange-pairs": "aws --endpoint http://localhost:4576 sqs create-queue --queue-name send-exchange-pairs --region us-east-1",
-    "create-dispatch-with-common-symbols": "aws --endpoint http://localhost:4576 sqs create-queue --queue-name dispatch-with-common-symbols --region us-east-1",
-    "create-assess": "aws --endpoint http://localhost:4576 sqs create-queue --queue-name assess --region us-east-1",
-    "trigger-send-exchange-pairs": "aws --endpoint-url=http://localhost:4576 sqs send-message --queue-url http://localhost:4576/queue/send-exchange-pairs --region us-east-1 --message-body 'Wassup?'",
-    "create-table": "aws --endpoint-url=http://localhost:4569 dynamodb create-table --table-name opportunity  --attribute-definitions AttributeName=id,AttributeType=S --key-schema AttributeName=id,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --region us-east-1"
+    "trigger-send-exchange-pairs": "aws --endpoint-url=http://localhost:4576 sqs send-message --queue-url http://localhost:4576/queue/send-exchange-pairs --region us-east-1 --message-body 'Wassup?'"
   },
   "dependencies": {
     "@google-cloud/firestore": "^2.2.3",
