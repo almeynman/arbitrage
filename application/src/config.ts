@@ -3,7 +3,6 @@ export interface Config {
     accessKeyId: string,
     secretAccessKey: string,
     region: string,
-    logger: any,
   },
   dynamoDb: {
     endpoint: string,
@@ -18,9 +17,8 @@ export interface Config {
 const config: Config = {
   aws: { 
     accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'something',
-    secretAccessKey: 'something',
-    region: 'us-east-1',
-    logger: process.stdout,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'something',
+    region: process.env.AWS_REGION || 'us-east-1'
   },
   dynamoDb: {
     endpoint: process.env.DYNAMODB_ENDPOINT || 'http://localhost:4569',
