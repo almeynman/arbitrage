@@ -1,4 +1,4 @@
-import OpportunityRepository from 'implementation/opportunity-repository'
+import OpportunityRepository from './opportunity-repository'
 import { DynamoDB } from 'aws-sdk'
 import Assessment from 'core/assessment'
 import uuidv4 from 'uuid/v4'

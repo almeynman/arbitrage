@@ -1,10 +1,7 @@
-import DynamoDBOpportunityRepository from './dynamodb-opportunity-repository'
 import AWS from 'aws-sdk'
 import ccxt from 'ccxt'
 import { Opportunist } from 'core'
-import { CCXTExchangeClient, ArbitrageCoordination } from 'implementation'
-import combineIntoPairs from './combine-into-pairs'
-import findCommonSymbols from './find-common-symbols'
+import { DynamoDBOpportunityRepository, CCXTExchangeClient, ArbitrageCoordination, combineIntoPairs, findCommonSymbols } from 'implementation'
 import { Config } from './config'
 
 export type SendMessageToNextQueue = (message: string) => Promise<any>

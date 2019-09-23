@@ -62,4 +62,5 @@ function consumeSqsQueue({ sqs, queueUrl, handleMessage, nextQueueUrl }: Consume
   });
 
   app.start();
+  console.log(`setup listener to ${queueUrl}`)
 }
