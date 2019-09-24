@@ -1,11 +1,13 @@
 import ExchangeClient from './exchange-client'
 import { OrderBook, Order } from 'core'
 
+const ccxt = require('ccxt')
+
 export default class CCXTExchangeClient implements ExchangeClient {
-    constructor(private ccxt: any) {}
+    constructor(private ccxt?: any) {}
 
     async fetchOrderBook(exchange: string, symbol: string): Promise<OrderBook> {
-        const exchangeClass = this.ccxt[exchange]
+        const exchangeClass = (this.ccxt || ccxt)[exchange]
         const exchangeInstance = new exchangeClass()
         await exchangeInstance.loadMarkets()
         const ccxtOrderBook = await exchangeInstance.fetchOrderBook(symbol)

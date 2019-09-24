@@ -33,7 +33,7 @@ test('should obtain an order book', async () => {
     const anySymbol = 'foobar'
 
     const ccxt = {
-       'any': AnyExchange
+      'any': AnyExchange
     }
 
     const ccxtExchangeClient = new CCXTExchangeClient(ccxt)

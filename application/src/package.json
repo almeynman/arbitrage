@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.501.0",
-    "ccxt": "^1.18.900",
     "core": "^1.0.1",
     "implementation": "^1.0.1",
     "sqs-consumer": "^5.3.0"
