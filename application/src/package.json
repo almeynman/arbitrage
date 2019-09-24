@@ -1,7 +1,6 @@
 {
   "name": "arbitrage-checker",
   "version": "1.0.1",
-  "description": "",
   "main": "index.js",
   "engines": {
     "node": ">=10"
@@ -19,20 +18,10 @@
     "ccxt": "^1.18.900",
     "core": "^1.0.1",
     "implementation": "^1.0.1",
-    "js-yaml": "3.13.1",
-    "sqs-consumer": "^5.3.0",
-    "uuid": "^3.3.2"
+    "sqs-consumer": "^5.3.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.28",
-    "@types/chai": "^4.1.7",
-    "@types/jest": "^24.0.13",
-    "@types/sinon": "^7.0.13",
-    "@types/sinon-chai": "^3.2.2",
-    "@types/uuid": "^3.4.5",
     "ts-jest": "24.0.2",
     "typescript": "^3.5.2"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }

@@ -6,11 +6,9 @@
     "npm": ">=6.9.0"
   },
   "scripts": {
-    "bootstrap": "npx lerna bootstrap --hoist",
-    "tsc": "lerna exec npm run tsc",
-    "publish": "lerna publish",
-    "clean": "lerna clean && rm -rf ./node_modules/",
-    "postinstall": "lerna exec npm install",
+    "bootstrap": "npx lerna bootstrap --hoist && npm i && lerna exec npm install && npm run build",
+    "build": "lerna exec npm run tsc",
+    "clean": "lerna clean && rm -rf ./node_modules/ && find . -name \"package-lock.json\" -delete",
     "lint": "eslint --format=codeframe '**/*.js'",
     "test": "lerna run test",
     "update-version": "lerna version",
