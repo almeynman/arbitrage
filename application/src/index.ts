@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk'
 import { Opportunist } from 'core'
-import { DynamoDBOpportunityRepository, CCXTExchangeClient, ArbitrageCoordination, getExchangePairs, findCommonSymbols } from 'implementation'
+import { getDynamoDbOpportunityRepository, getCcxtExchangeClient, ArbitrageCoordination, getExchangePairs, findCommonSymbols } from 'implementation'
 import { Config } from './config'
 
 export type SendMessageToNextQueue = (message: string) => Promise<any>
@@ -14,7 +14,6 @@ export const sendExchangePairs = async ({ sendMessageToNextQueue }: Params) => {
   console.log('Combining exchanges in pairs for assessment')
   let pairs = getExchangePairs()
   pairs.forEach(exchanges => sendMessageToNextQueue(JSON.stringify({ exchanges })))
-  sendMessageToNextQueue(JSON.stringify({ exchanges: ['kraken', 'kucoin'] }))
   console.log('Done combining exchanges in pairs for assessment')
 }
 
@@ -33,8 +32,8 @@ export const dispatchWithCommonSymbols = async ({ message, sendMessageToNextQueu
 export const assess = async ({ message, config: { dynamoDb } }: Params) => {
   console.log('Starting arbitrage assessment')
   const { symbol, exchanges } = JSON.parse(message)
-  const exchangeClient = new CCXTExchangeClient()
-  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient({endpoint: dynamoDb.endpoint}), dynamoDb.opportunityTableName)
+  const exchangeClient = getCcxtExchangeClient()
+  const opportunityRepository = getDynamoDbOpportunityRepository(new AWS.DynamoDB.DocumentClient({endpoint: dynamoDb.endpoint}), dynamoDb.opportunityTableName)
 
   const coordination = new ArbitrageCoordination(
     exchangeClient,

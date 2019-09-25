@@ -1,4 +1,4 @@
-import CCXTExchangeClient from './ccxt-exchange-client'
+import getCcxtExchangeClient from './ccxt-exchange-client'
 
 class AnyExchange {
     public async loadMarkets() {}
@@ -36,7 +36,7 @@ test('should obtain an order book', async () => {
       'any': AnyExchange
     }
 
-    const ccxtExchangeClient = new CCXTExchangeClient(ccxt)
+    const ccxtExchangeClient = getCcxtExchangeClient(ccxt)
 
     const orderBook = await ccxtExchangeClient.fetchOrderBook(anyExchange, anySymbol)
 
