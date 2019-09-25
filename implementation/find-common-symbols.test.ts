@@ -15,6 +15,7 @@ test('combines into pairs', async () => {
     "ETC/BTC",
     "ETC/ETH",
     "ETH/BTC",
+    "ETH/DAI",
     "LTC/BTC",
     "QTUM/BTC",
     "XLM/BTC",
