@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "tsc": "tsc",
-    "bootstrap": "./bootstrap.sh",
+    "bootstrap": "sh bootstrap.sh",
     "clean": "docker-compose down",
     "start": "npm run tsc && node dist/server.js",
     "trigger-send-exchange-pairs": "aws --endpoint-url=http://localhost:4576 sqs send-message --queue-url http://localhost:4576/queue/send-exchange-pairs --region us-east-1 --message-body 'Wassup?'"
@@ -16,8 +16,7 @@
   "dependencies": {
     "aws-sdk": "^2.501.0",
     "core": "^1.0.1",
-    "implementation": "^1.0.1",
-    "sqs-consumer": "^5.3.0"
+    "implementation": "^1.0.1"
   },
   "devDependencies": {
     "ts-jest": "24.0.2",
