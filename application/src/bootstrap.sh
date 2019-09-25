@@ -16,7 +16,7 @@ create_opportunity_table() {
 }
 
 docker-compose up -d
-sleep 10
+sleep 15
 create_send_exchange_pairs_queue
 printf "%s" "created send exchanges pairs queue\n"
 create_dispatch_with_common_symbols_queue
