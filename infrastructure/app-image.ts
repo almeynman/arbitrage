@@ -12,7 +12,7 @@ export class AppImage extends cdk.Stack {
         this.repository = new ecr.Repository(this, 'builds')
 
         this.image = new ecr_assets.DockerImageAsset(this, 'image', {
-            directory: '../src',
+            directory: '../application',
             repositoryName: 'arbitrage'
         })
     }
