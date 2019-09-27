@@ -4,21 +4,28 @@
   "description": "",
   "scripts": {
     "tsc": "tsc",
-    "deploy": "cdk deploy"
+    "deploy": "cdk synth && npm run deploy:image && npm run deploy:ci && npm run deploy:app",
+    "deploy:image": "cdk deploy arbitrage-image",
+    "deploy:ci": "cdk deploy arbitrage-ci",
+    "deploy:app": "cdk deploy arbitrage-app",
+    "destroy": "npm run destroy:image && npm run destroy:ci && npm run destroy:app",
+    "destroy:image": "cdk destroy arbitrage-image",
+    "destroy:ci": "cdk destroy arbitrage-ci",
+    "destroy:app": "cdk destroy arbitrage-app"
   },
   "dependencies": {
-    "@aws-cdk/aws-events": "1.3.0",
-    "@aws-cdk/aws-events-targets": "1.3.0",
-    "@aws-cdk/core": "1.3.0",
-    "@aws-cdk/aws-sns": "1.3.0",
-    "@aws-cdk/aws-codepipeline-actions": "1.3.0",
-    "@aws-cdk/aws-secretsmanager": "1.3.0",
-    "@mobileposse/auto-delete-bucket": "1.3.0"
+    "@aws-cdk/aws-events": "1.9.0",
+    "@aws-cdk/aws-events-targets": "1.9.0",
+    "@aws-cdk/core": "1.9.0",
+    "@aws-cdk/aws-sns": "1.9.0",
+    "@aws-cdk/aws-codepipeline-actions": "1.9.0",
+    "@aws-cdk/aws-secretsmanager": "1.9.0",
+    "@mobileposse/auto-delete-bucket": "1.9.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.28",
-    "aws-cdk": "1.3.0",
-    "typescript": "^3.5.2"
+    "@types/aws-lambda": "^8.10.33",
+    "aws-cdk": "1.9.0",
+    "typescript": "^3.6.3"
   },
   "author": "",
   "license": "ISC"
