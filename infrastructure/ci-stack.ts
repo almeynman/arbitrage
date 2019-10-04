@@ -9,7 +9,7 @@ import iam = require('@aws-cdk/aws-iam')
 import adb = require('@mobileposse/auto-delete-bucket')
 
 export interface ContinuousIntegrationProps extends cdk.StackProps {
-    repository: ecr.Repository,
+    repository: ecr.IRepository,
     image: ecr_assets.DockerImageAsset,
     service: ecs.BaseService
 }

@@ -5,13 +5,13 @@
   "scripts": {
     "tsc": "tsc",
     "deploy": "cdk synth && npm run deploy:image && npm run deploy:ci && npm run deploy:app",
-    "deploy:image": "cdk deploy arbitrage-image",
-    "deploy:ci": "cdk deploy arbitrage-ci",
-    "deploy:app": "cdk deploy arbitrage-app",
+    "deploy:image": "cdk deploy arbitrage-image --verbose",
+    "deploy:ci": "cdk deploy arbitrage-ci --verbose",
+    "deploy:app": "cdk deploy arbitrage-app --verbose",
     "destroy": "npm run destroy:image && npm run destroy:ci && npm run destroy:app",
-    "destroy:image": "cdk destroy arbitrage-image",
-    "destroy:ci": "cdk destroy arbitrage-ci",
-    "destroy:app": "cdk destroy arbitrage-app"
+    "destroy:image": "cdk destroy arbitrage-image --verbose",
+    "destroy:ci": "cdk destroy arbitrage-ci --verbose",
+    "destroy:app": "cdk destroy arbitrage-app --verbose"
   },
   "dependencies": {
     "@aws-cdk/aws-events": "1.9.0",
