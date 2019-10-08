@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.501.0",
-    "core": "ore-1.0.1.tgz",
+    "core": "core-1.0.1.tgz",
     "dotenv": "^8.1.0",
     "implementation": "implementation-1.0.1.tgz",
     "sqs-consumer": "^5.3.0"
