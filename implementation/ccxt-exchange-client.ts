@@ -8,6 +8,7 @@ export default (ccxt: any = defaultCcxt): ExchangeClient => ({
         const exchangeClass = ccxt[exchange]
         const exchangeInstance = new exchangeClass()
         await exchangeInstance.loadMarkets()
+
         const ccxtOrderBook = await exchangeInstance.fetchOrderBook(symbol)
         console.log(`CCXT order book for exchange ${exchangeInstance.id}: ${JSON.stringify(ccxtOrderBook)}`)
         const orderBook = convertToCoreOrderBook(ccxtOrderBook)

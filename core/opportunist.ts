@@ -14,6 +14,8 @@ export default class Opportunist {
     exchange1,
     exchange2,
   }: OpportunistArgs): Assessment {
+    console.log(`Assessing arbitrage of ${symbol} on ${exchange1.name} and ${exchange2.name}`)
+
     const assessment1 = assess(symbol, exchange1, exchange2)
     if (assessment1.isOpportunity()) return assessment1
 
