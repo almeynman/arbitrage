@@ -1,14 +1,14 @@
-import sqs = require('@aws-cdk/aws-sqs')
-import events = require('@aws-cdk/aws-events')
-import targets = require('@aws-cdk/aws-events-targets')
-import ec2 = require('@aws-cdk/aws-ec2')
-import ecs = require('@aws-cdk/aws-ecs')
-import logs = require('@aws-cdk/aws-logs')
-import ecr = require('@aws-cdk/aws-ecr')
-import iam = require('@aws-cdk/aws-iam')
-import dynamodb = require('@aws-cdk/aws-dynamodb')
+import * as sqs from '@aws-cdk/aws-sqs'
+import * as events from '@aws-cdk/aws-events'
+import * as targets from '@aws-cdk/aws-events-targets'
+import * as ec2 from '@aws-cdk/aws-ec2'
+import * as ecs from '@aws-cdk/aws-ecs'
+import * as logs from '@aws-cdk/aws-logs'
+import * as ecr from '@aws-cdk/aws-ecr'
+import * as iam from '@aws-cdk/aws-iam'
+import * as dynamodb from '@aws-cdk/aws-dynamodb'
 
-import cdk = require('@aws-cdk/core')
+import * as cdk from '@aws-cdk/core'
 
 export interface AppStackProps extends cdk.StackProps {
     repository: ecr.IRepository
@@ -33,7 +33,8 @@ export class AppStack extends cdk.Stack {
            type: dynamodb.AttributeType.STRING
          },
          removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
-       });
+        });
+        opportunityTable.grantWriteData(user)
         
         const vpc = new ec2.Vpc(this, 'main', { maxAzs: 2 })
     
@@ -69,6 +70,7 @@ export class AppStack extends cdk.Stack {
               SEND_EXCHANGE_PAIRS_QUEUE_URL: sendExchangePairs.queueUrl,
               DISPATCH_WITH_COMMON_SYMBOLS_QUEUE_URL: dispatchWithCommonSymbols.queueUrl,
               ASSESS_QUEUE_URL: assessArbitrageOpportunity.queueUrl,
+              DYNAMODB_OPPORTUNITY_TABLE_NAME: opportunityTable.tableName
             }
         })
 
@@ -77,6 +79,11 @@ export class AppStack extends cdk.Stack {
             taskDefinition: taskDef,
         })
 
+        sendExchangePairs.grantConsumeMessages(user)
+        dispatchWithCommonSymbols.grantSendMessages(user)
+        dispatchWithCommonSymbols.grantConsumeMessages(user)
+        assessArbitrageOpportunity.grantConsumeMessages(user)
+        assessArbitrageOpportunity.grantSendMessages(user)
         const rule = new events.Rule(this, 'arbitrage-cron', {
             schedule: events.Schedule.expression('cron(0 * * ? * *)')
         })
