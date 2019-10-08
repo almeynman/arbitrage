@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import cdk = require('@aws-cdk/core')
+import * as cdk from '@aws-cdk/core'
 
 import { AppStack } from './app-stack'
 import { ContinuousIntegrationStack } from './ci-stack'

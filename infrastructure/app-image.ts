@@ -1,6 +1,6 @@
-import cdk = require('@aws-cdk/core')
-import ecr_assets = require('@aws-cdk/aws-ecr-assets')
-import ecr = require('@aws-cdk/aws-ecr')
+import * as cdk from '@aws-cdk/core'
+import * as ecr_assets from '@aws-cdk/aws-ecr-assets'
+import * as ecr from '@aws-cdk/aws-ecr'
 
 export class AppImage extends cdk.Stack {
     public readonly repository: ecr.IRepository

@@ -1,12 +1,12 @@
-import cdk = require('@aws-cdk/core')
-import ecr = require('@aws-cdk/aws-ecr')
-import codepipeline = require('@aws-cdk/aws-codepipeline')
-import codepipeline_actions = require('@aws-cdk/aws-codepipeline-actions')
-import codebuild = require('@aws-cdk/aws-codebuild')
-import ecr_assets = require('@aws-cdk/aws-ecr-assets')
-import ecs = require('@aws-cdk/aws-ecs')
-import iam = require('@aws-cdk/aws-iam')
-import adb = require('@mobileposse/auto-delete-bucket')
+import * as cdk from '@aws-cdk/core'
+import * as ecr from '@aws-cdk/aws-ecr'
+import * as codepipeline from '@aws-cdk/aws-codepipeline'
+import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions'
+import * as codebuild from '@aws-cdk/aws-codebuild'
+import * as ecr_assets from '@aws-cdk/aws-ecr-assets'
+import * as ecs from '@aws-cdk/aws-ecs'
+import * as iam from '@aws-cdk/aws-iam'
+import * as adb from '@mobileposse/auto-delete-bucket'
 
 export interface ContinuousIntegrationProps extends cdk.StackProps {
     repository: ecr.IRepository,
