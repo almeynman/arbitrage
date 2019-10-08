@@ -1,53 +1,41 @@
-import DynamoDBOpportunityRepository from './dynamodb-opportunity-repository'
 import AWS from 'aws-sdk'
-import ccxt from 'ccxt'
 import { Opportunist } from 'core'
-import { CCXTExchangeClient, ArbitrageCoordination } from 'implementation'
-import parseEvent from './parse-event'
-import { SNSEvent } from 'aws-lambda'
-import combineIntoPairs from './combine-into-pairs'
-import findCommonSymbols from './find-common-symbols'
+import { getDynamoDbOpportunityRepository, getCcxtExchangeClient, ArbitrageCoordination, getExchangePairs, findCommonSymbols } from 'implementation'
+import { Config } from './config'
 
-var sns = new AWS.SNS();
+export type SendMessageToNextQueue = (message: string) => Promise<any>
+export interface Params {
+  message: string
+  sendMessageToNextQueue?: SendMessageToNextQueue
+  config?: Config
+}
 
-export const sendExchangePairs = () => {
+export const sendExchangePairs = async ({ sendMessageToNextQueue }: Params) => {
   console.log('Combining exchanges in pairs for assessment')
-
-  let pairs = combineIntoPairs(ccxt.exchanges)
-  pairs.forEach(exchanges => {
-    sns.publish({
-      Message: JSON.stringify({ exchanges }),
-      TopicArn: process.env.DISPATCH_WITH_COMMON_SYMBOLS_TOPIC
-    }, (err, data) => {
-      if (err) console.log(err)
-      if (data) console.log(data)
-    })
-  })
-
+  let pairs = getExchangePairs()
+  pairs.forEach(exchanges => sendMessageToNextQueue(JSON.stringify({ exchanges })))
   console.log('Done combining exchanges in pairs for assessment')
 }
 
-export const dispatchWithCommonSymbols = async (event: SNSEvent) => {
+export const dispatchWithCommonSymbols = async ({ message, sendMessageToNextQueue }: Params) => {
   console.log('Dispatching exchange common symbols for assessment')
-
-  const { exchanges } = parseEvent(event)
+  const { exchanges } = JSON.parse(message)
   const symbols = await findCommonSymbols(exchanges)
-  await Promise.all(symbols.map(symbol =>
-    sns.publish({
-      Message: JSON.stringify({ symbol, exchanges }),
-      TopicArn: process.env.ASSESS_ARBITRAGE_OPPORTUNITY_TOPIC
-    }).promise()
-  ));
-
+  await Promise.all(
+    symbols.map(
+      symbol => sendMessageToNextQueue(JSON.stringify({ symbol, exchanges }))
+    )
+  );
   console.log('Done dispatching exchange common symbols')
 }
 
-export const assess = async (event: SNSEvent) => {
+export const assess = async ({ message, config: { dynamoDb } }: Params) => {
   console.log('Starting arbitrage assessment')
-
-  const { symbol, exchanges } = parseEvent(event)
-  const exchangeClient = new CCXTExchangeClient(ccxt)
-  const opportunityRepository = new DynamoDBOpportunityRepository(new AWS.DynamoDB.DocumentClient())
+  const { symbol, exchanges } = JSON.parse(message)
+  const exchangeClient = getCcxtExchangeClient()
+  const documentClient = dynamoDb.endpoint
+    ? new AWS.DynamoDB.DocumentClient({ endpoint: dynamoDb.endpoint }) : new AWS.DynamoDB.DocumentClient()
+  const opportunityRepository = getDynamoDbOpportunityRepository(documentClient, dynamoDb.opportunityTableName)
 
   const coordination = new ArbitrageCoordination(
     exchangeClient,

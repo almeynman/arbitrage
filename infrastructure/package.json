@@ -1,0 +1,32 @@
+{
+  "name": "arbitrage-infra",
+  "version": "1.0.1",
+  "description": "",
+  "scripts": {
+    "tsc": "tsc",
+    "deploy": "cdk synth && npm run deploy:image && npm run deploy:ci && npm run deploy:app",
+    "deploy:image": "cdk deploy arbitrage-image --verbose",
+    "deploy:ci": "cdk deploy arbitrage-ci --verbose",
+    "deploy:app": "cdk deploy arbitrage-app --verbose",
+    "destroy": "npm run destroy:image && npm run destroy:ci && npm run destroy:app",
+    "destroy:image": "cdk destroy arbitrage-image --verbose",
+    "destroy:ci": "cdk destroy arbitrage-ci --verbose",
+    "destroy:app": "cdk destroy arbitrage-app --verbose"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-events": "1.9.0",
+    "@aws-cdk/aws-events-targets": "1.9.0",
+    "@aws-cdk/core": "1.9.0",
+    "@aws-cdk/aws-sns": "1.9.0",
+    "@aws-cdk/aws-codepipeline-actions": "1.9.0",
+    "@aws-cdk/aws-secretsmanager": "1.9.0",
+    "@mobileposse/auto-delete-bucket": "1.9.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.33",
+    "aws-cdk": "1.9.0",
+    "typescript": "^3.6.3"
+  },
+  "author": "",
+  "license": "ISC"
+}

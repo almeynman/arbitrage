@@ -1,8 +1,10 @@
 {
-  "version": "0.0.8",
+  "version": "1.0.1",
   "packages": [
-    "packages/*"
+    "./*", "./application/*"
   ],
+
+  "private": true,
   "npmClient": "npm",
   "command": {
     "publish": {
@@ -10,6 +12,9 @@
         "*.md",
         "*.txt"
       ]
+    },
+    "bootstrap": {
+      "npmClientArgs": ["--no-package-lock"]
     }
   }
 }
