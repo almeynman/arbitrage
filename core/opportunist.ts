@@ -15,21 +15,9 @@ export default class Opportunist {
     exchange2,
   }: OpportunistArgs): Assessment {
     const assessment1 = assess(symbol, exchange1, exchange2)
-    console.log(JSON.stringify({
-      buyExchange: exchange1.name,
-      sellExchange: exchange2.name,
-      opportunity: assessment1.isOpportunity(),
-      assessment: assessment1
-    }, null, 4))
     if (assessment1.isOpportunity()) return assessment1
 
     const assessment2 = assess(symbol, exchange2, exchange1)
-    console.log(JSON.stringify({
-      buyExchange: exchange1.name,
-      sellExchange: exchange2.name,
-      opportunity: assessment1.isOpportunity(),
-      assessment: assessment1
-    }, null, 4))
     if (assessment2.isOpportunity()) return assessment2
 
     return null
