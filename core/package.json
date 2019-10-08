@@ -5,7 +5,7 @@
   "main": "built/index.js",
   "scripts": {
     "test": "tsc && jest",
-    "tsc": "tsc"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",

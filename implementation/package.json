@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "lint": "tslint -c tslint.json '**/*.ts' -e 'node_modules/**'",
-    "tsc": "tsc"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",

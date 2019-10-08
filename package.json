@@ -7,7 +7,7 @@
   },
   "scripts": {
     "bootstrap": "npx lerna bootstrap --hoist && npm i && lerna exec npm install && npm run build",
-    "build": "lerna exec npm run tsc",
+    "build": "lerna exec npm run build",
     "clean": "lerna clean && rm -rf ./node_modules/ && find . -name \"package-lock.json\" -delete",
     "lint": "eslint --format=codeframe '**/*.js'",
     "test": "lerna run test",

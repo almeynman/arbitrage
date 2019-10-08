@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "",
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "deploy": "cdk synth && npm run deploy:image && npm run deploy:ci && npm run deploy:app",
     "deploy:image": "cdk deploy arbitrage-image --verbose",
     "deploy:ci": "cdk deploy arbitrage-ci --verbose",
