@@ -1,4 +1,4 @@
 export default interface Order {
   price: number;
-  // volume: number;
+  volume: number;
 }

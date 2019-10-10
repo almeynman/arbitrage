@@ -1,5 +1,5 @@
 import ExchangeClient from './exchange-client'
-import { OrderBook, Order } from 'core'
+import { OrderBook } from 'core'
 
 const defaultCcxt = require('ccxt')
 

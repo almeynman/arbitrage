@@ -19,7 +19,7 @@ let symbol = 'FOO/BAR'
 
 beforeEach(() => {
     exchangeClient = {
-        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({ buyWall: [{ price: 1.9 }], sellWall: [{ price: 0.8 }] })))
+        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 1.8, volume: 0 }] })))
     }
 
     opportunist = {
@@ -69,6 +69,17 @@ test('should find opportunity for any two exchanges', async () => {
 test('should persist opportunity', async () => {
     await arbitrageCoordination.arbitrate()
     expect(opportunityRepository.save.calledOnce).toBeTruthy()
+})
+
+test('should not find opportunity if illiquid markets', async () => {
+    exchangeClient = {
+        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 2.8, volume: 0 }] })))
+    }
+    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, opportunityRepository, [exchange1, exchange2], symbol)
+
+    await arbitrageCoordination.arbitrate()
+
+    expect(opportunist.findOpportunity.calledOnce).toBeFalsy()
 })
 
 test('should not persist opportunity if null', async () => {

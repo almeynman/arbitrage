@@ -11,8 +11,8 @@ test('should return opportunity found', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [{ price: 1.1 }],
-        sellWall: [{ price: 1.0 }]
+        buyWall: [{ price: 1.1, volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     ))
   const kraken = new Exchange(
@@ -27,8 +27,8 @@ test('should return opportunity found', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [{ price: 0.9 }],
-        sellWall: [{ price: 1.0 }]
+        buyWall: [{ price: 0.9, volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     )
   )

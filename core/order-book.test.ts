@@ -3,8 +3,8 @@ import OrderBook from './order-book'
 test('should find the best buy price', () => {
   const orderBook = new OrderBook({
     buyWall: [
-      { price: 1.1 },
-      { price: 1 }
+      { price: 1.1, volume: 0 },
+      { price: 1, volume: 0 }
     ],
     sellWall: []
   })
@@ -18,8 +18,8 @@ test('should find the best sell price', () => {
   const orderBook = new OrderBook({
     buyWall: [],
     sellWall: [
-      { price: 1.1 },
-      { price: 1 }
+      { price: 1.1, volume: 0 },
+      { price: 1, volume: 0 }
     ]
   })
 

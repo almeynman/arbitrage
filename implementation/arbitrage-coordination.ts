@@ -29,6 +29,19 @@ export default class ArbitrageCoordination {
         const orderBooks = await this.fetchOrderBooks()
         const [exchange1, exchange2] = this.instantiateExchanges(orderBooks)
 
+        const market1 = exchange1.markets[this.symbol]
+        const market2 = exchange2.markets[this.symbol]
+
+        if (!market1.isLiquid()) {
+            console.error(`One of the markets is illiquid ${JSON.stringify(market1, null, 4)}`)
+            return
+        }
+
+        if (!market2.isLiquid()) {
+            console.error(`One of the markets is illiquid ${JSON.stringify(market2, null, 4)}`)
+            return
+        }
+
         const opportunity = this.opportunist.findOpportunity({symbol: this.symbol, exchange1, exchange2})
         if (opportunity) {
             await this.opportunityRepository.save(opportunity)
