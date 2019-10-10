@@ -13,8 +13,5 @@ export class AppImage extends cdk.Stack {
             repositoryName: 'arbitrage'
         })
       this.repository = this.image.repository;
-     // this.repository = new ecr.Repository(this, 'builds', {
-      //     repositoryName: 'arbitrage',
-      //  })
   }
 }
