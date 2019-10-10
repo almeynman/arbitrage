@@ -20,11 +20,11 @@ let symbol = 'FOO/BAR'
 
 beforeEach(() => {
     exchangeClient = {
-        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({buyWall: [new Order(0)], sellWall: [new Order(0)]})))
+        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({buyWall: [new Order(1.9)], sellWall: [new Order(0.8)]})))
     }
 
     opportunist = {
-        findOpportunity: sinon.spy()
+        findOpportunity: sinon.stub().returns({})
     }
 
     opportunityRepository = {
@@ -70,4 +70,14 @@ test('should find opportunity for any two exchanges', async () => {
 test('should persist opportunity', async () => {
     await arbitrageCoordination.arbitrate()
     expect(opportunityRepository.save.calledOnce).toBeTruthy()
+})
+
+test('should not persist opportunity if null', async () => {
+    opportunist = {
+        findOpportunity: sinon.stub().returns(null)
+    }
+    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, opportunityRepository, [exchange1, exchange2], symbol)
+
+    await arbitrageCoordination.arbitrate()
+    expect(opportunityRepository.save.calledOnce).toBeFalsy()
 })
