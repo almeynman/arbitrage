@@ -1,12 +1,12 @@
 {
-  "name": "arbitrage-checker",
+  "name": "application",
   "version": "1.0.1",
   "main": "index.js",
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "test": "jest",
+    "test": "",
     "build": "tsc",
     "bootstrap": "sh bootstrap.sh",
     "clean": "docker-compose down",

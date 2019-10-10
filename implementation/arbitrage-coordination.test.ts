@@ -2,7 +2,6 @@ import sinon from 'sinon'
 
 import Market from 'core/market'
 import OrderBook from 'core/order-book'
-import Order from 'core/order'
 import Exchange from 'core/exchange'
 import Opportunist from 'core/opportunist'
 
@@ -20,7 +19,7 @@ let symbol = 'FOO/BAR'
 
 beforeEach(() => {
     exchangeClient = {
-        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({buyWall: [new Order(1.9)], sellWall: [new Order(0.8)]})))
+        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({ buyWall: [{ price: 1.9 }], sellWall: [{ price: 0.8 }] })))
     }
 
     opportunist = {

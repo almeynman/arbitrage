@@ -2,7 +2,6 @@ import Opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
 import OrderBook from './order-book'
-import Order from './order'
 import Market from './market'
 
 test('should not spot arbitrage opportunity', () => {
@@ -11,8 +10,8 @@ test('should not spot arbitrage opportunity', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(1.0)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 1.0 }],
+        sellWall: [{ price: 1.0 }]
       }
     ))
   const kraken = new Exchange(
@@ -24,8 +23,8 @@ test('should not spot arbitrage opportunity', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(1.0)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 1.0 }],
+        sellWall: [{ price: 1.0 }]
       }
     )
   )
@@ -49,8 +48,8 @@ test('should not spot opportunity with fees', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(1.1)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 1.1 }],
+        sellWall: [{ price: 1.0 }]
       }
     ))
   const kraken = new Exchange(
@@ -65,8 +64,8 @@ test('should not spot opportunity with fees', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(0.9)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 0.9 }],
+        sellWall: [{ price: 1.0 }]
       }
     )
   )

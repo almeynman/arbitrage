@@ -19,7 +19,7 @@ export default (ccxt: any = defaultCcxt): ExchangeClient => ({
 
 function convertToCoreOrderBook(orderBook: any): OrderBook {
     return new OrderBook({
-        buyWall: orderBook.bids.map(([price, volume]: any) => new Order(price)),
-        sellWall: orderBook.asks.map(([price, volume]: any) => new Order(price))
+        buyWall: orderBook.bids.map(([price, volume]: any) => ({ price })),
+        sellWall: orderBook.asks.map(([price, volume]: any) => ({ price }))
     })
 }
