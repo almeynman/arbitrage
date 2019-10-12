@@ -14,14 +14,19 @@ export default class Opportunist {
     exchange1,
     exchange2,
   }: OpportunistArgs): Assessment {
-    console.log(`Assessing arbitrage of ${symbol} on ${exchange1.name} and ${exchange2.name}`)
-
     const assessment1 = assess(symbol, exchange1, exchange2)
-    if (assessment1.isOpportunity()) return assessment1
+    if (assessment1.isOpportunity()) {
+      console.log(`Opportunity found for [${symbol}, ${exchange1.name}-${exchange2.name}] with the following assessment: ${JSON.stringify(assessment1, null, 4)}`)
+      return assessment1
+    }
 
     const assessment2 = assess(symbol, exchange2, exchange1)
-    if (assessment2.isOpportunity()) return assessment2
+    if (assessment2.isOpportunity()) {
+      console.log(`Opportunity found for [${symbol}, ${exchange1.name}-${exchange2.name}] with the following assessment: ${JSON.stringify(assessment2, null, 4)}`)
+      return assessment2
+    }
 
+    console.log(`Opportunity not found for [${symbol}, ${exchange1.name}-${exchange2.name}]`)
     return null
   }
 }

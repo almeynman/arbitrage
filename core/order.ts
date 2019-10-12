@@ -1,7 +1,4 @@
-export default class Order {
+export default interface Order {
   price: number;
-
-  constructor(price: number) {
-    this.price = price;
-  }
+  volume: number;
 }

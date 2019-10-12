@@ -5,7 +5,7 @@ import {
     Market,
     ExchangeFees,
     OrderBook
- } from 'core'
+} from 'core'
 import R from 'ramda';
 import OpportunityRepository from './opportunity-repository';
 
@@ -29,15 +29,28 @@ export default class ArbitrageCoordination {
         const orderBooks = await this.fetchOrderBooks()
         const [exchange1, exchange2] = this.instantiateExchanges(orderBooks)
 
-        const opportunity = this.opportunist.findOpportunity({symbol: this.symbol, exchange1, exchange2})
-        await this.opportunityRepository.save(opportunity)
+        const market1 = exchange1.markets[this.symbol]
+        const market2 = exchange2.markets[this.symbol]
+
+        if (!market1.isLiquid()) {
+            throw new Error(`One of the markets is illiquid ${JSON.stringify(market1, null, 4)}`)
+        }
+
+        if (!market2.isLiquid()) {
+            throw new Error(`One of the markets is illiquid ${JSON.stringify(market2, null, 4)}`)
+        }
+
+        const opportunity = this.opportunist.findOpportunity({ symbol: this.symbol, exchange1, exchange2 })
+        if (opportunity) {
+            await this.opportunityRepository.save(opportunity)
+        }
     }
 
     private instantiateExchanges(orderBooks: OrderBook[]): [Exchange, Exchange] {
         const [exchange1, exchange2] = R.zip(this.exchanges, orderBooks).map(([exchange, orderBook]) => {
             return new Exchange(
                 exchange.name,
-                { [this.symbol] : new Market(this.symbol, orderBook) },
+                { [this.symbol]: new Market(this.symbol, orderBook) },
                 new ExchangeFees(exchange.fees.taker)
             )
         })

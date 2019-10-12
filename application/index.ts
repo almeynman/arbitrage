@@ -11,26 +11,23 @@ export interface Params {
 }
 
 export const sendExchangePairs = async ({ sendMessageToNextQueue }: Params) => {
-  console.log('Combining exchanges in pairs for assessment')
   let pairs = getExchangePairs()
+  console.log(`Sending ${pairs.length} exchange pairs`)
   pairs.forEach(exchanges => sendMessageToNextQueue(JSON.stringify({ exchanges })))
-  console.log('Done combining exchanges in pairs for assessment')
 }
 
 export const dispatchWithCommonSymbols = async ({ message, sendMessageToNextQueue }: Params) => {
-  console.log('Dispatching exchange common symbols for assessment')
   const { exchanges } = JSON.parse(message)
   const symbols = await findCommonSymbols(exchanges)
+  console.log(`Sending ${symbols.length} symbols for exchange pair ${exchanges}`)
   await Promise.all(
     symbols.map(
       symbol => sendMessageToNextQueue(JSON.stringify({ symbol, exchanges }))
     )
   );
-  console.log('Done dispatching exchange common symbols')
 }
 
 export const assess = async ({ message, config: { dynamoDb } }: Params) => {
-  console.log('Starting arbitrage assessment')
   const { symbol, exchanges } = JSON.parse(message)
   const exchangeClient = getCcxtExchangeClient()
   const documentClient = dynamoDb.endpoint
@@ -51,6 +48,4 @@ export const assess = async ({ message, config: { dynamoDb } }: Params) => {
   )
 
   await coordination.arbitrate()
-
-  console.log('Done with arbitrage assessment')
 }

@@ -11,8 +11,8 @@ test('buys in kraken and sells in kucoin', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(0.9)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 0.9, volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     ))
   const kraken = new Exchange(
@@ -24,8 +24,8 @@ test('buys in kraken and sells in kucoin', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(1.1)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 1.1, volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     )
   )
@@ -49,8 +49,8 @@ test('buys in kucoin and sells in kraken', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(1.1)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 1.1, volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     ))
   const kraken = new Exchange(
@@ -62,8 +62,8 @@ test('buys in kucoin and sells in kraken', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(0.9)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 0.9, volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     )
   )
@@ -87,8 +87,8 @@ test('should spot opportunity with fees', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(1.1)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 1.1, volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     ))
   const kraken = new Exchange(
@@ -104,8 +104,8 @@ test('should spot opportunity with fees', () => {
     symbol,
     new OrderBook(
       {
-        buyWall: [new Order(0.9)],
-        sellWall: [new Order(1.0)]
+        buyWall: [{ price: 0., volume: 0 }],
+        sellWall: [{ price: 1.0, volume: 0 }]
       }
     )
   )
