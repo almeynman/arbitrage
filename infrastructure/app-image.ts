@@ -9,9 +9,9 @@ export class AppImage extends cdk.Stack {
     constructor(app: cdk.App, id: string) {
         super(app, id)
         this.image = new ecr_assets.DockerImageAsset(this, 'image', {
-            directory: '../application',
+            directory: '../',
             repositoryName: 'arbitrage'
         })
-      this.repository = this.image.repository;
-  }
+        this.repository = this.image.repository;
+    }
 }
