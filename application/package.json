@@ -10,7 +10,7 @@
     "build": "tsc",
     "bootstrap": "sh bootstrap.sh",
     "clean": "docker-compose down",
-    "start": "npm run tsc && node -r dotenv/config dist/server.js",
+    "start": "npm run build && node -r dotenv/config dist/server.js",
     "trigger-send-exchange-pairs": "aws --endpoint-url=http://localhost:4576 sqs send-message --queue-url http://localhost:4576/queue/send-exchange-pairs --region us-east-1 --message-body 'Wassup?'"
   },
   "dependencies": {
@@ -22,6 +22,6 @@
   },
   "devDependencies": {
     "ts-jest": "24.0.2",
-    "typescript": "^3.5.2"
+    "typescript": "^3.6.4"
   }
 }
