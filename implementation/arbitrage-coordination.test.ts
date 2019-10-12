@@ -1,9 +1,11 @@
 import sinon from 'sinon'
 
-import Market from 'core/market'
-import OrderBook from 'core/order-book'
-import Exchange from 'core/exchange'
-import Opportunist from 'core/opportunist'
+import {
+    Opportunist,
+    Exchange,
+    Market,
+    OrderBook
+} from 'core'
 
 import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
 
@@ -77,9 +79,14 @@ test('should not find opportunity if illiquid markets', async () => {
     }
     arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, opportunityRepository, [exchange1, exchange2], symbol)
 
-    await arbitrageCoordination.arbitrate()
-
-    expect(opportunist.findOpportunity.calledOnce).toBeFalsy()
+    let catched = 0
+    try {
+        await arbitrageCoordination.arbitrate()
+    } catch (e) {
+        expect(e.message.startsWith('One of the markets is illiquid')).toBe(true)
+        catched++
+    }
+    expect(catched).toBe(1)
 })
 
 test('should not persist opportunity if null', async () => {
