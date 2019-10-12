@@ -33,13 +33,14 @@ test('should not spot arbitrage opportunity', () => {
     { [symbol]: kucoinFooBarMarket }
   )
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment1, assessment2 } = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).toBeNull()
+  expect(assessment1.isOpportunity()).toBe(false)
+  expect(assessment2.isOpportunity()).toBe(false)
 })
 
 test('should not spot opportunity with fees', () => {
@@ -77,11 +78,12 @@ test('should not spot opportunity with fees', () => {
     )
   )
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment1, assessment2 } = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).toBeNull()
+  expect(assessment1.isOpportunity()).toBe(false)
+  expect(assessment2.isOpportunity()).toBe(false)
 })

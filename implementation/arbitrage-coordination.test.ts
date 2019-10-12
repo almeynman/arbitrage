@@ -11,7 +11,7 @@ import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
 
 let exchangeClient: any
 let opportunist: any
-let opportunityRepository: any
+let assessmentRepository: any
 let arbitrageCoordination: ArbitrageCoordination
 
 let exchange1: ExchangeArgs
@@ -28,7 +28,7 @@ beforeEach(() => {
         findOpportunity: sinon.stub().returns({})
     }
 
-    opportunityRepository = {
+   assessmentRepository = {
         save: sinon.spy()
     }
 
@@ -46,7 +46,7 @@ beforeEach(() => {
         }
     }
 
-    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, opportunityRepository, [exchange1, exchange2], symbol)
+    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, assessmentRepository, [exchange1, exchange2], symbol)
 })
 
 test('should fetch order book for two exchanges', async () => {
@@ -68,16 +68,16 @@ test('should find opportunity for any two exchanges', async () => {
     expect(opportunist.findOpportunity.calledOnce).toBeTruthy()
 })
 
-test('should persist opportunity', async () => {
+test('should persist assessments', async () => {
     await arbitrageCoordination.arbitrate()
-    expect(opportunityRepository.save.calledOnce).toBeTruthy()
+    expect(assessmentRepository.save.calledTwice).toBeTruthy()
 })
 
 test('should not find opportunity if illiquid markets', async () => {
     exchangeClient = {
         fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 2.8, volume: 0 }] })))
     }
-    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, opportunityRepository, [exchange1, exchange2], symbol)
+    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, assessmentRepository, [exchange1, exchange2], symbol)
 
     let catched = 0
     try {
@@ -87,14 +87,4 @@ test('should not find opportunity if illiquid markets', async () => {
         catched++
     }
     expect(catched).toBe(1)
-})
-
-test('should not persist opportunity if null', async () => {
-    opportunist = {
-        findOpportunity: sinon.stub().returns(null)
-    }
-    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, opportunityRepository, [exchange1, exchange2], symbol)
-
-    await arbitrageCoordination.arbitrate()
-    expect(opportunityRepository.save.calledOnce).toBeFalsy()
 })

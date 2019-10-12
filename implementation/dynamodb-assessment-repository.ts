@@ -1,9 +1,9 @@
-import OpportunityRepository from './opportunity-repository'
+import AssessmentRepository from './assessment-repository'
 import { DynamoDB } from 'aws-sdk'
 import Assessment from 'core/assessment'
 import uuidv4 from 'uuid/v4'
 
-export default (docClient: DynamoDB.DocumentClient, tableName: string): OpportunityRepository => ({
+export default (docClient: DynamoDB.DocumentClient, tableName: string): AssessmentRepository => ({
   async save(assessment: Assessment): Promise<void> {
     const item = {
       id: uuidv4(),

@@ -27,14 +27,14 @@ export class AppStack extends cdk.Stack {
           userName: user.userName,
         })
 
-        const opportunityTable = new dynamodb.Table(this, 'opportunity', {
+        const assessmentTable = new dynamodb.Table(this, 'assessment', {
          partitionKey: {
            name: 'id',
            type: dynamodb.AttributeType.STRING
          },
          removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
         });
-        opportunityTable.grantWriteData(user)
+        assessmentTable.grantWriteData(user)
         
         const vpc = new ec2.Vpc(this, 'main', { maxAzs: 2 })
     
@@ -70,7 +70,7 @@ export class AppStack extends cdk.Stack {
               SEND_EXCHANGE_PAIRS_QUEUE_URL: sendExchangePairs.queueUrl,
               DISPATCH_WITH_COMMON_SYMBOLS_QUEUE_URL: dispatchWithCommonSymbols.queueUrl,
               ASSESS_QUEUE_URL: assessArbitrageOpportunity.queueUrl,
-              DYNAMODB_OPPORTUNITY_TABLE_NAME: opportunityTable.tableName
+              DYNAMODB_ASSESSMENT_TABLE_NAME: assessmentTable.tableName
             }
         })
 

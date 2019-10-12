@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk'
 import { Opportunist } from 'core'
-import { getDynamoDbOpportunityRepository, getCcxtExchangeClient, ArbitrageCoordination, getExchangePairs, findCommonSymbols } from 'implementation'
+import { getDynamoDbAssessmentRepository, getCcxtExchangeClient, ArbitrageCoordination, getExchangePairs, findCommonSymbols } from 'implementation'
 import { Config } from './config'
 
 export type SendMessageToNextQueue = (message: string) => Promise<any>
@@ -32,12 +32,12 @@ export const assess = async ({ message, config: { dynamoDb } }: Params) => {
   const exchangeClient = getCcxtExchangeClient()
   const documentClient = dynamoDb.endpoint
     ? new AWS.DynamoDB.DocumentClient({ endpoint: dynamoDb.endpoint }) : new AWS.DynamoDB.DocumentClient()
-  const opportunityRepository = getDynamoDbOpportunityRepository(documentClient, dynamoDb.opportunityTableName)
+  const assessmentRepository = getDynamoDbAssessmentRepository(documentClient, dynamoDb.assessmentTableName)
 
   const coordination = new ArbitrageCoordination(
     exchangeClient,
     new Opportunist(),
-    opportunityRepository,
+    assessmentRepository,
     exchanges.map((name: string) => ({
       name,
       fees: {

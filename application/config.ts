@@ -6,7 +6,7 @@ export interface Config {
   },
   dynamoDb: {
     endpoint: string,
-    opportunityTableName: string
+    assessmentTableName: string
   },
   sqs: {
     sendExchangePairsQueueUrl: string,
@@ -22,7 +22,7 @@ const config: Config = {
   },
   dynamoDb: {
     endpoint: process.env.DYNAMODB_ENDPOINT,
-    opportunityTableName: process.env.DYNAMODB_OPPORTUNITY_TABLE_NAME
+    assessmentTableName: process.env.DYNAMODB_ASSESSMENT_TABLE_NAME
   },
   sqs: {
     sendExchangePairsQueueUrl: process.env.SEND_EXCHANGE_PAIRS_QUEUE_URL,
