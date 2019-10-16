@@ -2,6 +2,7 @@ import AWS from 'aws-sdk'
 import { Opportunist } from 'core'
 import { getDynamoDbAssessmentRepository, getCcxtExchangeClient, ArbitrageCoordination, getExchangePairs, findCommonSymbols } from 'implementation'
 import { Config } from './config'
+import blacklistExchanges from './blacklist'
 
 export type SendMessageToNextQueue = (message: string) => Promise<any>
 export interface Params {
@@ -11,7 +12,10 @@ export interface Params {
 }
 
 export const sendExchangePairs = async ({ sendMessageToNextQueue }: Params) => {
-  let pairs = getExchangePairs()
+  const exchangeClient = getCcxtExchangeClient()
+  let pairs = getExchangePairs().filter(([exchange1, exchange2]) =>
+    !blacklistExchanges.includes(exchange1) && !blacklistExchanges.includes(exchange2)
+  )
   console.log(`Sending ${pairs.length} exchange pairs`)
   pairs.forEach(exchanges => sendMessageToNextQueue(JSON.stringify({ exchanges })))
 }
