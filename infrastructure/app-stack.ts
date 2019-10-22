@@ -27,24 +27,24 @@ export class AppStack extends cdk.Stack {
           userName: user.userName,
         })
 
-        const opportunityTable = new dynamodb.Table(this, 'opportunity', {
+        const assessmentTable = new dynamodb.Table(this, 'assessment', {
          partitionKey: {
            name: 'id',
            type: dynamodb.AttributeType.STRING
          },
          removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
         });
-        opportunityTable.grantWriteData(user)
-        
+        assessmentTable.grantWriteData(user)
+
         const vpc = new ec2.Vpc(this, 'main', { maxAzs: 2 })
-    
+
         const cluster = new ecs.Cluster(this, 'arbitrage-workers', { vpc })
         cluster.addCapacity('arbitrage-workers-asg', {
             instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
             keyName: "arbitrage"
         })
 
-        const logging = new ecs.AwsLogDriver({ streamPrefix: "arbitrage-logs", logRetention: logs.RetentionDays.ONE_DAY })
+        const logging = new ecs.AwsLogDriver({ streamPrefix: "arbitrage-logs", logRetention: logs.RetentionDays.ONE_MONTH })
 
         const sendExchangePairs = new sqs.Queue(this, 'send-exchange-pairs', {
             queueName: 'send-exchange-pairs'
@@ -70,7 +70,7 @@ export class AppStack extends cdk.Stack {
               SEND_EXCHANGE_PAIRS_QUEUE_URL: sendExchangePairs.queueUrl,
               DISPATCH_WITH_COMMON_SYMBOLS_QUEUE_URL: dispatchWithCommonSymbols.queueUrl,
               ASSESS_QUEUE_URL: assessArbitrageOpportunity.queueUrl,
-              DYNAMODB_OPPORTUNITY_TABLE_NAME: opportunityTable.tableName
+              DYNAMODB_ASSESSMENT_TABLE_NAME: assessmentTable.tableName
             }
         })
 
@@ -87,7 +87,7 @@ export class AppStack extends cdk.Stack {
         const rule = new events.Rule(this, 'arbitrage-cron', {
             schedule: events.Schedule.expression('cron(0 * * ? * *)')
         })
-      
+
         rule.addTarget(new targets.SqsQueue(sendExchangePairs))
     }
 }

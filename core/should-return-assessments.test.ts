@@ -40,24 +40,11 @@ test('should return opportunity found', () => {
     )
   )
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment1, assessment2 } = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).toEqual(new Assessment({
-    symbol,
-    "coefficient": 1.045751633986928,
-    "buy": {
-      "exchange": "kucoin",
-      "price": 0.9,
-      "expectedFee": 0.02
-    },
-    "sell": {
-      "exchange": "kraken",
-      "price": 1.0,
-      "expectedFee": 0.04
-    }
-  }))
+  expect(assessment1.isOpportunity() || assessment2.isOpportunity()).toBe(true)
 })

@@ -7,7 +7,7 @@ import {
     OrderBook
 } from 'core'
 import R from 'ramda';
-import OpportunityRepository from './opportunity-repository';
+import AssessmentRepository from './assessment-repository';
 
 export interface ExchangeArgs {
     name: string
@@ -20,7 +20,7 @@ export default class ArbitrageCoordination {
     constructor(
         private exchangeClient: ExchangeClient,
         private opportunist: Opportunist,
-        private opportunityRepository: OpportunityRepository,
+        private assessmentRepository: AssessmentRepository,
         private exchanges: ExchangeArgs[],
         private symbol: string
     ) { }
@@ -40,10 +40,8 @@ export default class ArbitrageCoordination {
             throw new Error(`One of the markets is illiquid ${JSON.stringify(market2, null, 4)}`)
         }
 
-        const opportunity = this.opportunist.findOpportunity({ symbol: this.symbol, exchange1, exchange2 })
-        if (opportunity) {
-            await this.opportunityRepository.save(opportunity)
-        }
+        const { assessment1, assessment2 } = this.opportunist.findOpportunity({ symbol: this.symbol, exchange1, exchange2 })
+        await Promise.all([this.assessmentRepository.save(assessment1), this.assessmentRepository.save(assessment2)])
     }
 
     private instantiateExchanges(orderBooks: OrderBook[]): [Exchange, Exchange] {

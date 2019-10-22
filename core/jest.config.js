@@ -5,5 +5,8 @@ module.exports = {
   },
   'globals': {
     'NODE_ENV': 'test'
-  }
+  },
+  testMatch: [
+    '**/*.test.ts',
+	],
 }
