@@ -53,3 +53,15 @@ export const assess = async ({ message, config: { dynamoDb } }: Params) => {
 
   await coordination.arbitrate()
 }
+
+
+
+
+
+
+
+
+
+
+
+
