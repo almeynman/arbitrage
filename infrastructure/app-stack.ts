@@ -41,7 +41,6 @@ export class AppStack extends cdk.Stack {
         const cluster = new ecs.Cluster(this, 'arbitrage-workers', { vpc })
         cluster.addCapacity('arbitrage-workers-asg', {
             instanceType: ec2.InstanceType.of(ec2.InstanceClass.T2, ec2.InstanceSize.MICRO),
-            keyName: "arbitrage"
         })
 
         const logging = new ecs.AwsLogDriver({ streamPrefix: "arbitrage-logs", logRetention: logs.RetentionDays.ONE_MONTH })
