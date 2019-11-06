@@ -4,7 +4,7 @@ import {
     Opportunist,
     Exchange,
     Market,
-    OrderBook
+    createOrderBook
 } from 'core'
 
 import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
@@ -21,7 +21,7 @@ let symbol = 'FOO/BAR'
 
 beforeEach(() => {
     exchangeClient = {
-        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 1.8, volume: 0 }] })))
+        fetchOrderBook: sinon.stub().returns(Promise.resolve(createOrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 1.8, volume: 0 }] })))
     }
 
     opportunist = {
@@ -75,7 +75,7 @@ test('should persist assessments', async () => {
 
 test('should not find opportunity if illiquid markets', async () => {
     exchangeClient = {
-        fetchOrderBook: sinon.stub().returns(Promise.resolve(new OrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 2.8, volume: 0 }] })))
+        fetchOrderBook: sinon.stub().returns(Promise.resolve(createOrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 2.8, volume: 0 }] })))
     }
     arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, assessmentRepository, [exchange1, exchange2], symbol)
 

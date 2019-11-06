@@ -1,6 +1,6 @@
-import OrderBook from './order-book'
+import { createOrderBook } from './order-book'
 
-const orderBook = new OrderBook({
+const orderBook = createOrderBook({
   buyWall: [
     { price: 1.1, volume: 0 },
     { price: 1, volume: 0 }
@@ -12,15 +12,11 @@ const orderBook = new OrderBook({
 })
 
 test('should find the best buy price', () => {
-  const bestBuyPrice = orderBook.getBestBuyPrice()
-
-  expect(bestBuyPrice).toBe(1.1)
+  expect(orderBook.bestBuyPrice).toBe(1.1)
 })
 
 test('should find the best sell price', () => {
-  const bestSellPrice = orderBook.getBestSellPrice()
-
-  expect(bestSellPrice).toBe(1)
+  expect(orderBook.bestSellPrice).toBe(1)
 })
 
 test('should throw if empty buy wall', () => {
@@ -33,7 +29,7 @@ test('should throw if empty buy wall', () => {
   }
   let catched = 0
   try {
-    const orderBook = new OrderBook(args)
+    createOrderBook(args)
   } catch (e) {
     catched++;
     expect(e.message).toBe(`Cannot construct order book: buy or sell wall is empty ${args}`)
@@ -51,7 +47,7 @@ test('should throw if empty sell wall', () => {
   }
   let catched = 0
   try {
-    const orderBook = new OrderBook(args)
+    createOrderBook(args)
   } catch (e) {
     catched++;
     expect(e.message).toBe(`Cannot construct order book: buy or sell wall is empty ${args}`)

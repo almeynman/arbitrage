@@ -1,8 +1,8 @@
 import Market from './market'
-import Orderbook from './order-book'
+import { createOrderBook } from './order-book'
 
 test('can determine if market is liquid', () => {
-  const market = new Market('BTC/USD', new Orderbook({
+  const market = new Market('BTC/USD', createOrderBook({
     buyWall: [{ price: 100, volume: 0 }],
     sellWall: [{ price: 101, volume: 0 }]
   }), 0.1)
@@ -10,7 +10,7 @@ test('can determine if market is liquid', () => {
 })
 
 test('can determine if market is not liquid', () => {
-  const market = new Market('BTC/USD', new Orderbook({
+  const market = new Market('BTC/USD', createOrderBook({
     buyWall: [{ price: 100, volume: 0 }],
     sellWall: [{ price: 102, volume: 0 }]
   }), 0.01)

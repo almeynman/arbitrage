@@ -1,8 +1,23 @@
 import Order from './order'
 
-interface OrderBookArgs {
-  buyWall: Array<Order>,
+export interface OrderBook {
+  buyWall: Array<Order>
   sellWall: Array<Order>
+  bestBuyPrice: number
+  bestSellPrice: number
+}
+
+export const createOrderBook = (args: { buyWall: Array<Order>, sellWall: Array<Order> }): OrderBook => {
+  if (args.buyWall == null || args.buyWall.length == 0 || args.sellWall == null || args.sellWall.length == 0) {
+    throw new Error(`Cannot construct order book: buy or sell wall is empty ${args}`)
+  }
+
+  return {
+    buyWall: args.buyWall,
+    sellWall: args.sellWall,
+    bestBuyPrice: args.buyWall.sort(highestPrice)[0].price,
+    bestSellPrice: args.sellWall.sort(lowestPrice)[0].price,
+  }
 }
 
 function highestPrice(order1: Order, order2: Order) {
@@ -11,26 +26,4 @@ function highestPrice(order1: Order, order2: Order) {
 
 function lowestPrice(order1: Order, order2: Order) {
   return order1.price - order2.price
-}
-
-
-export default class OrderBook {
-  buyWall: Array<Order>;
-  sellWall: Array<Order>;
-
-  constructor(args: OrderBookArgs) {
-    if (args.buyWall == null || args.buyWall.length == 0 || args.sellWall == null || args.sellWall.length == 0) {
-      throw new Error(`Cannot construct order book: buy or sell wall is empty ${args}`)
-    }
-    this.buyWall = args.buyWall;
-    this.sellWall = args.sellWall;
-  }
-
-  getBestBuyPrice(): number {
-    return this.buyWall.sort(highestPrice)[0].price;
-  }
-
-  getBestSellPrice(): number {
-    return this.sellWall.sort(lowestPrice)[0].price;
-  }
 }

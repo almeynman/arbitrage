@@ -41,6 +41,6 @@ test('should obtain an order book', async () => {
     const orderBook = await ccxtExchangeClient.fetchOrderBook(anyExchange, anySymbol)
 
     expect(orderBook).not.toBeNull()
-    expect(orderBook.getBestBuyPrice()).toBe(0.9)
-    expect(orderBook.getBestSellPrice()).toBe(1)
+    expect(orderBook.bestBuyPrice).toBe(0.9)
+    expect(orderBook.bestSellPrice).toBe(1)
 })

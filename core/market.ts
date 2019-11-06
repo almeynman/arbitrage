@@ -1,5 +1,5 @@
 import ExchangeFees from './exchange-fees'
-import OrderBook from './order-book'
+import { OrderBook } from './order-book'
 
 export default class Market {
 
@@ -13,17 +13,17 @@ export default class Market {
     return this.symbol
   }
 
-  getBestBuyPrice(): number {
-    return this.orderBook.getBestBuyPrice()
+  bestBuyPrice(): number {
+    return this.orderBook.bestBuyPrice
   }
 
-  getBestSellPrice(): number {
-    return this.orderBook.getBestSellPrice()
+  bestSellPrice(): number {
+    return this.orderBook.bestSellPrice
   }
 
   isLiquid(): boolean {
-    const sellPrice = this.getBestSellPrice()
-    const buyPrice = this.getBestBuyPrice()
+    const sellPrice = this.bestSellPrice()
+    const buyPrice = this.bestBuyPrice()
     return ((sellPrice - buyPrice) / sellPrice) < this.liquidityThreshold
   }
 }

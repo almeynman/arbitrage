@@ -1,15 +1,15 @@
 import Opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
-import OrderBook from './order-book'
 import Order from './order'
 import Market from './market'
+import { createOrderBook } from './order-book';
 
 test('buys in kraken and sells in kucoin', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 0.9, volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]
@@ -22,7 +22,7 @@ test('buys in kraken and sells in kucoin', () => {
 
   const kucoinFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 1.1, volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]
@@ -47,7 +47,7 @@ test('buys in kucoin and sells in kraken', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 1.1, volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]
@@ -60,7 +60,7 @@ test('buys in kucoin and sells in kraken', () => {
 
   const kucoinFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 0.9, volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]
@@ -85,7 +85,7 @@ test('should spot opportunity with fees', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 1.1, volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]
@@ -102,7 +102,7 @@ test('should spot opportunity with fees', () => {
 
   const kucoinFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 0., volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]

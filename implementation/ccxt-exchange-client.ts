@@ -1,5 +1,5 @@
 import ExchangeClient from './exchange-client'
-import { OrderBook } from 'core'
+import { createOrderBook, OrderBook } from 'core'
 
 const defaultCcxt = require('ccxt')
 
@@ -18,7 +18,7 @@ export default (ccxt: any = defaultCcxt): ExchangeClient => ({
 })
 
 function convertToCoreOrderBook(orderBook: any): OrderBook {
-    return new OrderBook({
+    return createOrderBook({
         buyWall: orderBook.bids.map(([price, volume]: any) => ({ price })),
         sellWall: orderBook.asks.map(([price, volume]: any) => ({ price }))
     })

@@ -1,7 +1,7 @@
 import Opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
-import OrderBook from './order-book'
+import { createOrderBook } from './order-book'
 import Assessment from './assessment'
 import Market from './market'
 
@@ -9,7 +9,7 @@ test('should return opportunity found', () => {
   const symbol = "FOO/BAR"
   const krakenFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 1.1, volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]
@@ -25,7 +25,7 @@ test('should return opportunity found', () => {
 
   const kucoinFooBarMarket = new Market(
     symbol,
-    new OrderBook(
+    createOrderBook(
       {
         buyWall: [{ price: 0.9, volume: 0 }],
         sellWall: [{ price: 1.0, volume: 0 }]
