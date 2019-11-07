@@ -2,9 +2,10 @@ import ExchangeClient from './exchange-client'
 import {
     Opportunist,
     Exchange,
-    Market,
+    createMarket,
     ExchangeFees,
-    OrderBook
+    OrderBook,
+    createOrderBook,
 } from 'core'
 import R from 'ramda';
 import AssessmentRepository from './assessment-repository';
@@ -32,11 +33,11 @@ export default class ArbitrageCoordination {
         const market1 = exchange1.markets[this.symbol]
         const market2 = exchange2.markets[this.symbol]
 
-        if (!market1.isLiquid()) {
+        if (!market1.isLiquid) {
             throw new Error(`One of the markets is illiquid ${JSON.stringify(market1, null, 4)}`)
         }
 
-        if (!market2.isLiquid()) {
+        if (!market2.isLiquid) {
             throw new Error(`One of the markets is illiquid ${JSON.stringify(market2, null, 4)}`)
         }
 
@@ -48,7 +49,7 @@ export default class ArbitrageCoordination {
         const [exchange1, exchange2] = R.zip(this.exchanges, orderBooks).map(([exchange, orderBook]) => {
             return new Exchange(
                 exchange.name,
-                { [this.symbol]: new Market(this.symbol, orderBook) },
+                { [this.symbol]: createMarket({ symbol: this.symbol, orderBook }) },
                 new ExchangeFees(exchange.fees.taker)
             )
         })
