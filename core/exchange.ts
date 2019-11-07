@@ -1,5 +1,5 @@
 import ExchangeFees from './exchange-fees'
-import Market from './market';
+import { Market } from './market';
 
 interface Markets {
   [key: string]: Market
@@ -28,14 +28,12 @@ export default class Exchange {
 
   bestBuyPrice(symbol: string): number {
     const market = this.findMarketBySymbol(symbol)
-    const bestBuyPrice = market.bestBuyPrice()
-    return bestBuyPrice
+    return market.bestBuyPrice
   }
 
   bestSellPrice(symbol: string): number {
     const market = this.findMarketBySymbol(symbol)
-    const bestSellPrice = market.bestSellPrice()
-    return bestSellPrice
+    return market.bestSellPrice
   }
 
   private findMarketBySymbol(symbol: string) {

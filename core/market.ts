@@ -1,29 +1,29 @@
 import ExchangeFees from './exchange-fees'
 import { OrderBook } from './order-book'
 
-export default class Market {
+export interface Market {
+  symbol: string
+  orderBook: OrderBook
+  bestBuyPrice: number
+  bestSellPrice: number
+  isLiquid: boolean
+}
 
-  constructor(
-    public symbol: string,
-    public orderBook: OrderBook,
-    public liquidityThreshold: number = 0.001,
-  ) {}
+interface CreateMarketArgs {
+  symbol: string,
+  orderBook: OrderBook,
+  liquidityThreshold?: number
+}
 
-  getSymbol(): string {
-    return this.symbol
-  }
-
-  bestBuyPrice(): number {
-    return this.orderBook.bestBuyPrice
-  }
-
-  bestSellPrice(): number {
-    return this.orderBook.bestSellPrice
-  }
-
-  isLiquid(): boolean {
-    const sellPrice = this.bestSellPrice()
-    const buyPrice = this.bestBuyPrice()
-    return ((sellPrice - buyPrice) / sellPrice) < this.liquidityThreshold
+export const createMarket = ({ symbol, orderBook, liquidityThreshold = 0.001 }: CreateMarketArgs): Market => {
+  const bestBuyPrice = orderBook.bestBuyPrice
+  const bestSellPrice = orderBook.bestSellPrice
+  const isLiquid = ((bestSellPrice - bestBuyPrice) / bestSellPrice) < liquidityThreshold
+  return {
+    symbol,
+    orderBook,
+    bestBuyPrice,
+    bestSellPrice,
+    isLiquid
   }
 }

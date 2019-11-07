@@ -1,5 +1,4 @@
 import Exchange from './exchange'
-import Market from './market'
 import Assessment from './assessment'
 
 interface OpportunistArgs {

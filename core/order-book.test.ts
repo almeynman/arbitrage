@@ -37,6 +37,42 @@ test('should throw if empty buy wall', () => {
   expect(catched).toBe(1)
 })
 
+test('should fail appropriately when passed undefined as buyWall', () => {
+  const args = {
+    buyWall: undefined,
+    sellWall: [
+      { price: 1.1, volume: 0 },
+      { price: 1, volume: 0 }
+    ]
+  }
+  let catched = 0
+  try {
+    createOrderBook(args)
+  } catch (e) {
+    catched++;
+    expect(e.message).toBe(`Cannot construct order book: buy or sell wall is empty ${args}`)
+  }
+  expect(catched).toBe(1)
+})
+
+test('should fail appropriately when passed null as buyWall', () => {
+  const args = {
+    buyWall: null,
+    sellWall: [
+      { price: 1.1, volume: 0 },
+      { price: 1, volume: 0 }
+    ]
+  }
+  let catched = 0
+  try {
+    createOrderBook(args)
+  } catch (e) {
+    catched++;
+    expect(e.message).toBe(`Cannot construct order book: buy or sell wall is empty ${args}`)
+  }
+  expect(catched).toBe(1)
+})
+
 test('should throw if empty sell wall', () => {
   const args = {
     buyWall: [

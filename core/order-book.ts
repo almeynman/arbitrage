@@ -7,16 +7,21 @@ export interface OrderBook {
   bestSellPrice: number
 }
 
-export const createOrderBook = (args: { buyWall: Array<Order>, sellWall: Array<Order> }): OrderBook => {
-  if (args.buyWall == null || args.buyWall.length == 0 || args.sellWall == null || args.sellWall.length == 0) {
-    throw new Error(`Cannot construct order book: buy or sell wall is empty ${args}`)
+interface CreateOrderBookArgs {
+  buyWall: Array<Order>
+  sellWall: Array<Order>
+}
+
+export const createOrderBook = ({ buyWall = [], sellWall = [] }: CreateOrderBookArgs): OrderBook => {
+  if (!buyWall || buyWall.length == 0 || !sellWall || sellWall.length == 0) {
+    throw new Error(`Cannot construct order book: buy or sell wall is empty ${{ buyWall, sellWall }}`)
   }
 
   return {
-    buyWall: args.buyWall,
-    sellWall: args.sellWall,
-    bestBuyPrice: args.buyWall.sort(highestPrice)[0].price,
-    bestSellPrice: args.sellWall.sort(lowestPrice)[0].price,
+    buyWall: buyWall,
+    sellWall: sellWall,
+    bestBuyPrice: buyWall.sort(highestPrice)[0].price,
+    bestSellPrice: sellWall.sort(lowestPrice)[0].price,
   }
 }
 
