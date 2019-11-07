@@ -1,9 +1,8 @@
 import Opportunist from './opportunist'
 import Exchange from './exchange'
-import ExchangeFees from './exchange-fees'
+import { createExchangeFees } from './exchange-fees'
 import { createOrderBook } from './order-book'
-import Assessment from './assessment'
-import { Market, createMarket } from './market'
+import { createMarket } from './market'
 
 test('should return opportunity found', () => {
   const symbol = "FOO/BAR"
@@ -19,9 +18,9 @@ test('should return opportunity found', () => {
   const kraken = new Exchange(
     "kraken",
     { [symbol]: krakenFooBarMarket },
-    new ExchangeFees(
-      0.04
-    )
+    createExchangeFees({
+      takerFee: 0.04
+    })
   )
 
   const kucoinFooBarMarket = createMarket({
@@ -36,9 +35,9 @@ test('should return opportunity found', () => {
   const kucoin = new Exchange(
     "kucoin",
     { [symbol]: kucoinFooBarMarket },
-    new ExchangeFees(
-      0.02
-    )
+    createExchangeFees({
+      takerFee: 0.02
+    })
   )
 
   const { assessment1, assessment2 } = new Opportunist().findOpportunity({

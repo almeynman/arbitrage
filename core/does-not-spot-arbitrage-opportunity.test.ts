@@ -1,8 +1,8 @@
 import Opportunist from './opportunist'
 import Exchange from './exchange'
-import ExchangeFees from './exchange-fees'
+import { ExchangeFees, createExchangeFees } from './exchange-fees'
 import { createOrderBook } from './order-book'
-import { Market, createMarket } from './market'
+import { createMarket } from './market'
 
 test('should not spot arbitrage opportunity', () => {
   const symbol = "FOO/BAR"
@@ -58,9 +58,9 @@ test('should not spot opportunity with fees', () => {
   const kraken = new Exchange(
     "kraken",
     { [symbol]: krakenFooBarMarket },
-    new ExchangeFees(
-      0.06
-    )
+    createExchangeFees({
+      takerFee: 0.06
+    })
   )
 
   const kucoinFooBarMarket = createMarket({
@@ -75,9 +75,9 @@ test('should not spot opportunity with fees', () => {
   const kucoin = new Exchange(
     "kucoin",
     { [symbol]: kucoinFooBarMarket },
-    new ExchangeFees(
-      0.1
-    )
+    createExchangeFees({
+      takerFee: 0.1
+    })
   )
 
   const { assessment1, assessment2 } = new Opportunist().findOpportunity({

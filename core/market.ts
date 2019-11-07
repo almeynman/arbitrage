@@ -1,4 +1,3 @@
-import ExchangeFees from './exchange-fees'
 import { OrderBook } from './order-book'
 
 export interface Market {

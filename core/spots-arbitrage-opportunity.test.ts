@@ -1,6 +1,6 @@
 import Opportunist from './opportunist'
 import Exchange from './exchange'
-import ExchangeFees from './exchange-fees'
+import { createExchangeFees } from './exchange-fees'
 import { createMarket } from './market'
 import { createOrderBook } from './order-book';
 
@@ -96,9 +96,9 @@ test('should spot opportunity with fees', () => {
   const kraken = new Exchange(
     "kraken",
     { [symbol]: krakenFooBarMarket },
-    new ExchangeFees(
-      0.01
-    )
+    createExchangeFees({
+      takerFee: 0.01
+    })
 
   )
 
@@ -114,9 +114,9 @@ test('should spot opportunity with fees', () => {
   const kucoin = new Exchange(
     "kucoin",
     { [symbol]: kucoinFooBarMarket },
-    new ExchangeFees(
-      0.01
-    )
+    createExchangeFees({
+      takerFee: 0.01
+    })
   )
 
   const opportunity = new Opportunist().findOpportunity({

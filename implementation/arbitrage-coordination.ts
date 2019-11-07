@@ -3,13 +3,12 @@ import {
     Opportunist,
     Exchange,
     createMarket,
-    ExchangeFees,
+    createExchangeFees,
     OrderBook,
-    createOrderBook,
 } from 'core'
 import R from 'ramda';
 import AssessmentRepository from './assessment-repository';
-
+[]
 export interface ExchangeArgs {
     name: string
     fees: {
@@ -50,7 +49,7 @@ export default class ArbitrageCoordination {
             return new Exchange(
                 exchange.name,
                 { [this.symbol]: createMarket({ symbol: this.symbol, orderBook }) },
-                new ExchangeFees(exchange.fees.taker)
+                createExchangeFees({ takerFee: exchange.fees.taker })
             )
         })
 

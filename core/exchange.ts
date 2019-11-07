@@ -1,4 +1,4 @@
-import ExchangeFees from './exchange-fees'
+import { ExchangeFees, createExchangeFees } from './exchange-fees'
 import { Market } from './market';
 
 interface Markets {
@@ -9,21 +9,21 @@ export default class Exchange {
   constructor(
     public name: string,
     public markets: Markets,
-    public fees: ExchangeFees = new ExchangeFees(0)
+    public fees: ExchangeFees = createExchangeFees({})
   ) { }
 
   getBuyCost(symbol: string): number {
     const buyPrice = this.bestBuyPrice(symbol)
-    return buyPrice + this.fees.taker * buyPrice
+    return buyPrice + this.fees.takerFee * buyPrice
   }
 
   getTakerFee(): number {
-    return this.fees.taker
+    return this.fees.takerFee
   }
 
   getSellCost(symbol: string): number {
     const sellPrice = this.bestSellPrice(symbol)
-    return sellPrice - this.fees.taker * sellPrice
+    return sellPrice - this.fees.takerFee * sellPrice
   }
 
   bestBuyPrice(symbol: string): number {

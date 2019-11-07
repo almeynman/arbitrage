@@ -1,15 +1,15 @@
 import { Order } from './order'
 
 export interface OrderBook {
-  buyWall: Array<Order>
-  sellWall: Array<Order>
+  buyWall: Order[]
+  sellWall: Order[]
   bestBuyPrice: number
   bestSellPrice: number
 }
 
 interface CreateOrderBookArgs {
-  buyWall: Array<Order>
-  sellWall: Array<Order>
+  buyWall: Order[]
+  sellWall: Order[]
 }
 
 export const createOrderBook = ({ buyWall = [], sellWall = [] }: CreateOrderBookArgs): OrderBook => {
