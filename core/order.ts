@@ -1,4 +1,4 @@
-export default interface Order {
+export interface Order {
   price: number;
   volume: number;
 }

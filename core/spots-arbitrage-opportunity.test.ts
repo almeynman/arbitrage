@@ -1,8 +1,7 @@
 import Opportunist from './opportunist'
 import Exchange from './exchange'
 import ExchangeFees from './exchange-fees'
-import Order from './order'
-import { Market, createMarket } from './market'
+import { createMarket } from './market'
 import { createOrderBook } from './order-book';
 
 test('buys in kraken and sells in kucoin', () => {
