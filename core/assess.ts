@@ -1,26 +1,35 @@
 import { Assessment, createAssessment } from './assessment'
 import { Exchange } from './exchange'
 
-interface OpportunistArgs {
+interface FindOpportunityArgs {
   symbol: string
   exchange1: Exchange
   exchange2: Exchange
 }
 
-export default class Opportunist {
-  findOpportunity({
-    symbol,
-    exchange1,
-    exchange2,
-  }: OpportunistArgs): { assessment1: Assessment; assessment2: Assessment } {
-    const assessment1 = assess(symbol, exchange1, exchange2)
-    const assessment2 = assess(symbol, exchange2, exchange1)
-
-    return { assessment1, assessment2 }
-  }
+interface AssessmentPair {
+  assessment1: Assessment
+  assessment2: Assessment
 }
 
-function assess(symbol: string, buyIn: Exchange, sellTo: Exchange): Assessment {
+export const assess = ({
+  symbol,
+  exchange1,
+  exchange2,
+}: FindOpportunityArgs): AssessmentPair => {
+  const assessment1 = assessScenario(symbol, exchange1, exchange2)
+  const assessment2 = assessScenario(symbol, exchange2, exchange1)
+
+  return { assessment1, assessment2 }
+}
+
+export type Assess = typeof assess
+
+function assessScenario(
+  symbol: string,
+  buyIn: Exchange,
+  sellTo: Exchange,
+): Assessment {
   const coefficient = calculateCoefficient({
     buyCost: buyIn.getBuyCost(symbol),
     sellCost: sellTo.getSellCost(symbol),

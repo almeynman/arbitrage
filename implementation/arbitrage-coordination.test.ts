@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
 
 let exchangeClient: any
-let opportunist: any
+let assess: any
 let assessmentRepository: any
 let arbitrageCoordination: ArbitrageCoordination
 
@@ -26,9 +26,7 @@ beforeEach(() => {
             )
     }
 
-    opportunist = {
-        findOpportunity: sinon.stub().returns({})
-    }
+    assess = sinon.stub().returns({})
 
     assessmentRepository = {
         save: sinon.spy()
@@ -50,7 +48,7 @@ beforeEach(() => {
 
     arbitrageCoordination = new ArbitrageCoordination(
         exchangeClient,
-        opportunist,
+        assess,
         assessmentRepository,
         [exchange1, exchange2],
         symbol
@@ -73,7 +71,7 @@ test('should fetch order books for any two exchanges', async () => {
 test('should find opportunity for any two exchanges', async () => {
     await arbitrageCoordination.arbitrate()
 
-    expect(opportunist.findOpportunity.calledOnce).toBeTruthy()
+    expect(assess.calledOnce).toBeTruthy()
 })
 
 test('should persist assessments', async () => {
@@ -96,7 +94,7 @@ test('should not find opportunity if illiquid markets', async () => {
     }
     arbitrageCoordination = new ArbitrageCoordination(
         exchangeClient,
-        opportunist,
+        assess,
         assessmentRepository,
         [exchange1, exchange2],
         symbol

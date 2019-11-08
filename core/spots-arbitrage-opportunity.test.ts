@@ -1,7 +1,7 @@
+import { assess } from './assess'
 import { createExchange } from './exchange'
 import { createExchangeFees } from './exchange-fees'
 import { createMarket } from './market'
-import Opportunist from './opportunist'
 import { createOrderBook } from './order-book'
 
 test('buys in kraken and sells in kucoin', () => {
@@ -30,13 +30,13 @@ test('buys in kraken and sells in kucoin', () => {
     markets: { [symbol]: kucoinFooBarMarket },
   })
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment1 } = assess({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).not.toBeNull()
+  expect(assessment1.isOpportunity).toBe(true)
 })
 
 test('buys in kucoin and sells in kraken', () => {
@@ -65,13 +65,13 @@ test('buys in kucoin and sells in kraken', () => {
     markets: { [symbol]: kucoinFooBarMarket },
   })
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment2 } = assess({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).not.toBeNull()
+  expect(assessment2.isOpportunity).toBe(true)
 })
 
 test('should spot opportunity with fees', () => {
@@ -106,11 +106,11 @@ test('should spot opportunity with fees', () => {
     }),
   })
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment2 } = assess({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).not.toBeNull()
+  expect(assessment2.isOpportunity).toBe(true)
 })

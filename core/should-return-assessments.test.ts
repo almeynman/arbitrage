@@ -1,7 +1,7 @@
+import { assess } from './assess'
 import { createExchange } from './exchange'
 import { createExchangeFees } from './exchange-fees'
 import { createMarket } from './market'
-import Opportunist from './opportunist'
 import { createOrderBook } from './order-book'
 
 test('should return opportunity found', () => {
@@ -36,7 +36,7 @@ test('should return opportunity found', () => {
     }),
   })
 
-  const { assessment1, assessment2 } = new Opportunist().findOpportunity({
+  const { assessment1, assessment2 } = assess({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
