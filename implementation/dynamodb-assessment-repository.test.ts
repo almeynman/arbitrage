@@ -1,20 +1,20 @@
-import Assessment from 'core/assessment'
-import getDynamoDbAssessmentRepository from './dynamodb-assessment-repository'
-import * as AWS from 'aws-sdk';
-import * as AWSMock from "aws-sdk-mock";
+import * as AWS from 'aws-sdk'
+import * as AWSMock from 'aws-sdk-mock';
 import * as chai from 'chai'
+import { createAssessment } from 'core'
 import sinonChai from 'sinon-chai'
+import getDynamoDbAssessmentRepository from './dynamodb-assessment-repository'
 
-const expect = chai.expect;
+const expect = chai.expect
 chai.use(sinonChai)
 
 test('puts an assessment to a document client', async () => {
-  AWSMock.setSDKInstance(AWS);
+  AWSMock.setSDKInstance(AWS)
   AWSMock.mock('DynamoDB.DocumentClient', 'put', (_: any, callback: Function) => callback(null, null))
   const docClient = new AWS.DynamoDB.DocumentClient()
 
   const assessmentRepository = getDynamoDbAssessmentRepository(docClient, 'assessment')
-  const assessment = new Assessment({
+  const assessment = createAssessment({
     symbol: 'EUR/BTC',
     coefficient: 1.1,
     buy: {
@@ -30,4 +30,4 @@ test('puts an assessment to a document client', async () => {
   })
   await assessmentRepository.save(assessment)
   expect(docClient.put).to.have.been.called
-});
+})

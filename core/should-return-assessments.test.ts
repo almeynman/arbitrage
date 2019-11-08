@@ -42,5 +42,5 @@ test('should return opportunity found', () => {
     exchange2: kucoin,
   })
 
-  expect(assessment1.isOpportunity() || assessment2.isOpportunity()).toBe(true)
+  expect(assessment1.isOpportunity || assessment2.isOpportunity).toBe(true)
 })

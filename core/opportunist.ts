@@ -1,4 +1,4 @@
-import Assessment from './assessment'
+import { Assessment, createAssessment } from './assessment'
 import { Exchange } from './exchange'
 
 interface OpportunistArgs {
@@ -25,7 +25,7 @@ function assess(symbol: string, buyIn: Exchange, sellTo: Exchange): Assessment {
     buyCost: buyIn.getBuyCost(symbol),
     sellCost: sellTo.getSellCost(symbol),
   })
-  return new Assessment({
+  return createAssessment({
     symbol,
     coefficient,
     buy: {

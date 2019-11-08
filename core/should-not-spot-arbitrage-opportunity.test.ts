@@ -36,8 +36,8 @@ test('should not spot arbitrage opportunity', () => {
     exchange2: kucoin,
   })
 
-  expect(assessment1.isOpportunity()).toBe(false)
-  expect(assessment2.isOpportunity()).toBe(false)
+  expect(assessment1.isOpportunity).toBe(false)
+  expect(assessment2.isOpportunity).toBe(false)
 })
 
 test('should not spot opportunity with fees', () => {
@@ -78,6 +78,6 @@ test('should not spot opportunity with fees', () => {
     exchange2: kucoin,
   })
 
-  expect(assessment1.isOpportunity()).toBe(false)
-  expect(assessment2.isOpportunity()).toBe(false)
+  expect(assessment1.isOpportunity).toBe(false)
+  expect(assessment2.isOpportunity).toBe(false)
 })

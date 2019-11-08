@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk'
-import Assessment from 'core/assessment'
+import { Assessment } from 'core'
 import uuidv4 from 'uuid/v4'
 import AssessmentRepository from './assessment-repository'
 
