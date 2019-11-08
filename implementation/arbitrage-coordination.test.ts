@@ -1,12 +1,5 @@
+import { createOrderBook } from 'core'
 import sinon from 'sinon'
-
-import {
-    Opportunist,
-    Exchange,
-    Market,
-    createOrderBook
-} from 'core'
-
 import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
 
 let exchangeClient: any
@@ -17,36 +10,51 @@ let arbitrageCoordination: ArbitrageCoordination
 let exchange1: ExchangeArgs
 let exchange2: ExchangeArgs
 
-let symbol = 'FOO/BAR'
+const symbol = 'FOO/BAR'
 
 beforeEach(() => {
     exchangeClient = {
-        fetchOrderBook: sinon.stub().returns(Promise.resolve(createOrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 1.8, volume: 0 }] })))
+        fetchOrderBook: sinon
+            .stub()
+            .returns(
+                Promise.resolve(
+                    createOrderBook({
+                        buyWall: [{ price: 1.9, volume: 0 }],
+                        sellWall: [{ price: 1.8, volume: 0 }]
+                    })
+                )
+            )
     }
 
     opportunist = {
         findOpportunity: sinon.stub().returns({})
     }
 
-   assessmentRepository = {
+    assessmentRepository = {
         save: sinon.spy()
     }
 
     exchange1 = {
-        name: 'exchange1',
         fees: {
             taker: 1,
-        }
+        },
+        name: 'exchange1',
     }
 
     exchange2 = {
-        name: 'exchange2',
         fees: {
             taker: 1,
-        }
+        },
+        name: 'exchange2',
     }
 
-    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, assessmentRepository, [exchange1, exchange2], symbol)
+    arbitrageCoordination = new ArbitrageCoordination(
+        exchangeClient,
+        opportunist,
+        assessmentRepository,
+        [exchange1, exchange2],
+        symbol
+    )
 })
 
 test('should fetch order book for two exchanges', async () => {
@@ -75,16 +83,31 @@ test('should persist assessments', async () => {
 
 test('should not find opportunity if illiquid markets', async () => {
     exchangeClient = {
-        fetchOrderBook: sinon.stub().returns(Promise.resolve(createOrderBook({ buyWall: [{ price: 1.9, volume: 0 }], sellWall: [{ price: 2.8, volume: 0 }] })))
+        fetchOrderBook: sinon
+            .stub()
+            .returns(
+                Promise.resolve(
+                    createOrderBook({
+                        buyWall: [{ price: 1.9, volume: 0 }],
+                        sellWall: [{ price: 2.8, volume: 0 }]
+                    })
+                )
+            )
     }
-    arbitrageCoordination = new ArbitrageCoordination(exchangeClient, opportunist, assessmentRepository, [exchange1, exchange2], symbol)
+    arbitrageCoordination = new ArbitrageCoordination(
+        exchangeClient,
+        opportunist,
+        assessmentRepository,
+        [exchange1, exchange2],
+        symbol
+    )
 
     let catched = 0
     try {
         await arbitrageCoordination.arbitrate()
     } catch (e) {
         expect(e.message.startsWith('One of the markets is illiquid')).toBe(true)
-        catched++
+        catched += 1
     }
     expect(catched).toBe(1)
 })

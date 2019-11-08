@@ -1,42 +1,54 @@
-import { ExchangeFees, createExchangeFees } from './exchange-fees'
-import { Market } from './market';
+import { createExchangeFees, ExchangeFees } from './exchange-fees'
+import { Market } from './market'
 
 interface Markets {
   [key: string]: Market
 }
 
-export default class Exchange {
-  constructor(
-    public name: string,
-    public markets: Markets,
-    public fees: ExchangeFees = createExchangeFees({})
-  ) { }
+export interface Exchange {
+  name: string
+  markets: Markets
+  fees: ExchangeFees
+  takerFee: number
+  getBuyCost: (symbol: string) => number
+  getSellCost: (symbol: string) => number
+  getBestBuyPrice: (symbol: string) => number
+  getBestSellPrice: (symbol: string) => number
+}
 
-  getBuyCost(symbol: string): number {
-    const buyPrice = this.bestBuyPrice(symbol)
-    return buyPrice + this.fees.takerFee * buyPrice
-  }
+interface CreateExchangeArgs {
+  name: string
+  markets: Markets
+  fees?: ExchangeFees
+}
 
-  getTakerFee(): number {
-    return this.fees.takerFee
-  }
+export const createExchange = ({
+  name,
+  markets,
+  fees = createExchangeFees({}),
+}: CreateExchangeArgs): Exchange => {
+  const findMarketBySymbol = (symbol: string): Market => markets[symbol]
 
-  getSellCost(symbol: string): number {
-    const sellPrice = this.bestSellPrice(symbol)
-    return sellPrice - this.fees.takerFee * sellPrice
-  }
-
-  bestBuyPrice(symbol: string): number {
-    const market = this.findMarketBySymbol(symbol)
-    return market.bestBuyPrice
-  }
-
-  bestSellPrice(symbol: string): number {
-    const market = this.findMarketBySymbol(symbol)
-    return market.bestSellPrice
-  }
-
-  private findMarketBySymbol(symbol: string) {
-    return this.markets[symbol]
+  return {
+    name,
+    markets,
+    fees,
+    takerFee: fees.takerFee,
+    getBuyCost(symbol: string): number {
+      const buyPrice = this.getBestBuyPrice(symbol)
+      return buyPrice + fees.takerFee * buyPrice
+    },
+    getSellCost(symbol: string): number {
+      const sellPrice = this.getBestSellPrice(symbol)
+      return sellPrice - fees.takerFee * sellPrice
+    },
+    getBestBuyPrice(symbol: string): number {
+      const market = findMarketBySymbol(symbol)
+      return market.bestBuyPrice
+    },
+    getBestSellPrice(symbol: string): number {
+      const market = findMarketBySymbol(symbol)
+      return market.bestSellPrice
+    },
   }
 }

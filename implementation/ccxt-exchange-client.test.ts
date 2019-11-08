@@ -2,7 +2,7 @@ import getCcxtExchangeClient from './ccxt-exchange-client'
 
 class AnyExchange {
     public async loadMarkets() {}
-    public async fetchOrderBook(symbol: string): Promise<any> {
+    public async fetchOrderBook(_: string): Promise<any> {
         return {
             bids: [
                 [
@@ -33,7 +33,7 @@ test('should obtain an order book', async () => {
     const anySymbol = 'foobar'
 
     const ccxt = {
-      'any': AnyExchange
+      any: AnyExchange
     }
 
     const ccxtExchangeClient = getCcxtExchangeClient(ccxt)

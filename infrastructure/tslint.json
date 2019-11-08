@@ -5,6 +5,8 @@
     ],
     "jsRules": {},
     "rules": {
+        "no-unused-imports": true,
+        "no-unused-variable": true,
         "semicolon":[true, "never"],
         "quotemark": [true, "single"],
         "trailing-comma":[false],

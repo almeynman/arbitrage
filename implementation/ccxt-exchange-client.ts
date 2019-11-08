@@ -1,7 +1,6 @@
-import ExchangeClient from './exchange-client'
+import defaultCcxt from 'ccxt'
 import { createOrderBook, OrderBook } from 'core'
-
-const defaultCcxt = require('ccxt')
+import ExchangeClient from './exchange-client'
 
 export default (ccxt: any = defaultCcxt): ExchangeClient => ({
     async fetchOrderBook(exchange: string, symbol: string): Promise<OrderBook> {
@@ -19,7 +18,7 @@ export default (ccxt: any = defaultCcxt): ExchangeClient => ({
 
 function convertToCoreOrderBook(orderBook: any): OrderBook {
     return createOrderBook({
-        buyWall: orderBook.bids.map(([price, volume]: any) => ({ price })),
-        sellWall: orderBook.asks.map(([price, volume]: any) => ({ price }))
+        buyWall: orderBook.bids.map(([price, volume]: any) => ({ price, volume })),
+        sellWall: orderBook.asks.map(([price, volume]: any) => ({ price, volume }))
     })
 }

@@ -2,7 +2,6 @@ cdk.out/
 node_modules/
 *.log
 *.tgz
-.vscode/
 *.ignore.json
 *-service-account*
 .localstack

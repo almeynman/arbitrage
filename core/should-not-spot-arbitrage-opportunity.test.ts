@@ -4,12 +4,12 @@ import { createMarket } from './market'
 import Opportunist from './opportunist'
 import { createOrderBook } from './order-book'
 
-test('buys in kraken and sells in kucoin', () => {
+test('should not spot arbitrage opportunity', () => {
   const symbol = 'FOO/BAR'
   const krakenFooBarMarket = createMarket({
     symbol,
     orderBook: createOrderBook({
-      buyWall: [{ price: 0.9, volume: 0 }],
+      buyWall: [{ price: 1.0, volume: 0 }],
       sellWall: [{ price: 1.0, volume: 0 }],
     }),
   })
@@ -21,7 +21,7 @@ test('buys in kraken and sells in kucoin', () => {
   const kucoinFooBarMarket = createMarket({
     symbol,
     orderBook: createOrderBook({
-      buyWall: [{ price: 1.1, volume: 0 }],
+      buyWall: [{ price: 1.0, volume: 0 }],
       sellWall: [{ price: 1.0, volume: 0 }],
     }),
   })
@@ -30,51 +30,17 @@ test('buys in kraken and sells in kucoin', () => {
     markets: { [symbol]: kucoinFooBarMarket },
   })
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment1, assessment2 } = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).not.toBeNull()
+  expect(assessment1.isOpportunity()).toBe(false)
+  expect(assessment2.isOpportunity()).toBe(false)
 })
 
-test('buys in kucoin and sells in kraken', () => {
-  const symbol = 'FOO/BAR'
-  const krakenFooBarMarket = createMarket({
-    symbol,
-    orderBook: createOrderBook({
-      buyWall: [{ price: 1.1, volume: 0 }],
-      sellWall: [{ price: 1.0, volume: 0 }],
-    }),
-  })
-  const kraken = createExchange({
-    name: 'kraken',
-    markets: { [symbol]: krakenFooBarMarket },
-  })
-
-  const kucoinFooBarMarket = createMarket({
-    symbol,
-    orderBook: createOrderBook({
-      buyWall: [{ price: 0.9, volume: 0 }],
-      sellWall: [{ price: 1.0, volume: 0 }],
-    }),
-  })
-  const kucoin = createExchange({
-    name: 'kucoin',
-    markets: { [symbol]: kucoinFooBarMarket },
-  })
-
-  const opportunity = new Opportunist().findOpportunity({
-    symbol,
-    exchange1: kraken,
-    exchange2: kucoin,
-  })
-
-  expect(opportunity).not.toBeNull()
-})
-
-test('should spot opportunity with fees', () => {
+test('should not spot opportunity with fees', () => {
   const symbol = 'FOO/BAR'
   const krakenFooBarMarket = createMarket({
     symbol,
@@ -87,14 +53,14 @@ test('should spot opportunity with fees', () => {
     name: 'kraken',
     markets: { [symbol]: krakenFooBarMarket },
     fees: createExchangeFees({
-      takerFee: 0.01,
+      takerFee: 0.06,
     }),
   })
 
   const kucoinFooBarMarket = createMarket({
     symbol,
     orderBook: createOrderBook({
-      buyWall: [{ price: 0, volume: 0 }],
+      buyWall: [{ price: 0.9, volume: 0 }],
       sellWall: [{ price: 1.0, volume: 0 }],
     }),
   })
@@ -102,15 +68,16 @@ test('should spot opportunity with fees', () => {
     name: 'kucoin',
     markets: { [symbol]: kucoinFooBarMarket },
     fees: createExchangeFees({
-      takerFee: 0.01,
+      takerFee: 0.1,
     }),
   })
 
-  const opportunity = new Opportunist().findOpportunity({
+  const { assessment1, assessment2 } = new Opportunist().findOpportunity({
     symbol,
     exchange1: kraken,
     exchange2: kucoin,
   })
 
-  expect(opportunity).not.toBeNull()
+  expect(assessment1.isOpportunity()).toBe(false)
+  expect(assessment2.isOpportunity()).toBe(false)
 })

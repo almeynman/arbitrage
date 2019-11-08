@@ -1,7 +1,7 @@
 import { combineIntoPairs } from './get-exchange-pairs'
 
 test('combines into pairs', async () => {
-  let array = ["apple", "banana", "lemon", "mango"];
+  const array = ['apple', 'banana', 'lemon', 'mango']
   const pairs = combineIntoPairs(array)
   expect(pairs).toEqual([
     ['apple', 'banana'],
@@ -11,4 +11,4 @@ test('combines into pairs', async () => {
     ['banana', 'mango'],
     ['lemon', 'mango']
   ])
-});
+})

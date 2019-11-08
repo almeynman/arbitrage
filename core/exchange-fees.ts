@@ -6,6 +6,8 @@ interface CreateExchangeFeesArgs {
   takerFee?: number
 }
 
-export const createExchangeFees = ({ takerFee = 0.0026 }: CreateExchangeFeesArgs): ExchangeFees => ({
-  takerFee
+export const createExchangeFees = ({
+  takerFee = 0.0026,
+}: CreateExchangeFeesArgs): ExchangeFees => ({
+  takerFee,
 })

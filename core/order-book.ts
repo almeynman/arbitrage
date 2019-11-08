@@ -12,14 +12,22 @@ interface CreateOrderBookArgs {
   sellWall: Order[]
 }
 
-export const createOrderBook = ({ buyWall = [], sellWall = [] }: CreateOrderBookArgs): OrderBook => {
-  if (!buyWall || buyWall.length == 0 || !sellWall || sellWall.length == 0) {
-    throw new Error(`Cannot construct order book: buy or sell wall is empty ${{ buyWall, sellWall }}`)
+export const createOrderBook = ({
+  buyWall = [],
+  sellWall = [],
+}: CreateOrderBookArgs): OrderBook => {
+  if (!buyWall || buyWall.length === 0 || !sellWall || sellWall.length === 0) {
+    throw new Error(
+      `Cannot construct order book: buy or sell wall is empty ${{
+        buyWall,
+        sellWall,
+      }}`,
+    )
   }
 
   return {
-    buyWall: buyWall,
-    sellWall: sellWall,
+    buyWall,
+    sellWall,
     bestBuyPrice: buyWall.sort(highestPrice)[0].price,
     bestSellPrice: sellWall.sort(lowestPrice)[0].price,
   }
