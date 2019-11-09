@@ -1,17 +1,13 @@
 import sinon from 'sinon'
 
-import { createOrderBook } from './'
-import ArbitrageCoordination, { ExchangeArgs } from './arbitrage-coordination'
+import { createOrderBook } from '.'
+import { arbitrate, ExchangeArgs } from './arbitrate'
 
 let exchangeClient: any
-let assess: any
 let assessmentRepository: any
-let arbitrageCoordination: ArbitrageCoordination
-
-let exchange1: ExchangeArgs
-let exchange2: ExchangeArgs
-
+let exchanges: [ExchangeArgs, ExchangeArgs]
 const symbol = 'FOO/BAR'
+let assess: any
 
 beforeEach(() => {
   exchangeClient = {
@@ -25,43 +21,48 @@ beforeEach(() => {
     ),
   }
 
-  assess = sinon.stub().returns({})
-
   assessmentRepository = {
     save: sinon.spy(),
   }
 
-  exchange1 = {
+  const exchange1 = {
     fees: {
       taker: 1,
     },
     name: 'exchange1',
   }
 
-  exchange2 = {
+  const exchange2 = {
     fees: {
       taker: 1,
     },
     name: 'exchange2',
   }
 
-  arbitrageCoordination = new ArbitrageCoordination(
-    exchangeClient,
-    assess,
-    assessmentRepository,
-    [exchange1, exchange2],
-    symbol,
-  )
+  exchanges = [exchange1, exchange2]
+  assess = sinon.stub().returns({})
 })
 
 test('should fetch order book for two exchanges', async () => {
-  await arbitrageCoordination.arbitrate()
+  await arbitrate({
+    exchangeClient,
+    assessmentRepository,
+    exchanges,
+    symbol,
+    assess,
+  })
 
   expect(exchangeClient.fetchOrderBook.calledTwice).toBeTruthy()
 })
 
 test('should fetch order books for any two exchanges', async () => {
-  await arbitrageCoordination.arbitrate()
+  await arbitrate({
+    exchangeClient,
+    assessmentRepository,
+    exchanges,
+    symbol,
+    assess,
+  })
 
   expect(
     exchangeClient.fetchOrderBook.withArgs('exchange1', symbol).calledOnce,
@@ -72,13 +73,26 @@ test('should fetch order books for any two exchanges', async () => {
 })
 
 test('should find opportunity for any two exchanges', async () => {
-  await arbitrageCoordination.arbitrate()
+  await arbitrate({
+    exchangeClient,
+    assessmentRepository,
+    exchanges,
+    symbol,
+    assess,
+  })
 
   expect(assess.calledOnce).toBeTruthy()
 })
 
 test('should persist assessments', async () => {
-  await arbitrageCoordination.arbitrate()
+  await arbitrate({
+    exchangeClient,
+    assessmentRepository,
+    exchanges,
+    symbol,
+    assess,
+  })
+
   expect(assessmentRepository.save.calledTwice).toBeTruthy()
 })
 
@@ -93,17 +107,16 @@ test('should not find opportunity if illiquid markets', async () => {
       ),
     ),
   }
-  arbitrageCoordination = new ArbitrageCoordination(
-    exchangeClient,
-    assess,
-    assessmentRepository,
-    [exchange1, exchange2],
-    symbol,
-  )
 
   let catched = 0
   try {
-    await arbitrageCoordination.arbitrate()
+    await arbitrate({
+      exchangeClient,
+      assessmentRepository,
+      exchanges,
+      symbol,
+      assess,
+    })
   } catch (e) {
     expect(e.message.startsWith('One of the markets is illiquid')).toBe(true)
     catched += 1

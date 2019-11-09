@@ -1,8 +1,15 @@
 import AWS from 'aws-sdk'
-import { Opportunist } from 'core'
-import { getDynamoDbAssessmentRepository, getCcxtExchangeClient, ArbitrageCoordination, getExchangePairs, findCommonSymbols } from 'implementation'
-import { Config } from './config'
+import {
+  arbitrate
+} from 'core'
+import {
+  findCommonSymbols,
+  getCcxtExchangeClient,
+  getDynamoDbAssessmentRepository,
+  getExchangePairs
+} from 'implementation'
 import blacklistExchanges from './blacklist'
+import { Config } from './config'
 
 export type SendMessageToNextQueue = (message: string) => Promise<any>
 export interface Params {
@@ -12,12 +19,11 @@ export interface Params {
 }
 
 export const sendExchangePairs = async ({ sendMessageToNextQueue }: Params) => {
-  const exchangeClient = getCcxtExchangeClient()
-  let pairs = getExchangePairs().filter(([exchange1, exchange2]) =>
+  const pairs = getExchangePairs().filter(([exchange1, exchange2]) =>
     !blacklistExchanges.includes(exchange1) && !blacklistExchanges.includes(exchange2)
   )
   console.log(`Sending ${pairs.length} exchange pairs`)
-  pairs.forEach(exchanges => sendMessageToNextQueue(JSON.stringify({ exchanges })))
+  pairs.forEach((exchanges) => sendMessageToNextQueue(JSON.stringify({ exchanges })))
 }
 
 export const dispatchWithCommonSymbols = async ({ message, sendMessageToNextQueue }: Params) => {
@@ -26,9 +32,9 @@ export const dispatchWithCommonSymbols = async ({ message, sendMessageToNextQueu
   console.log(`Sending ${symbols.length} symbols for exchange pair ${exchanges}`)
   await Promise.all(
     symbols.map(
-      symbol => sendMessageToNextQueue(JSON.stringify({ symbol, exchanges }))
+      (symbol) => sendMessageToNextQueue(JSON.stringify({ symbol, exchanges }))
     )
-  );
+  )
 }
 
 export const assess = async ({ message, config: { dynamoDb } }: Params) => {
@@ -38,18 +44,15 @@ export const assess = async ({ message, config: { dynamoDb } }: Params) => {
     ? new AWS.DynamoDB.DocumentClient({ endpoint: dynamoDb.endpoint }) : new AWS.DynamoDB.DocumentClient()
   const assessmentRepository = getDynamoDbAssessmentRepository(documentClient, dynamoDb.assessmentTableName)
 
-  const coordination = new ArbitrageCoordination(
+  await arbitrate({
     exchangeClient,
-    new Opportunist(),
     assessmentRepository,
-    exchanges.map((name: string) => ({
+    exchanges: exchanges.map((name: string) => ({
       name,
       fees: {
         taker: 0.26
       }
     })),
     symbol
-  )
-
-  await coordination.arbitrate()
+  })
 }

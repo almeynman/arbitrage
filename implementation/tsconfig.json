@@ -17,7 +17,7 @@
   "include": [
     "**/*.ts",
     "./implementation/dynamodb-opportunity-repository.ts",
-    "./implementation/dynamodb-opportunity-repository.test.ts", "../core/assessment-repository.ts", "../core/arbitrage-coordination.ts", "../core/arbitrage-coordination.test.ts", "../core/exchange-client.ts"
+    "./implementation/dynamodb-opportunity-repository.test.ts", "../core/assessment-repository.ts", "../core/arbitrate.ts", "../core/arbit../core/arbitrate.test.tsxchange-client.ts"
   ],
   "exclude": ["node_modules/**/*"]
 }

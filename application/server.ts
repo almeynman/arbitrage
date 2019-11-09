@@ -1,13 +1,12 @@
 import AWS from 'aws-sdk'
 import { Consumer } from 'sqs-consumer'
-import {
-  sendExchangePairs,
-  dispatchWithCommonSymbols,
-  assess,
-  SendMessageToNextQueue,
-  Params,
-} from './index'
 import config from './config'
+import {
+  assess,
+  dispatchWithCommonSymbols,
+  Params,
+  sendExchangePairs,
+} from './index'
 
 AWS.config.update(config.aws)
 
@@ -50,17 +49,17 @@ function consumeSqsQueue({ sqs, queueUrl, handleMessage, nextQueueUrl }: Consume
   })
 
   app.on('error', (err) => {
-    console.error(err.message);
-  });
+    console.error(err.message)
+  })
 
   app.on('processing_error', (err) => {
-    console.error(err.message);
-  });
+    console.error(err.message)
+  })
 
   app.on('timeout_error', (err) => {
-    console.error(err.message);
-  });
+    console.error(err.message)
+  })
 
-  app.start();
+  app.start()
   console.log(`setup listener to ${queueUrl}`)
 }
