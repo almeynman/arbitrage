@@ -1,4 +1,4 @@
 export interface Order {
-  price: number;
-  volume: number;
+  price: number
+  volume: number
 }

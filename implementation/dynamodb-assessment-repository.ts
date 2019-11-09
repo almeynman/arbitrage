@@ -1,7 +1,6 @@
 import { DynamoDB } from 'aws-sdk'
-import { Assessment } from 'core'
+import { Assessment, AssessmentRepository } from 'core'
 import uuidv4 from 'uuid/v4'
-import AssessmentRepository from './assessment-repository'
 
 export default (docClient: DynamoDB.DocumentClient, tableName: string): AssessmentRepository => ({
   async save(assessment: Assessment): Promise<void> {

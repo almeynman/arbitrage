@@ -1,6 +1,5 @@
 import defaultCcxt from 'ccxt'
-import { createOrderBook, OrderBook } from 'core'
-import ExchangeClient from './exchange-client'
+import { createOrderBook, ExchangeClient, OrderBook } from 'core'
 
 export default (ccxt: any = defaultCcxt): ExchangeClient => ({
     async fetchOrderBook(exchange: string, symbol: string): Promise<OrderBook> {
