@@ -1,0 +1,30 @@
+{
+  "name": "assessor-app",
+  "version": "1.0.1",
+  "main": "build/app.js",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint . --quiet --fix",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest --passWithNoTests",
+    "clean": "rm -rf ./build && rm -rf assessor-app.zip && rm -rf cdk.out && rm -rf .localstack",
+    "start": "yarn build && docker-compose up -d && sh bootstrap.sh && (nodemon & yarn start:simulate-scheduler)",
+    "stop": "docker-compose down",
+    "deploy": "yarn clean && yarn build && yarn deploy:bootstrap && yarn build:workspace && cdk synth --verbose && yarn deploy:image && yarn deploy:app",
+    "destroy": "yarn destroy:image && yarn destroy:app",
+    "deploy:cdk-synth": "cdk synth --verbose",
+    "build:workspace": "cd ../ && npx workspace-pack assessor-app --build-dir build --output assessor-app/assessor-app.zip && rm -rf build && cd assessor-app",
+    "start:simulate-scheduler": "aws --endpoint-url=http://localhost:4576 sqs send-message --queue-url http://localhost:4576/queue/send-exchange-pairs --region us-east-1 --message-body 'Wassup?'",
+    "deploy:bootstrap": "cdk bootstrap --verbose",
+    "deploy:image": "cdk deploy assessor-app-image --require-approval never --verbose",
+    "deploy:app": "cdk deploy assessor-app-stack --require-approval never --verbose",
+    "destroy:image": "cdk destroy assessor-app-image --force --verbose",
+    "destroy:app": "cdk destroy assessor-app-stack --force --verbose"
+  },
+  "dependencies": {
+    "business-logic": "^1.0.1",
+    "adapters": "^1.0.1",
+    "ts-aws-app-common": "^1.0.1",
+    "ts-lib-common": "^1.0.1"
+  }
+}

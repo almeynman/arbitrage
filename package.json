@@ -1,36 +1,24 @@
 {
-  "name": "arbitrage",
+  "name": "root",
   "private": true,
-  "engines": {
-    "node": ">=10",
-    "npm": ">=6.9.0"
-  },
+  "workspaces": [
+    "*"
+  ],
   "scripts": {
-    "bootstrap": "npx lerna bootstrap --hoist && npm i && lerna exec npm i && npm run build",
-    "build": "lerna exec npm run build",
-    "clean": "lerna clean && rm -rf ./node_modules/ && find . -name \"package-lock.json\" -delete",
-    "lint": "eslint --format=codeframe '**/*.js'",
-    "test": "lerna run test",
-    "update-version": "lerna version",
-    "deploy": "lerna run deploy"
-  },
-  "devDependencies": {
-    "lerna": "^3.13.3",
-    "prettier": "^1.18.2",
-    "tar": ">=2.2.2",
-    "tslint": "^5.20.1",
-    "tslint-config-airbnb": "^5.11.2",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-consistent-codestyle": "^1.16.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "tslint-origin-ordered-imports-rule": "^1.2.2",
-    "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.7.2"
+    "lint": "yarn workspaces run lint",
+    "watch": "yarn workspaces run watch",
+    "build": "yarn workspaces run build",
+    "test": "yarn workspaces run test",
+    "clean": "yarn workspaces run clean",
+    "clean:all": "yarn clean && yarn clean:node_modules",
+    "clean:node_modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
   },
   "lint-staged": {
     "*.js": [
       "eslint --format=codeframe"
     ]
   },
-  "dependencies": {}
+  "devDependencies": {
+    "wsrun": "^5.0.2"
+  }
 }
