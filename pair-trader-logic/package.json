@@ -1,0 +1,27 @@
+{
+  "name": "pair-trader-logic",
+  "version": "1.0.1",
+  "main": "build/index.js",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint . --quiet --fix",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "cucumber-js -p default",
+    "clean": "rm -rf ./build"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.5",
+    "@types/cucumber": "^6.0.0",
+    "chai": "^4.2.0",
+    "cucumber": "^6.0.5",
+    "cucumber-pretty": "^6.0.0",
+    "cucumber-tsflow": "^3.2.0",
+    "ts-lib-common": "1.0.1",
+    "ts-node": "^8.5.2"
+  },
+  "dependencies": {
+    "cucumber-pretty": "^6.0.0",
+    "cucumber-tsflow": "^3.2.0",
+    "ts-node": "^8.5.2"
+  }
+}
