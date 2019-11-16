@@ -1,43 +1,99 @@
-# VS Code
-Install Prettier plugin
-
 # Setup
+
+## Yarn
+Install yarn with homebrew
+```
+brew install yarn
+```
+
+Install all dependencies in a project
+```
+yarn
+```
+
+## VS Code
+Recommended VS Code plugins:
+- Prettier
+- 
+
+## NVM
+
 Use node >= 10 or install nvm and run
+
 ```
 nvm use
 ```
 
-Install google cloud sdk
-```
-brew cask install google-cloud-sdk
-```
+Install following plugins for VsCode:
 
-Setup google cloud
-```
-gcloud config set project arbitrage-238217
-```
+- Prettier
+- TSLint
+- EditorConfig
+- vsc-nvm
 
-Run `npm install`. This command will also download dependencies of subprojects.
-
-
-# Structure
-The project is a monorepo where repos sit in packages/ folder
-
-The root project is used for shared scripts and configurations, but every package is self-sustainable
 
 # Workflow
-Update version of changed packages
+There are 2 types of packages: libraries and apps (services). 
+An app can depend on one or more library, but not on another app.
+A library can depend on another library, but not on an app.
+
+Project uses yarn workspaces. It allows for the following workflow:
+Each folder is an isolated npm package with its own dependencies
+Each package must implement the following commands:
+lint
+build
+watch
+test
+clean
+
+if package is an app it must also include 
+start
+stop
+deploy
+destroy
+
+# Project management
+## To run a command in all packages
 ```
-npm run update-version
+yarn wsrun <command-name> // runs yarn <command-name> in each package
+```
+or
+```
+yarn workspace <package-name> <script-name>
 ```
 
-to run deploy script in all packages run npm run deploy
+## To run some script defined in package.json of a particular package run
 ```
-npm run deploy 
+yarn wsrun -p <package-name> -c <script-name>
+```
+or
+```
+yarn workspace <package-name> <script-name>
 ```
 
-to deploy a specific package run
+## To run some script defined in package.json of a particular package and all of its dependencies run
 ```
-npm run deploy -- --scope=arbitrage-lib
+yarn wsrun -p <package-name> -r <script-name>
+```
+```
+yarn wsrun -p assessor-app -r watch // watches any changes in workspace and its dependencies and rebuilds
 ```
 
+## To add a dependency to a particular package run
+```
+yarn workspace <package-name> add <dependency-name> // add --dev if dev dependency
+```
+
+## To remove a dependency from a particular package run
+```
+yarn workspace <package-name> remove <dependency-name>
+```
+
+## You can also get a dependency graph with
+```
+yarn workspaces info
+```
+
+More info on (yarn workspace)[https://yarnpkg.com/lang/en/docs/cli/workspace/]
+More info on (yarn workspaces)[https://yarnpkg.com/en/docs/cli/workspaces]
+More info on (wsrun)[https://github.com/hfour/wsrun]

@@ -1,39 +1,24 @@
 {
-  "name": "arbitrage",
+  "name": "root",
   "private": true,
-  "engines": {
-    "node": ">=10",
-    "npm": ">=6.9.0"
-  },
+  "workspaces": [
+    "*"
+  ],
   "scripts": {
-    "bootstrap": "npx lerna bootstrap --hoist && npm i && lerna exec npm i && npm run build",
-    "build": "lerna exec npm run build",
-    "clean": "lerna clean && rm -rf ./node_modules/ && find . -name \"package-lock.json\" -delete",
-    "lint": "eslint --format=codeframe '**/*.js'",
-    "test": "lerna run test",
-    "update-version": "lerna version",
-    "deploy": "lerna run deploy"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-monorepo": "^0.2.1",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-prettier": "^3.0.1",
-    "fstream": ">=1.0.12",
-    "husky": "^1.3.1",
-    "lerna": "^3.13.3",
-    "lint-staged": "^8.1.5",
-    "prettier": "^1.17.0",
-    "tar": ">=2.2.2"
+    "lint": "yarn workspaces run lint",
+    "watch": "yarn workspaces run watch",
+    "build": "yarn workspaces run build",
+    "test": "yarn workspaces run test",
+    "clean": "yarn workspaces run clean",
+    "clean:all": "yarn clean && yarn clean:node_modules",
+    "clean:node_modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
   },
   "lint-staged": {
     "*.js": [
       "eslint --format=codeframe"
     ]
   },
-  "dependencies": {
-    "@aws-cdk/aws-dynamodb": "^1.10.1",
-    "@aws-cdk/aws-iam": "^1.10.1"
+  "devDependencies": {
+    "wsrun": "^5.0.2"
   }
 }

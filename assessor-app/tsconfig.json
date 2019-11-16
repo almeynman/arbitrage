@@ -1,0 +1,10 @@
+{
+  "extends": "ts-lib-common/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build"
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": ["cdk.out/**/*"]
+}

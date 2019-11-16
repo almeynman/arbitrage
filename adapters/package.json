@@ -1,0 +1,23 @@
+{
+  "name": "adapters",
+  "version": "1.0.1",
+  "main": "build/index.js",
+  "scripts": {
+    "lint": "tsc --noEmit && eslint . --quiet --fix",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "jest",
+    "clean": "rm -rf ./build"
+  },
+  "devDependencies": {
+    "@types/uuid": "^3.4.5",
+    "aws-sdk-mock": "^4.5.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.568.0",
+    "ccxt": "^1.19.23",
+    "business-logic": "^1.0.1",
+    "ts-lib-common": "^1.0.1",
+    "uuid": "^3.3.3"
+  }
+}
