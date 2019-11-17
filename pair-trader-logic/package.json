@@ -16,10 +16,10 @@
     "cucumber": "^6.0.5",
     "cucumber-pretty": "^6.0.0",
     "cucumber-tsflow": "^3.2.0",
-    "ts-lib-common": "1.0.1",
     "ts-node": "^8.5.2"
   },
   "dependencies": {
+    "business-logic": "^1.0.1",
     "cucumber-pretty": "^6.0.0",
     "cucumber-tsflow": "^3.2.0",
     "ts-node": "^8.5.2"

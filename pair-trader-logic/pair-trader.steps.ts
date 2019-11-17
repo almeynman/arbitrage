@@ -1,12 +1,14 @@
 import { binding, given, then, when} from 'cucumber-tsflow';
 import { assert } from 'chai';
+import { Assessment } from 'business-logic'
+import 
 
 @binding()
 export class BankAccountSteps {
-  private accountBalance: number = 0;
+  private assessment: Assessment = ;
 
-  @given(/A bank account with starting balance of \$(\d*)/)
-  public givenAnAccountWithStartingBalance(amount: number) {
+  @given(/the Assessment is an OpenOpportunity/)
+  public givenTheAssessmentIsOpenOpportunity(amount: number) {
     this.accountBalance = amount;
   }
 

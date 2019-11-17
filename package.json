@@ -19,6 +19,8 @@
     ]
   },
   "devDependencies": {
+    "ts-mockito": "^2.5.0",
+    "typescript": "^3.7.2",
     "wsrun": "^5.0.2"
   }
 }
