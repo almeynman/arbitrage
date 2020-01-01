@@ -5,11 +5,11 @@
     "*"
   ],
   "scripts": {
-    "lint": "yarn workspaces run lint",
-    "watch": "yarn workspaces run watch",
-    "build": "yarn workspaces run build",
-    "test": "yarn workspaces run test",
-    "clean": "yarn workspaces run clean",
+    "lint": "yarn wsrun lint",
+    "watch": "yarn wsrun watch",
+    "build": "yarn wsrun build",
+    "test": "yarn wsrun test",
+    "clean": "yarn wsrun clean",
     "clean:all": "yarn clean && yarn clean:node_modules",
     "clean:node_modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
   },

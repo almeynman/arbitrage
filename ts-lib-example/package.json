@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "main": "build/index.js",
   "scripts": {
-    "lint": "tsc --noEmit && eslint . --quiet --fix",
+    "lint": "tsc --noEmit && eslint . --ext ts --quiet --fix",
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "jest",

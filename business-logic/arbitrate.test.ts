@@ -1,29 +1,39 @@
-import sinon from 'sinon'
+import { verify, when, anything, instance, capture, mock } from 'ts-mockito'
+import { mockFn } from 'ts-lib-common'
+import { right } from 'fp-ts/lib/TaskEither'
 
-import { createOrderBook } from '.'
 import { arbitrate, ExchangeArgs } from './arbitrate'
+import { FetchOrderBook } from './fetch-order-book'
+import { SaveAssessment } from './save-assessment'
+import { Assess, AssessmentPair } from './assess'
+import { createOrderBook } from './order-book'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { Assessment } from './assessment'
+import { fold } from 'fp-ts/lib/Either'
+import { OrderBook } from '.'
 
-let exchangeClient: any
-let assessmentRepository: any
+let mockedFetchOrderBook: FetchOrderBook
+let fetchOrderBook: FetchOrderBook
+let mockedSaveAssessment: SaveAssessment
+let saveAssessment: SaveAssessment
 let exchanges: [ExchangeArgs, ExchangeArgs]
 const symbol = 'FOO/BAR'
-let assess: any
+let mockedAssess: Assess
+let assess: Assess
 
 beforeEach(() => {
-  exchangeClient = {
-    fetchOrderBook: sinon.stub().returns(
-      Promise.resolve(
-        createOrderBook({
-          buyWall: [{ price: 1.9, volume: 0 }],
-          sellWall: [{ price: 1.8, volume: 0 }],
-        }),
-      ),
-    ),
-  }
+  mockedFetchOrderBook = mockFn<FetchOrderBook>()
+  fetchOrderBook = instance(mockedFetchOrderBook)
+  when(mockedFetchOrderBook(anything())).thenReturn((_: string) =>
+    right(createOrderBook({
+      buyWall: [{ price: 1.9, volume: 0 }],
+      sellWall: [{ price: 1.90001, volume: 0 }],
+    }))
+  )
 
-  assessmentRepository = {
-    save: sinon.spy(),
-  }
+  mockedSaveAssessment = mockFn<SaveAssessment>()
+  when(mockedSaveAssessment(anything())).thenReturn(right(mock<Assessment>()))
+  saveAssessment = instance(mockedSaveAssessment)
 
   const exchange1 = {
     fees: {
@@ -40,82 +50,82 @@ beforeEach(() => {
   }
 
   exchanges = [exchange1, exchange2]
-  assess = sinon.stub().returns({})
+  mockedAssess = mockFn<Assess>()
+  when(mockedAssess(anything())).thenReturn(mock<AssessmentPair>())
+  assess = instance(mockedAssess)
 })
 
 test('should fetch order book for two exchanges', async () => {
   await arbitrate({
-    exchangeClient,
-    assessmentRepository,
+    fetchOrderBook,
+    saveAssessment,
     exchanges,
     symbol,
     assess,
-  })
+  })()
 
-  expect(exchangeClient.fetchOrderBook.calledTwice).toBeTruthy()
+  verify(mockedFetchOrderBook(anything())).twice()
+  const [firstArg] = capture(mockedFetchOrderBook).first()
+  expect(firstArg).toEqual(symbol)
+  const [lastArg] = capture(mockedFetchOrderBook).last()
+  expect(lastArg).toEqual({ exchange: exchanges[1].name, symbol })
 })
 
-test('should fetch order books for any two exchanges', async () => {
-  await arbitrate({
-    exchangeClient,
-    assessmentRepository,
+test('should assess for opportunity for any two exchanges', async () => {
+  const either = await arbitrate({
+    fetchOrderBook,
+    saveAssessment,
     exchanges,
     symbol,
     assess,
-  })
+  })()
 
-  expect(exchangeClient.fetchOrderBook.withArgs('exchange1', symbol).calledOnce).toBeTruthy()
-  expect(exchangeClient.fetchOrderBook.withArgs('exchange2', symbol).calledOnce).toBeTruthy()
+  pipe(
+    either,
+    fold(
+      () => { expect(true).toBe(false) },
+      (assessments: Assessment[]) => {
+        console.log(assessments)
+      }
+    )
+  )
+
+
+  //   verify((mockedAssess(anything()))).once()
 })
 
-test('should find opportunity for any two exchanges', async () => {
-  await arbitrate({
-    exchangeClient,
-    assessmentRepository,
-    exchanges,
-    symbol,
-    assess,
-  })
+// test('should persist assessments', async () => {
+//   await arbitrate({
+//     fetchOrderBook,
+//     saveAssessment,
+//     exchanges,
+//     symbol,
+//     assess,
+//   })
 
-  expect(assess.calledOnce).toBeTruthy()
-})
+//   verify(mockedSaveAssessment(anything())).twice()
+// })
 
-test('should persist assessments', async () => {
-  await arbitrate({
-    exchangeClient,
-    assessmentRepository,
-    exchanges,
-    symbol,
-    assess,
-  })
+// test('should not find opportunity if illiquid markets', async () => {
+//   when(mockedFetchOrderBook(anything())).thenReturn(Promise.resolve(
+//     createOrderBook({
+//       buyWall: [{ price: 1.9, volume: 0 }],
+//       sellWall: [{ price: 2.8, volume: 0 }],
+//     }),
+//   ))
 
-  expect(assessmentRepository.save.calledTwice).toBeTruthy()
-})
-
-test('should not find opportunity if illiquid markets', async () => {
-  exchangeClient = {
-    fetchOrderBook: sinon.stub().returns(
-      Promise.resolve(
-        createOrderBook({
-          buyWall: [{ price: 1.9, volume: 0 }],
-          sellWall: [{ price: 2.8, volume: 0 }],
-        }),
-      ),
-    ),
-  }
-
-  let catched = 0
-  try {
-    await arbitrate({
-      exchangeClient,
-      assessmentRepository,
-      exchanges,
-      symbol,
-      assess,
-    })
-  } catch (e) {
-    expect(e.message.startsWith('One of the markets is illiquid')).toBe(true)
-    catched += 1
-  }
-  expect(catched).toBe(1)
-})
+//   let catched = 0
+//   try {
+//     await arbitrate({
+//       fetchOrderBook,
+//       saveAssessment,
+//       exchanges,
+//       symbol,
+//       assess,
+//     })
+//   } catch (e) {
+//     expect(e.message.startsWith('One of the markets is illiquid')).toBe(true)
+//     catched += 1
+//   }
+//   expect(catched).toBe(1)
+// })

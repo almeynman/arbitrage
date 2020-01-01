@@ -1,16 +1,15 @@
-import R from 'ramda'
-
-import {
-  Assess,
-  assess as defaultAssess,
-  AssessmentRepository,
-  createExchange,
-  createExchangeFees,
-  createMarket,
-  Exchange,
-  ExchangeClient,
-  OrderBook,
-} from '.'
+import { zip } from 'fp-ts/lib/Array'
+import { SaveAssessment } from './save-assessment'
+import { FetchOrderBook } from './fetch-order-book'
+import { Assess, assess as defaultAssess } from './assess'
+import { OrderBook } from './order-book'
+import { Exchange, createExchange } from './exchange'
+import { createExchangeFees } from './exchange-fees'
+import { createMarket } from './market'
+import { taskEither, TaskEither, map, right, left, chain } from 'fp-ts/lib/TaskEither'
+import { array } from 'fp-ts/lib/Array'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { Assessment } from './assessment'
 
 export interface ExchangeArgs {
   name: string;
@@ -20,42 +19,47 @@ export interface ExchangeArgs {
 }
 
 export interface ArbitrateArgs {
-  exchangeClient: ExchangeClient;
-  assessmentRepository: AssessmentRepository;
+  fetchOrderBook: FetchOrderBook;
+  saveAssessment: SaveAssessment;
   exchanges: ExchangeArgs[];
   symbol: string;
-  assess?: Assess;
+  assess: Assess;
 }
 
 export type Arbitrate = typeof arbitrate
 
-export async function arbitrate({
-  exchangeClient,
-  assessmentRepository,
+export function arbitrate({
+  fetchOrderBook,
+  saveAssessment,
   exchanges,
   symbol,
   assess = defaultAssess,
-}: ArbitrateArgs): Promise<void> {
-  const orderBooks = await fetchOrderBooks(exchanges, exchangeClient, symbol)
-  const [exchange1, exchange2] = instantiateExchanges(exchanges, orderBooks, symbol)
+}: ArbitrateArgs): TaskEither<Error, Assessment[]> {
+  return pipe(
+    fetchOrderBooks(exchanges, fetchOrderBook, symbol),
+    map((orderBooks: OrderBook[]) => instantiateExchanges(exchanges, orderBooks, symbol)),
+    chain((exchanges) => {
+      const [market1, market2] = exchanges.map(ex => ex.markets[symbol])
 
-  const market1 = exchange1.markets[symbol]
-  const market2 = exchange2.markets[symbol]
+      if (!market1.isLiquid) {
+        return left(new Error(`One of the markets is illiquid ${JSON.stringify(market1, null, 4)}`))
+      }
 
-  if (!market1.isLiquid) {
-    throw new Error(`One of the markets is illiquid ${JSON.stringify(market1, null, 4)}`)
-  }
-
-  if (!market2.isLiquid) {
-    throw new Error(`One of the markets is illiquid ${JSON.stringify(market2, null, 4)}`)
-  }
-
-  const { assessment1, assessment2 } = assess({
-    symbol,
-    exchange1,
-    exchange2,
-  })
-  await Promise.all([assessmentRepository.save(assessment1), assessmentRepository.save(assessment2)])
+      if (!market2.isLiquid) {
+        return left(new Error(`One of the markets is illiquid ${JSON.stringify(market2, null, 4)}`))
+      }
+      return right(exchanges)
+    }),
+    map(([exchange1, exchange2]) => assess({
+        symbol,
+        exchange1,
+        exchange2,
+      })),
+    chain(({ assessment1, assessment2 }) => {
+      const tasks = [saveAssessment(assessment1), saveAssessment(assessment2)]
+      return array.sequence(taskEither)(tasks)
+    })
+  )
 }
 
 function instantiateExchanges(
@@ -63,7 +67,7 @@ function instantiateExchanges(
   orderBooks: OrderBook[],
   symbol: string,
 ): [Exchange, Exchange] {
-  const [exchange1, exchange2] = R.zip(exchanges, orderBooks).map(([exchange, orderBook]) => {
+  const [exchange1, exchange2] = zip(exchanges, orderBooks).map(([exchange, orderBook]) => {
     return createExchange({
       fees: createExchangeFees({ takerFee: exchange.fees.taker }),
       markets: {
@@ -78,8 +82,9 @@ function instantiateExchanges(
 
 function fetchOrderBooks(
   exchanges: ExchangeArgs[],
-  exchangeClient: ExchangeClient,
+  fetchOrderBook: FetchOrderBook,
   symbol: string,
-): Promise<OrderBook[]> {
-  return Promise.all(exchanges.map(exchange => exchangeClient.fetchOrderBook(exchange.name, symbol)))
+): TaskEither<Error, OrderBook[]> {
+  const tasks = exchanges.map(exchange => fetchOrderBook(symbol)(exchange.name))
+  return array.sequence(taskEither)(tasks)
 }

@@ -1,0 +1,1 @@
+export { mockFn } from './mockFn'

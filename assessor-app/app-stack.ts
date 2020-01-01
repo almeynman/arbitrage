@@ -36,7 +36,7 @@ export class AppStack extends cdk.Stack {
            type: dynamodb.AttributeType.STRING
          },
          removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
-        });
+        })
         assessmentTable.grantWriteData(user)
 
         const vpc = new ec2.Vpc(this, 'main', { maxAzs: 2 })

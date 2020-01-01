@@ -1,17 +1,17 @@
-import AWS from "aws-sdk";
-import { Consumer } from "sqs-consumer";
-import config from "./config";
+import AWS from "aws-sdk"
+import { Consumer } from "sqs-consumer"
+import config from "./config"
 import {
   assess,
   dispatchWithCommonSymbols,
   Params,
   sendExchangePairs,
   SendMessageToNextQueue
-} from "./handlers";
+} from "./handlers"
 
-AWS.config.update(config.aws);
+AWS.config.update(config.aws)
 
-const sqs = new AWS.SQS();
+const sqs = new AWS.SQS()
 
 interface ConsumeSqsQueueParams {
   sqs: AWS.SQS;
@@ -25,18 +25,18 @@ consumeSqsQueue({
   queueUrl: config.sqs.sendExchangePairsQueueUrl,
   handleMessage: sendExchangePairs,
   nextQueueUrl: config.sqs.dispatchWithCommonSymbolsQueueUrl
-});
+})
 consumeSqsQueue({
   sqs,
   queueUrl: config.sqs.dispatchWithCommonSymbolsQueueUrl,
   handleMessage: dispatchWithCommonSymbols,
   nextQueueUrl: config.sqs.assessQueueUrl
-});
+})
 consumeSqsQueue({
   sqs,
   queueUrl: config.sqs.assessQueueUrl,
   handleMessage: assess
-});
+})
 
 function consumeSqsQueue({
   sqs,
@@ -52,8 +52,8 @@ function consumeSqsQueue({
           QueueUrl: nextQueueUrl,
           MessageBody: message
         })
-        .promise();
-    }): undefined;
+        .promise()
+    }): undefined
   const app = Consumer.create({
     queueUrl,
     handleMessage: (message: AWS.SQS.Types.Message) =>
@@ -63,20 +63,20 @@ function consumeSqsQueue({
         config
       }),
     sqs
-  });
+  })
 
   app.on("error", err => {
-    console.error(err.message);
-  });
+    console.error(err.message)
+  })
 
   app.on("processing_error", err => {
-    console.error(err.message);
-  });
+    console.error(err.message)
+  })
 
   app.on("timeout_error", err => {
-    console.error(err.message);
-  });
+    console.error(err.message)
+  })
 
-  app.start();
-  console.log(`setup listener to ${queueUrl}`);
+  app.start()
+  console.log(`setup listener to ${queueUrl}`)
 }

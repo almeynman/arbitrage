@@ -19,6 +19,7 @@ module.exports = {
     project: `./tsconfig.json`
   },
   rules: {
-    "@typescript-eslint/no-use-before-define": ["error", { functions: false }]
+    "@typescript-eslint/no-use-before-define": ["error", { functions: false }],
+    semi: ["error", "never"]
   }
 };

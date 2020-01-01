@@ -9,20 +9,22 @@
     { "directory": "adapters", "changeProcessCWD": true },
     { "directory": "assessor-app", "changeProcessCWD": true },
     { "directory": "business-logic", "changeProcessCWD": true },
+    { "directory": "ts-aws-app-common", "changeProcessCWD": true },
+    { "directory": "ts-lib-common", "changeProcessCWD": true },
     { "directory": "ts-lib-example", "changeProcessCWD": true }
   ],
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": false
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": false
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": false
-  },
+  // "[json]": {
+  //   "editor.formatOnSave": false
+  // },
+  // "[javascript]": {
+  //   "editor.formatOnSave": false
+  // },
+  // "[typescript]": {
+  //   "editor.formatOnSave": false
+  // },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
 }

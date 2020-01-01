@@ -1,0 +1,10 @@
+{:paths ["src"]
+ :aliases
+        {:dev
+         {:extra-deps {auxon/clj-cucumber        {:git/url "https://github.com/auxoncorp/clj-cucumber"
+                                                  :sha     "02de83ff60bd48dd1019ad8c0c8f36310ee56fc2"}
+                       org.clojure/alpha.spec    {:git/url "https://github.com/clojure/spec-alpha2.git"
+                                                  :sha     "b644e4d8c5553e10544d920306690fffe9b53e15"}
+                       org.clojure/clojurescript {:mvn/version "1.10.520"}}}
+         :test
+         {:extra-paths ["test"]}}}

@@ -1,18 +1,18 @@
 import { Assessment, createAssessment } from './assessment'
 import { Exchange } from './exchange'
 
-interface FindOpportunityArgs {
+interface AssessArgs {
   symbol: string;
   exchange1: Exchange;
   exchange2: Exchange;
 }
 
-interface AssessmentPair {
+export interface AssessmentPair {
   assessment1: Assessment;
   assessment2: Assessment;
 }
 
-export const assess = ({ symbol, exchange1, exchange2 }: FindOpportunityArgs): AssessmentPair => {
+export const assess = ({ symbol, exchange1, exchange2 }: AssessArgs): AssessmentPair => {
   const assessment1 = assessScenario(symbol, exchange1, exchange2)
   const assessment2 = assessScenario(symbol, exchange2, exchange1)
 

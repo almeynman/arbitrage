@@ -1,0 +1,11 @@
+{
+  "name": "pair-trader",
+  "version": "1.0.0",
+  "scripts": {
+    "watch": "shadow-cljs watch script",
+    "build": "shadow-cljs release script"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.8.83"
+  }
+}

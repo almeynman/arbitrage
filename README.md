@@ -1,5 +1,12 @@
 # Setup
 
+## NVM
+
+Install node version manager nvm
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
+```
+
 ## Yarn
 Install yarn with homebrew
 ```
@@ -13,24 +20,12 @@ yarn
 
 ## VS Code
 Recommended VS Code plugins:
-- Prettier
-- 
-
-## NVM
-
-Use node >= 10 or install nvm and run
-
-```
-nvm use
-```
-
-Install following plugins for VsCode:
-
-- Prettier
-- TSLint
 - EditorConfig
+- Eslint
+- Npm intellisense
+- Path intellisense
+- Jest
 - vsc-nvm
-
 
 # Workflow
 There are 2 types of packages: libraries and apps (services). 
