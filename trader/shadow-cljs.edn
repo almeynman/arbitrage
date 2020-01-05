@@ -1,0 +1,9 @@
+{:deps   true
+ :builds {:cucumber {:target     :npm-module
+                     :output-dir "features/support"
+                     :entries    [steps world]}
+          :core     {:target     :node-library
+                     :output-to   "build/core.js"
+                     :exports-var asset/pair->symbol}}
+ :nrepl  {:port       9000
+          :middleware []}}
