@@ -7,10 +7,10 @@
     "nrepl": "yarn nrepl:server & (sleep 30; yarn nrepl:node)",
     "test": "yarn test:cucumber",
     "clean": "rm -rf build .cpcache .repl-* .shadow-cljs node_modules features/support",
-    "nrepl:server": "clj -A:shadow-cljs -R:nrepl watch core",
+    "nrepl:server": "clj -A:shadow-cljs -R:nrepl -C:cucumber watch core",
     "nrepl:node": "node build/core.js",
     "test:cucumber": "yarn test:cucumber:compile && yarn test:cucumber:run",
-    "test:cucumber:run": "cucumber-js features/simple_math.feature --require 'features/support/{steps,world}.js'",
+    "test:cucumber:run": "cucumber-js features/simple_math.feature --require 'features/support/{steps_example,world_example}.js'",
     "test:cucumber:compile": "clj -A:shadow-cljs -C:cucumber compile cucumber"
   },
   "dependencies": {

@@ -1,8 +1,8 @@
-(ns steps
+(ns steps_example
   (:require [cucumber :as cc]))
 
 (cc/Given
-  "an opportunity"
+  "a variable set to {int}"
   (fn [num] (this-as world (swap! world assoc :num num))))
 (cc/When
   "I increment the variable by {int}"
