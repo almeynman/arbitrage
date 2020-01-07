@@ -1,7 +1,7 @@
 out/
 .cpcache/
 .idea/
-.iml
+*.iml
 node_modules/
 .cljs_node_repl/
 .repl*

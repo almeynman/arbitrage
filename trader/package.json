@@ -8,7 +8,6 @@
     "test": "npm run test:cucumber",
     "nrepl:server": "clj -A:shadow-cljs -R:nrepl watch core",
     "nrepl:node": "node build/core.js",
-    "nrepl-old": "clj -C:cucumber -R:nrepl -m nrepl.cmdline --middleware \"[cider.piggieback/wrap-cljs-repl]\"",
     "test:cucumber": "npm run test:cucumber:compile && npm run test:cucumber:run",
     "test:cucumber:run": "cucumber-js features/simple_math.feature --require 'features/support/{steps,world}.js'",
     "test:cucumber:compile": "clj -A:shadow-cljs -C:cucumber compile cucumber"
