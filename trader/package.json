@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "build": "clj -A:shadow-cljs compile core",
-    "nrepl": "npm run nrepl:server & (sleep 30; npm run nrepl:node)",
-    "test": "npm run test:cucumber",
+    "nrepl": "yarn nrepl:server & (sleep 30; yarn nrepl:node)",
+    "test": "yarn test:cucumber",
+    "clean": "rm -rf build .cpcache .repl-* .shadow-cljs node_modules features/support",
     "nrepl:server": "clj -A:shadow-cljs -R:nrepl watch core",
     "nrepl:node": "node build/core.js",
-    "test:cucumber": "npm run test:cucumber:compile && npm run test:cucumber:run",
+    "test:cucumber": "yarn test:cucumber:compile && yarn test:cucumber:run",
     "test:cucumber:run": "cucumber-js features/simple_math.feature --require 'features/support/{steps,world}.js'",
     "test:cucumber:compile": "clj -A:shadow-cljs -C:cucumber compile cucumber"
   },

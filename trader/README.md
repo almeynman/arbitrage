@@ -2,9 +2,8 @@
 
 ## install node dependencies
 ```
-$ npm i
+$ yarn
 ```
-
 
 ## Setup a a new repl configuration
 choose Clojure Repl -> Remote
@@ -14,7 +13,7 @@ Choose Connect to server with localhost:9000
 ## Start nREPL
 from your terminal run 
 ```
-$ npm run nrepl
+$ yarn nrepl
 ```
 then start a repl that you configured
 in the repl type the form below and click Enter 
