@@ -1,5 +1,5 @@
 {:paths   ["core" "lib"]
- :deps    {org.clojure/clojurescript {:mvn/version }
+ :deps    {org.clojure/clojurescript {:mvn/version "1.10.597"}
            org.clojure/core.async    {:mvn/version "0.6.532"}}
  :aliases {:nrepl       {:extra-deps {cider/cider-nrepl {:mvn/version "0.22.4"}}}
            :cucumber    {:extra-paths ["features/cljs"]}
