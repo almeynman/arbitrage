@@ -1,6 +1,6 @@
 (ns exchange
-  (:require [cljs.spec.alpha :as s]
-            [cljs.spec.test.alpha :as stest]
+  (:require #?(:clj  [clojure.spec.alpha :as s]
+               :cljs [cljs.spec.alpha :as s])
             [clojure.test.check.generators :as gen]
             [string :as string]
             [asset :as asset]))

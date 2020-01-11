@@ -1,5 +1,6 @@
 (ns string
-  (:require [cljs.spec.alpha :as s]
+  (:require #?(:clj  [clojure.spec.alpha :as s]
+               :cljs [cljs.spec.alpha :as s])
             [clojure.test.check.generators :as gen]))
 
 (defn non-blank? [s] (not (clojure.string/blank? s)))

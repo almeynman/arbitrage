@@ -1,5 +1,6 @@
 (ns asset
-  (:require [cljs.spec.alpha :as s]
+  (:require #?(:clj  [clojure.spec.alpha :as s]
+               :cljs [cljs.spec.alpha :as s])
             [clojure.test.check.generators :as gen]
             [string :as string]))
 
@@ -46,7 +47,7 @@
 
 (comment
   (def test-pair (gen/generate (s/gen ::pair)))
-  (s/exercise-fn `pair->symbol)
+  (s/exercise-fn pair->symbol)
 
   (def base (gen/generate (s/gen ::asset)))
   (def quote (gen/generate (s/gen ::asset)))
