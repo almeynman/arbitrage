@@ -4,6 +4,7 @@
             [clojure.test.check.generators :as gen]
             [big.js :as big]))
 
+; TODO replace with money
 (def price-regex #"^\d+\.\d+$")
 (defn valid-price? [p]
   (and (re-matches price-regex p)
@@ -23,8 +24,6 @@
         :args (s/coll-of ::price)
         :ret ::price)
 
-; TODO multiplying prices does not really make sense
-; so move to lib and call smth like non-negative big decimal string
 (defn times [& prices]
   (->> prices
        (map (fn [p] (big/Big. p)))

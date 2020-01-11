@@ -14,9 +14,7 @@
     "test:cucumber:compile": "clj -A:shadow-cljs -C:cucumber compile cucumber"
   },
   "dependencies": {
-    "big.js": "^5.2.2",
-    "ccxt": "^1.21.26",
-    "dinero.js": "^1.6.0"
+    "ccxt": "^1.21.26"
   },
   "devDependencies": {
     "cucumber": "^6.0.5"

@@ -27,7 +27,6 @@ Now you can evaluate the project in the repl
 You might want to instrument your code to get https://clojure.org/guides/spec#_instrumentation
 
 ```clojure
-(do
-    (require '[cljs.spec.test.alpha :as stest])
-    (stest/instrument))
+(require '[cljs.spec.test.alpha :as stest])
+(stest/instrument)
 ```

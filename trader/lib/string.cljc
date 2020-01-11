@@ -16,7 +16,7 @@
     (fn [v] (->> (clojure.string/join v)
                  (clojure.string/lower-case)))
     (gen/vector gen/char-alphanumeric)))
-(s/def ::lower-case (s/and ::non-blank-string lower-case?))
+(s/def ::lower-case (s/and ::non-blank lower-case?))
 
 (def alpha-regex #"^[a-zA-Z]+$")
 (defn alpha? [s] (re-matches alpha-regex s))

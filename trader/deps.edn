@@ -1,6 +1,5 @@
 {:paths   ["core" "lib"]
- :deps    {org.clojure/clojurescript {:git/url "git@github.com:clojure/clojurescript.git"
-                                      :sha     "23cedecbf4f704f9fee672e395bbfa1e3fe3ee1a"}
+ :deps    {org.clojure/clojurescript {:mvn/version }
            org.clojure/core.async    {:mvn/version "0.6.532"}}
  :aliases {:nrepl       {:extra-deps {cider/cider-nrepl {:mvn/version "0.22.4"}}}
            :cucumber    {:extra-paths ["features/cljs"]}

@@ -16,12 +16,12 @@
     (s/and string? valid-code?)
     (fn [] gen-code)))
 
-(s/def ::name ::string/non-blank)
+(s/def ::name ::string/alpha)
 
-(s/def ::decimal-places (s/int-in 0 30))
+(s/def ::precision (s/int-in 0 30))
 
 (s/def ::asset
-  (s/keys :req-un [::code ::decimal-places]
+  (s/keys :req-un [::code ::precision]
           :opt-un [::name]))
 
 (s/def ::base ::asset)
@@ -46,6 +46,7 @@
         :ret ::symbol)
 
 (comment
+  (gen/sample (s/gen ::pair))
   (def test-pair (gen/generate (s/gen ::pair)))
   (s/exercise-fn pair->symbol)
 
