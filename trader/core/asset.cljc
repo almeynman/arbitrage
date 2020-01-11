@@ -5,7 +5,7 @@
             [string :as string]))
 
 (def code-regex #"^[A-Z]{3,5}$")
-(defn valid-code? [e] (re-matches code-regex e))
+(defn valid-code? [s] (re-matches code-regex s))
 (def gen-code
   (gen/fmap
     (fn [v] (->> (clojure.string/join v)
