@@ -4,10 +4,13 @@
             [clojure.test.check.generators :as gen]
             [asset :as asset]))
 
-(def gen-amount (gen/large-integer* {:min 1}))
+(defn gen-amount [min] (gen/large-integer* {:min min}))
+(def min-amount 1)
+
+;TODO is the following a problem? (s/conform ::amount 1231.0) -> true
 (s/def ::amount
   (s/with-gen pos-int?
-              (fn [] gen-amount)))
+              (fn [] (gen-amount min-amount))))
 
 (defn pow [a b] (reduce * 1 (repeat b a)))
 (def gen-digit (gen/elements (range 10)))
@@ -28,10 +31,11 @@
     (s/keys :req-un [::asset/asset ::amount])
     (fn [] gen-money)))
 
+
 (comment
   (gen/sample (s/gen ::amount))
+  (s/conform ::amount 1231)
   (gen/sample gen-digit)
   (gen-amount-with-precision 10)
   (gen/sample gen-money)
-  (gen/sample (s/gen ::money))
-  ())
+  (gen/sample (s/gen ::money)))

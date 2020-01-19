@@ -3,60 +3,41 @@
                :cljs [cljs.spec.alpha :as s])
             [clojure.test.check.generators :as gen]
             [exchange :as exchange]
-            [order :as order]))
+            [market :as market]
+            [order-book :as order-book]))
 
+(s/def ::buy (s/keys :req-un [::exchange/exchange ::order-book/order-book]))
+(s/def ::sell (s/keys :req-un [::exchange/exchange ::order-book/order-book]))
 
 (defn calc-coef [{buy :buy sell :sell}]
-  (let [buy-orders (buy :orders)
-        sell-orders (sell :orders)
-        highest-buy-order (last (sort-by :price buy-orders))
-        highest-buy-price (highest-buy-order :price)
-        lowest-sell-order (first (sort-by :price sell-orders))
-        lowest-sell-price (lowest-sell-order :price)]
-    (/ lowest-sell-price highest-buy-price)))
-
-
+  (let [bids (get-in buy [:order-book :bids])
+        asks (get-in sell [:order-book :asks])
+        highest-bid-price ((first bids) :price)
+        lowest-ask-price ((first asks) :price)]
+    (/ lowest-ask-price highest-bid-price)))
 (defn coef>1? [opportunity] (> (calc-coef opportunity) 1))
-
-
-
-;(def gen-opportunity
-;  (gen/fmap
-;    (fn [[order exid amount]]
-;      (let [second-order (-> order
-;                             (assoc :exchange-id exid)
-;                             (assoc :amount amount)
-;                             (assoc :price (case (order :side)
-;                                             :buy (price/times (order :price) "1.01")
-;                                             :sell (price/times (order :price) "0.99")))
-;                             (order/flip-side))]
-;        [order second-order]))
-;    (gen/tuple (s/gen ::order/order) (s/gen ::order/exchange-id) (s/gen ::order/amount))))
-;(s/def ::opportunity
-;  (s/with-gen
-;    (s/and same-symbol?
-;           has-buy-order?
-;           has-sell-order?
-;           coef>1?
-;           (s/coll-of ::order/order :count 2 :distinct true :kind vector?))
-;    (fn [] gen-opportunity)))
-
-(s/def ::orders
-  (s/coll-of ::order/order :min-count 1))
-
-(s/def ::opportunity-item
-  (s/keys :req-un [::exchange/exchange ::orders]))
-
-(s/def ::buy ::opportunity-item)
-(s/def ::sell ::opportunity-item)
-(s/def ::opportunity (s/and coef>1? (s/keys :req-un [::buy ::sell])))
+(def gen-opportunity
+  (gen/let [base-price order-book/gen-realistic-price
+            ;TODO mb (order-book/gen-order-book current-price realistic-timestamp)
+            buy-order-book (order-book/gen-order-book (int (* base-price 0.99)))
+            sell-order-book (order-book/gen-order-book (int (* base-price 1.01)))
+            market (s/gen ::market/market)
+            ;TODO buy exchange should have portfolio in quote asset
+            buy-exchange (s/gen ::exchange/exchange)
+            ;TODO sell exchange should have portfolio in base asset
+            sell-exchange (s/gen ::exchange/exchange)]
+           {:market market
+            :buy    {:exchange buy-exchange :order-book buy-order-book}
+            :sell    {:exchange sell-exchange :order-book sell-order-book}}))
+(s/def ::opportunity
+  (s/with-gen
+    (s/and coef>1?
+           ;TODO timestamp difference should be small
+           ;TODO there should be enough balance on both exchanges to take advantage of opportunity
+           (s/keys :req-un [::market/market ::buy ::sell]))
+    (fn [] gen-opportunity)))
 
 (comment
-  (gen/sample (s/gen ::opportunity) 1)
-  (def orders (gen/generate (s/gen ::orders)))
-  (def opportunity (gen/generate (s/gen ::opportunity)))
-  (calc-coef opportunity)
-  (sort-by :price orders)
-  (gen/generate (gen/large-integer* {:min 1}))
-
-  )
+  (gen/sample (s/gen ::opportunity))
+  (def test-opportunity (gen/generate gen-opportunity))
+  (calc-coef test-opportunity))

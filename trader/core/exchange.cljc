@@ -15,6 +15,5 @@
 
 (comment
   (gen/generate (s/gen ::portfolio))
-  (gen/sample (s/gen ::exchange))
-  ())
+  (gen/sample (s/gen ::exchange)))
 

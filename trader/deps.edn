@@ -1,6 +1,7 @@
 {:paths   ["core" "lib"]
  :deps    {org.clojure/clojurescript {:mvn/version "1.10.597"}
-           org.clojure/core.async    {:mvn/version "0.6.532"}}
+           org.clojure/core.async    {:mvn/version "0.6.532"}
+           org.clojure/test.check {:mvn/version "0.10.0"}}
  :aliases {:nrepl       {:extra-deps {cider/cider-nrepl {:mvn/version "0.22.4"}}}
            :cucumber    {:extra-paths ["features/cljs"]}
            :shadow-cljs {:extra-deps {thheller/shadow-cljs {:mvn/version "2.8.83"}}

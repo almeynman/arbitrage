@@ -4,7 +4,7 @@
                      :entries    [steps_example world_example]}
           :core     {:target     :node-library
                      :output-to   "build/core.js"
-                     :exports-var asset/pair->symbol}
+                     :exports-var market/market->symbol}
           :test     {:target     :node-library
                      :output-to   "build/test.js"
                      :exports-var asset/asdasd}}
