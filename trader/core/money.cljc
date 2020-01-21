@@ -4,8 +4,8 @@
             [clojure.test.check.generators :as gen]
             [asset :as asset]))
 
-(defn gen-amount [min] (gen/large-integer* {:min min}))
 (def min-amount 1)
+(defn gen-amount [min] (gen/large-integer* {:min min}))
 
 ;TODO is the following a problem? (s/conform ::amount 1231.0) -> true
 (s/def ::amount
