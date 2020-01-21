@@ -3,6 +3,7 @@
                :cljs [cljs.spec.alpha :as s])
             [clojure.test.check.generators :as gen]
             [timestamp :as timestamp]
+            [percentage :as percentage]
             [money :as money]))
 
 (def min-price 10000)
@@ -25,13 +26,13 @@
 (defn gen-bids [current-price]
   (gen/fmap
     (fn [percentage-deltas]
-      (->> (sort percentage-deltas)
-           (map (fn [p] (->> (/ p 10000)
+      (->> (sort-by :value percentage-deltas)
+           (map (fn [p] (->> (percentage/to-base-1 p)
                              (- 1)
                              (* current-price)
                              (int)
                              (assoc (gen/generate (s/gen ::order)) :price))))))
-    (gen/vector (gen/choose 1 9999) min-wall-size max-wall-size)))
+    (gen/vector (s/gen ::percentage/percentage) min-wall-size max-wall-size)))
 (s/def ::bids
   (s/with-gen
     (s/and descending-by-price?
@@ -46,13 +47,13 @@
 (defn gen-asks [current-price]
   (gen/fmap
     (fn [percentage-deltas]
-      (->> (sort percentage-deltas)
-           (map (fn [p] (->> (/ p 10000)
+      (->> (sort-by :value percentage-deltas)
+           (map (fn [p] (->> (percentage/to-base-1 p)
                              (+ 1)
                              (* current-price)
                              (int)
                              (assoc (gen/generate (s/gen ::order)) :price))))))
-    (gen/vector (gen/choose 1 9999) min-wall-size max-wall-size)))
+    (gen/vector (s/gen ::percentage/percentage) min-wall-size max-wall-size)))
 (s/def ::asks
   (s/with-gen
     (s/and ascending-by-price?
@@ -80,4 +81,6 @@
        (every? (fn [[fst scd]] (print scd))))
   (s/conform descending-by-price? test-bids)
   (gen/sample (s/gen ::bids))
-  (gen/sample (s/gen ::asks)))
+  (gen/sample (s/gen ::asks))
+  (def percentage-deltas (gen/generate (gen/vector (s/gen ::percentage/percentage) min-wall-size max-wall-size)))
+  (sort-by :value percentage-deltas))
