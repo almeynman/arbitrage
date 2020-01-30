@@ -1,0 +1,12 @@
+{:deps   true
+ :builds {:cucumber {:target     :npm-module
+                     :output-dir "features/support"
+                     :entries    [steps_example world_example]}
+          :core     {:target     :node-library
+                     :output-to   "build/core.js"
+                     :exports-var market/market->symbol}
+          :test     {:target     :node-library
+                     :output-to   "build/test.js"
+                     :exports-var asset/asdasd}}
+ :nrepl  {:port       9000
+          :middleware []}}

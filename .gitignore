@@ -9,3 +9,4 @@ cdk.out/
 *.tar
 *.tgz
 .DS_Store
+.vscode/
