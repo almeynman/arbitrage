@@ -5,7 +5,9 @@
   "scripts": {
     "build": "clj -A:shadow-cljs compile core",
     "nrepl": "yarn nrepl:server & (sleep 30; yarn nrepl:node)",
-    "test": "yarn test:cucumber",
+    "test": "clojure -A:test -m kaocha.runner",
+    "test:unit": "clojure -A:test -m kaocha.runner unit",
+    "test:features": "clojure -A:test -m kaocha.runner features",
     "clean": "rm -rf build .cpcache .repl-* .shadow-cljs node_modules features/support",
     "nrepl:server": "clj -A:shadow-cljs -R:nrepl -C:cucumber watch core",
     "nrepl:node": "node build/core.js",
@@ -14,6 +16,7 @@
     "test:cucumber:compile": "clj -A:shadow-cljs -C:cucumber compile cucumber"
   },
   "dependencies": {
+    "big.js": "^5.2.2",
     "ccxt": "^1.21.26"
   },
   "devDependencies": {

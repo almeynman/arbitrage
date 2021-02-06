@@ -24,8 +24,6 @@
   (s/keys :req-un [::code ::precision]
           :opt-un [::name]))
 
-(s/def ::base ::asset)
-(s/def ::quote ::asset)
-
 (comment
-  (gen/sample (s/gen ::asset)))
+  (gen/sample (s/gen ::asset))
+  (gen/sample (s/gen ::precision)))

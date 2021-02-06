@@ -1,0 +1,15 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src"]
+
+ :dependencies
+ [[cider/cider-nrepl "0.25.6"]
+  [org.clojure/test.check "1.1.0"]]
+
+ :builds
+ {:lib {:target :node-library
+        :output-to "build/index.js"
+        :exports-var index/init}
+  :test {:target :node-test
+         :output-to "test/node-tests.js"
+         :autorun true}}}

@@ -36,7 +36,7 @@
 (s/def ::bids
   (s/with-gen
     (s/and descending-by-price?
-           ;TODO should probably be a list, as only accessing items from the beginning
+           ;TODO both list and vector work
            (s/coll-of ::order :min-count min-wall-size))
     (fn [] (gen-bids (gen/generate (s/gen ::price))))))
 
@@ -57,7 +57,7 @@
 (s/def ::asks
   (s/with-gen
     (s/and ascending-by-price?
-           ;TODO should probably be a list, as only accessing items from the beginning
+           ;TODO both list and vector work
            (s/coll-of ::order :min-count min-wall-size))
     (fn [] (gen-asks (gen/generate (s/gen ::price))))))
 
@@ -74,7 +74,7 @@
                            (gen/generate (s/gen ::timestamp/timestamp))))))
 
 (comment
-  (gen/sample (s/gen ::order-book))
+  (gen/generate (s/gen ::order-book))
   (gen/sample (gen-bids (gen/generate (s/gen ::price))))
   (def test-bids (gen/generate (gen-bids (gen/generate (s/gen ::price)))))
   (->> (partition 2 1 [1 2 3 4 5])
